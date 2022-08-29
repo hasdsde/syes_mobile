@@ -1,102 +1,99 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
+            flat
+            dense
+            round
+            icon="menu"
+            aria-label="Menu"
+            @click="toggleLeftDrawer"
         />
-
+        <!--顶栏-->
         <q-toolbar-title>
-          Quasar App
+          <!--     面包屑     -->
+          <q-breadcrumbs active-color="white" style="font-size: 16px">
+            <q-breadcrumbs-el :label="positions.label" :icon="positions.icon"/>
+          </q-breadcrumbs>
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <div>用户登录</div>
       </q-toolbar>
     </q-header>
-
+    <!--  侧栏  -->
     <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
+        v-model="leftDrawerOpen"
+        show-if-above
+        bordered
     >
       <q-list>
-        <q-item-label
-          header
+        <q-item
+            v-for="item in menus"
+            clickable
+            v-ripple
+            :active="link === item.link"
+            @click="link = item.link"
+            active-class="my-menu-link"
+            :to="item.link"
         >
-          Essential Links
-        </q-item-label>
+          <q-item-section avatar>
+            <q-icon :name="item.icon"/>
+          </q-item-section>
+          <q-item-section>{{ item.label }}</q-item-section>
+        </q-item>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
       </q-list>
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
+    <q-footer>
+      <q-tabs
+          class="bg-white"
+          active-color="primary"
+          style="height: 56px;align-self: auto;"
+          active-class="my-menu-link"
+      >
+        <q-route-tab v-for="item in menus" :name="item.name" :label="item.label" :icon="item.icon" class="text-dark"
+                     :active="link === item.link" @click="link = item.link" :to="item.link"/>
+      </q-tabs>
+    </q-footer>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import {ref, watch} from 'vue';
+import {menus} from "components/models";
+import {useRouter} from "vue-router/dist/vue-router";
 
-const essentialLinks: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
-
+let $router = useRouter()
 const leftDrawerOpen = ref(false)
+const tab = ref(false)
+const link = ref('')
+let positions = ref()
+let menu = ref(menus)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
+
+}
+
+watch(() => $router.currentRoute.value.path, (newValue, oldValue) => {
+  positions.value = findTitle()
+}, {immediate: true})
+
+function findTitle() {
+  for (let i = 0; i < menus.length; i++) {
+    if (menu.value[i].link == $router.currentRoute.value.path) {
+      return menu.value[i]
+    }
+  }
 }
 </script>
+<style>
+.my-menu-link {
+  color: rgb(25, 118, 210);
+  background: #F2C037
+}
+</style>

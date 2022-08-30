@@ -79,8 +79,6 @@
         </q-card>
       </div>
     </div>
-
-
   </div>
 </template>
 
@@ -114,7 +112,6 @@ function loadPage() {
       }
       bool = !bool;
     }
-    console.log(itemInfo)
   })
 }
 </script>

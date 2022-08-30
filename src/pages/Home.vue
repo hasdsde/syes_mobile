@@ -23,31 +23,61 @@
       </q-carousel>
     </div>
     <!--  列出的物品  -->
-    <div class="q-pa-md row items-start q-gutter-md" style="padding: 0 ;margin: auto;width: 100vw">
-      <q-card class="my-card justify-around" v-for="item in itemInfo" :key="item.id">
-        <q-img :src="item.url"/>
+    <div class="q-pa-md row items-start q-gutter-md" style="width: 100%;">
 
-        <q-card-section style="padding: 0.1rem 0.5rem;height: 4rem">
-          <div class="row no-wrap items-center" style="padding: 0">
-            <div class="col text-body1  text-weight-bold ellipsis-2-lines" style="font-size: 1rem;padding-top: 0.5rem;">
-              {{ item.title }}
+      <div class="column" style="padding: 0 ;margin: auto;width: 50% ;position: absolute;">
+        <q-card class="my-card justify-around" v-for="item in itemInfo1" :key="item.id">
+          <q-img :src="item.url"/>
+
+          <q-card-section style="padding: 0.1rem 0.5rem;height: 4rem">
+            <div class="row no-wrap items-center" style="padding: 0">
+              <div class="col text-body1  text-weight-bold ellipsis-2-lines" style="font-size: 1rem;padding-top: 0.5rem;">
+                {{ item.title }}
+              </div>
             </div>
-          </div>
-        </q-card-section>
-        <q-separator/>
-        <q-card-section class=" q-pt-none
+          </q-card-section>
+          <q-separator/>
+          <q-card-section class=" q-pt-none
             " style="padding-top: 10px">
-          <div class="text-subtitle1 ">
-            ￥{{ item.price }}
-            <span class="text-subtitle2 text-caption">{{ item.collectionnum }}人想要</span>
-          </div>
-          <div class="text-caption text-grey">
-            {{ item.nickname }}
-            <br>
-            20计算机 发布于{{ item.createtime }}
-          </div>
-        </q-card-section>
-      </q-card>
+            <div class="text-subtitle1 ">
+              ￥{{ item.price }}
+              <span class="text-subtitle2 text-caption">{{ item.collectionnum }}人想要</span>
+            </div>
+            <div class="text-caption text-grey">
+              {{ item.nickname }}
+              <br>
+              20计算机 发布于{{ item.createtime }}
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+
+      <div class="column" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
+        <q-card class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
+          <q-img :src="item.url"/>
+
+          <q-card-section style="padding: 0.1rem 0.5rem;height: 4rem">
+            <div class="row no-wrap items-center" style="padding: 0">
+              <div class="col text-body1  text-weight-bold ellipsis-2-lines" style="font-size: 1rem;padding-top: 0.5rem;">
+                {{ item.title }}
+              </div>
+            </div>
+          </q-card-section>
+          <q-separator/>
+          <q-card-section class=" q-pt-none
+            " style="padding-top: 10px">
+            <div class="text-subtitle1 ">
+              ￥{{ item.price }}
+              <span class="text-subtitle2 text-caption">{{ item.collectionnum }}人想要</span>
+            </div>
+            <div class="text-caption text-grey">
+              {{ item.nickname }}
+              <br>
+              20计算机 发布于{{ item.createtime }}
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
     </div>
 
 
@@ -63,15 +93,26 @@ const autoplay = ref(2000)
 let pageSize = ref(6)
 let currentPage = ref(1)
 let itemInfo = ref([])
+let itemInfo1 = ref([])
+let itemInfo2 = ref([])
 let a = ref('aaaa')
 loadPage()
 
 function loadPage() {
+  let bool = true;
   api.get("/itemHome/page?pagesize=" + pageSize.value + "&currentpage=" + currentPage.value).then(res => {
     for (let i = 0; i < res.data.length; i++) {
       res.data[i].createtime = res.data[i].createtime.slice(4, 10)
       //@ts-ignore
       itemInfo.value.push(res.data[i])
+      if (bool){
+        //@ts-ignore
+        itemInfo1.value.push(res.data[i])
+      }else {
+        //@ts-ignore
+        itemInfo2.value.push(res.data[i])
+      }
+      bool = !bool;
     }
     console.log(itemInfo)
   })

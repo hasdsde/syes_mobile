@@ -24,183 +24,13 @@
     </div>
     <!--  列出的物品  -->
     <div class="q-pa-md row items-start q-gutter-md" style="padding: 0 ;margin: auto;width: 100vw">
-      <q-card class="my-card justify-around">
-        <q-img src="https://img.hasdsd.cn/img/1661820629513.jpg"/>
-
-        <q-card-section>
-          <q-btn
-              fab
-              color="primary"
-              icon="favorite_border"
-              class="absolute"
-              style="top: 0; right: 12px; transform: translateY(-50%);"
-          />
-
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              女生自用99新RTX3090显卡，共200张，手慢无！
-            </div>
-            <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
-              <q-icon name="place"/>
-              250 ft
-            </div>
-          </div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">
-            ￥114.514
-          </div>
-          <div class="text-caption text-grey">
-            20级，计算机专业 发布于2077年1月1日 114514人看过
-          </div>
-        </q-card-section>
-
-
-      </q-card>
-      <q-card class="my-card justify-around">
-        <q-img src="https://img.hasdsd.cn/img/1661820629476.jpg"/>
-
-        <q-card-section>
-          <q-btn
-              fab
-              color="primary"
-              icon="favorite_border"
-              class="absolute"
-              style="top: 0; right: 12px; transform: translateY(-50%);"
-          />
-
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              女生自用99新RTX3090显卡，共200张，手慢无！
-            </div>
-            <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
-              <q-icon name="place"/>
-              250 ft
-            </div>
-          </div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">
-            ￥114.514
-          </div>
-          <div class="text-caption text-grey">
-            20级，计算机专业 发布于2077年1月1日 114514人看过
-          </div>
-        </q-card-section>
-
-
-      </q-card>
-      <q-card class="my-card justify-around">
-        <q-img src="https://img.hasdsd.cn/img/1661820629484.jpg"/>
-
-        <q-card-section>
-          <q-btn
-              fab
-              color="primary"
-              icon="favorite_border"
-              class="absolute"
-              style="top: 0; right: 12px; transform: translateY(-50%);"
-          />
-
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              女生自用99新RTX3090显卡，共200张，手慢无！
-            </div>
-            <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
-              <q-icon name="place"/>
-              250 ft
-            </div>
-          </div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">
-            ￥114.514
-          </div>
-          <div class="text-caption text-grey">
-            20级，计算机专业 发布于2077年1月1日 114514人看过
-          </div>
-        </q-card-section>
-
-
-      </q-card>
-      <q-card class="my-card justify-around">
-        <q-img src="https://img.hasdsd.cn/img/1661820629507.jpg"/>
-
-        <q-card-section>
-          <q-btn
-              fab
-              color="primary"
-              icon="favorite_border"
-              class="absolute"
-              style="top: 0; right: 12px; transform: translateY(-50%);"
-          />
-
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              女生自用99新RTX3090显卡，共200张，手慢无！
-            </div>
-            <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
-              <q-icon name="place"/>
-              250 ft
-            </div>
-          </div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">
-            ￥114.514
-          </div>
-          <div class="text-caption text-grey">
-            20级，计算机专业 发布于2077年1月1日 114514人看过
-          </div>
-        </q-card-section>
-
-
-      </q-card>
-      <q-card class="my-card justify-around">
-        <q-img src="https://img.hasdsd.cn/img/1661820629513.jpg"/>
-
-        <q-card-section>
-          <q-btn
-              fab
-              color="primary"
-              icon="favorite_border"
-              class="absolute"
-              style="top: 0; right: 12px; transform: translateY(-50%);"
-          />
-
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              女生自用99新RTX3090显卡，共200张，手慢无！
-            </div>
-            <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
-              <q-icon name="place"/>
-              250 ft
-            </div>
-          </div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">
-            ￥114.514
-          </div>
-          <div class="text-caption text-grey">
-            20级，计算机专业 发布于2077年1月1日 114514人看过
-          </div>
-        </q-card-section>
-
-
-      </q-card>
-      <q-card class="my-card justify-around">
-        <q-img src="https://img.hasdsd.cn/img/1661820629529.jpg"/>
+      <q-card class="my-card justify-around" v-for="item in itemInfo" :key="item.id">
+        <q-img :src="item.url"/>
 
         <q-card-section style="padding: 0.1rem 0.5rem;height: 4rem">
           <div class="row no-wrap items-center" style="padding: 0">
             <div class="col text-body1  text-weight-bold ellipsis-2-lines" style="font-size: 1rem;padding-top: 0.5rem;">
-              女生自用99新RTX3090显卡，共200张，手慢无！
+              {{ item.title }}
             </div>
           </div>
         </q-card-section>
@@ -208,13 +38,13 @@
         <q-card-section class=" q-pt-none
             " style="padding-top: 10px">
           <div class="text-subtitle1 ">
-            ￥114.514
-            <span class="text-subtitle2 text-caption">100人想要</span>
+            ￥{{ item.price }}
+            <span class="text-subtitle2 text-caption">{{ item.collectionnum }}人想要</span>
           </div>
-          <div class="text-caption text-grey ellipsis">
-            20级计算机 田所浩二
+          <div class="text-caption text-grey">
+            {{ item.nickname }}
             <br>
-            发布于2022年1月1日
+            20计算机 发布于{{ item.createtime }}
           </div>
         </q-card-section>
       </q-card>
@@ -226,9 +56,26 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
+import {api} from "boot/axios";
 
 const slide = ref(1)
 const autoplay = ref(2000)
+let pageSize = ref(6)
+let currentPage = ref(1)
+let itemInfo = ref([])
+let a = ref('aaaa')
+loadPage()
+
+function loadPage() {
+  api.get("/itemHome/page?pagesize=" + pageSize.value + "&currentpage=" + currentPage.value).then(res => {
+    for (let i = 0; i < res.data.length; i++) {
+      res.data[i].createtime = res.data[i].createtime.slice(4, 10)
+      //@ts-ignore
+      itemInfo.value.push(res.data[i])
+    }
+    console.log(itemInfo)
+  })
+}
 </script>
 
 <style scoped>

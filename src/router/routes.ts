@@ -13,6 +13,10 @@ const routes: RouteRecordRaw[] = [
             {path: '/AboutMe', component: () => import('pages/AboutMe.vue')},
         ],
     },
+    {
+        path: '/Login',
+        component: () => import('layouts/Login.vue'),
+    },
 
     // Always leave this as last one,
     // but you can also remove it

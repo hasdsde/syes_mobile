@@ -1,3 +1,5 @@
+import {ref} from "vue";
+
 export interface Todo {
     id: number;
     content: string;
@@ -14,3 +16,13 @@ export const menus = [
     {name: 'Message', label: '消息', icon: 'chat', link: '/Message', id: 4},
     {name: 'AboutMe', label: '我的', icon: 'account_circle', link: '/AboutMe', id: 5},
 ]
+
+export class UserInfo {
+    userid = ref('')
+    password = ref('')
+    username = ref('')
+    avarar = ref('')
+
+    useridRef = ref('')
+    passwordRef = ref('')
+}

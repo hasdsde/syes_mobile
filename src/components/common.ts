@@ -30,3 +30,29 @@ export function CommWarn(message: any) {
         group: false,
     })
 }
+
+export function LoadingNotify() {
+    return Notify.create({
+        type: 'ongoing',
+        message: "正在加载",
+        position: 'top',
+    });
+}
+
+export function LoadingSucceed(not: any) {
+    not({
+        icon: 'done',
+        color: 'positive',
+        type: 'positive',
+        message: "加载成功"
+    })
+}
+
+export function LoadingFail(not: any) {
+    not({
+        icon: 'error',
+        color: 'negative',
+        type: 'positive',
+        message: "加载失败"
+    })
+}

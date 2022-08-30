@@ -24,14 +24,15 @@
     </div>
     <!--  列出的物品  -->
     <div class="q-pa-md row items-start q-gutter-md" style="width: 100%;">
-
-      <div class="column" style="padding: 0 ;margin: auto;width: 50% ;position: absolute;">
+      <!--左侧列-->
+      <div class="column" style="padding: 0 ;margin: auto;width: 50% ;position: absolute;margin-left: 0.5rem;">
         <q-card class="my-card justify-around" v-for="item in itemInfo1" :key="item.id">
           <q-img :src="item.url"/>
 
           <q-card-section style="padding: 0.1rem 0.5rem;height: 4rem">
             <div class="row no-wrap items-center" style="padding: 0">
-              <div class="col text-body1  text-weight-bold ellipsis-2-lines" style="font-size: 1rem;padding-top: 0.5rem;">
+              <div class="col text-body1  text-weight-bold ellipsis-2-lines"
+                   style="font-size: 1rem;padding-top: 0.5rem;">
                 {{ item.title }}
               </div>
             </div>
@@ -51,14 +52,15 @@
           </q-card-section>
         </q-card>
       </div>
-
+      <!--右侧列-->
       <div class="column" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
         <q-card class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
           <q-img :src="item.url"/>
 
           <q-card-section style="padding: 0.1rem 0.5rem;height: 4rem">
             <div class="row no-wrap items-center" style="padding: 0">
-              <div class="col text-body1  text-weight-bold ellipsis-2-lines" style="font-size: 1rem;padding-top: 0.5rem;">
+              <div class="col text-body1  text-weight-bold ellipsis-2-lines"
+                   style="font-size: 1rem;padding-top: 0.5rem;">
                 {{ item.title }}
               </div>
             </div>
@@ -85,34 +87,41 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {api} from "boot/axios";
+import {LoadingFail, LoadingNotify, LoadingSucceed} from "components/common";
 
 const slide = ref(1)
 const autoplay = ref(2000)
+const loading = LoadingNotify()
 let pageSize = ref(6)
 let currentPage = ref(1)
 let itemInfo = ref([])
 let itemInfo1 = ref([])
 let itemInfo2 = ref([])
 let a = ref('aaaa')
+
 loadPage()
 
 function loadPage() {
   let bool = true;
   api.get("/itemHome/page?pagesize=" + pageSize.value + "&currentpage=" + currentPage.value).then(res => {
+    LoadingSucceed(loading)
     for (let i = 0; i < res.data.length; i++) {
       res.data[i].createtime = res.data[i].createtime.slice(4, 10)
       //@ts-ignore
       itemInfo.value.push(res.data[i])
-      if (bool){
+      if (bool) {
         //@ts-ignore
         itemInfo1.value.push(res.data[i])
-      }else {
+      } else {
         //@ts-ignore
         itemInfo2.value.push(res.data[i])
       }
       bool = !bool;
     }
+  }).catch(() => {
+    LoadingFail(loading)
   })
+
 }
 </script>
 

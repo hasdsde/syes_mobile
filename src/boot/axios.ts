@@ -43,7 +43,6 @@ export default boot(({app}) => {
                 CommFail(res.data.msg)
             }
             if (res.data.code === '499') {
-                CommFail('请重新登录')
                 window.location.href = "/#/login"
             }
         }

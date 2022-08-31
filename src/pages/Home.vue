@@ -129,6 +129,7 @@ function loadPage() {
 function refresh(done: () => void) {
   setTimeout(() => {
     done()
+    loadPage()
     CommSeccess("刷新")
   }, 1000)
 }

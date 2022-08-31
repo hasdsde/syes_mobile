@@ -21,8 +21,10 @@ export class UserInfo {
     userid = ref('')
     password = ref('')
     username = ref('')
-    avarar = ref('')
+    avatar = ref('')
 
     useridRef = ref('')
     passwordRef = ref('')
+
+
 }

@@ -17,7 +17,7 @@
             <q-breadcrumbs-el :label="positions.label" :icon="positions.icon"/>
           </q-breadcrumbs>
         </q-toolbar-title>
-        <div>用户登录</div>
+        <q-icon name="search" size="sm"></q-icon>
       </q-toolbar>
     </q-header>
     <!--  侧栏  -->
@@ -44,10 +44,12 @@
 
       </q-list>
     </q-drawer>
-
+    <!--中间内容-->
     <q-page-container>
       <router-view/>
     </q-page-container>
+
+    <!--  底部栏  -->
     <q-footer>
       <q-tabs
           class="bg-white"

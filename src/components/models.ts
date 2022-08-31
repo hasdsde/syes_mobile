@@ -25,6 +25,10 @@ export class UserInfo {
 
     useridRef = ref('')
     passwordRef = ref('')
+}
 
-
+export class UploadItem {
+    title = ref()
+    price = ref()
+    description = ref()
 }

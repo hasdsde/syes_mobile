@@ -1,4 +1,5 @@
 import {ref} from "vue";
+import {CommFail} from "components/common";
 
 export interface Todo {
     id: number;
@@ -22,13 +23,22 @@ export class UserInfo {
     password = ref('')
     username = ref('')
     avatar = ref('')
-
     useridRef = ref('')
     passwordRef = ref('')
+    token = ref('')
 }
 
 export class UploadItem {
     title = ref()
     price = ref()
     description = ref()
+}
+
+export function getUserInfo() {
+    if (localStorage.getItem('userinfo') == null) {
+        CommFail('获取用户信息失败，请重新登录')
+    } else {
+        //@ts-ignore
+        return JSON.parse(localStorage.getItem('userinfo'))
+    }
 }

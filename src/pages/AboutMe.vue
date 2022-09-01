@@ -68,22 +68,11 @@
 </template>
 
 <script setup lang="ts">
-import {CommFail} from "components/common";
 import {ref} from "vue";
-import {UserInfo} from "components/models";
-
+import {getUserInfo, UserInfo} from "components/models";
 
 const userinfo: UserInfo = ref(getUserInfo())
 
-
-function getUserInfo() {
-  if (localStorage.getItem('userinfo') == null) {
-    CommFail('获取用户信息失败，请重新登录')
-  } else {
-    //@ts-ignore
-    return JSON.parse(localStorage.getItem('userinfo'))
-  }
-}
 </script>
 
 <style scoped>

@@ -34,11 +34,14 @@
         style="width: 98%"
         label="上传图片"
         auto-upload
-        url="http://localhost:4444/upload"
         multiple
+        accept=".jpg,.png,.webp,.bmp"
+        max-file-size="1048576"
+        max-files="10"
+        :factory="factoryFn"
     />
     <div class="q-mt-md">
-      <q-btn unelevated rounded style="float: right" color="primary" label="提交"/>
+      <q-btn unelevated rounded style="float: right" color="primary" label="提交" @click="handleSumbit()"/>
       <q-btn unelevated rounded style="float: left" color="primary" label="暂时保存"/>
     </div>
 
@@ -46,9 +49,28 @@
 </template>
 
 <script setup lang="ts">
-import {UploadItem} from "components/models";
+import {getUserInfo, UploadItem} from "components/models";
+import {api} from "boot/axios";
 
 const uploadItem = new UploadItem()
+const userInfo = getUserInfo()
+let formData = new FormData()
+
+//上传图片
+function factoryFn(files: any) {
+  // returning a Promise
+  for (let i = 0; i < files.length; i++) {
+    formData.append("file", files[i])
+  }
+  console.log(formData.getAll("file"))
+}
+
+function handleSumbit() {
+
+  api.post("/file/upload", {formData},).then(res => {
+    console.log(res)
+  })
+}
 </script>
 
 <style scoped>

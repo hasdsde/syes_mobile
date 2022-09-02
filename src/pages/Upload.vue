@@ -29,16 +29,19 @@
         <q-icon name="cancel" @click.stop="uploadItem.description.value = null" class="cursor-pointer"/>
       </template>
     </q-input>
+
     <q-uploader
-        class="q-mt-lg"
-        style="width: 98%"
-        label="上传图片"
-        auto-upload
+        url="http://localhost:8000/file/upload"
+        label="图片上传"
         multiple
-        accept=".jpg,.png,.webp,.bmp"
+        color="primary"
+        style="width: 98%"
         max-file-size="1048576"
         max-files="10"
-        :factory="factoryFn"
+        auto-upload
+        field-name="file"
+        :form-fields="[{name:'userid',value:userInfo.userid}]"
+        @uploaded="ImgInfo"
     />
     <div class="q-mt-md">
       <q-btn unelevated rounded style="float: right" color="primary" label="提交" @click="handleSumbit()"/>
@@ -49,27 +52,20 @@
 </template>
 
 <script setup lang="ts">
-import {getUserInfo, UploadItem} from "components/models";
-import {api} from "boot/axios";
+import {getUserInfo, UploadItem, UserInfo} from "components/models";
 
 const uploadItem = new UploadItem()
-const userInfo = getUserInfo()
+const userInfo: UserInfo = getUserInfo()
 let formData = new FormData()
 
-//上传图片
-function factoryFn(files: any) {
-  // returning a Promise
-  for (let i = 0; i < files.length; i++) {
-    formData.append("file", files[i])
-  }
-  console.log(formData.getAll("file"))
+function ImgInfo(info: any) {
+  console.log(JSON.parse(info.xhr.response).data.id)
+
 }
 
 function handleSumbit() {
 
-  api.post("/file/upload", {formData},).then(res => {
-    console.log(res)
-  })
+
 }
 </script>
 

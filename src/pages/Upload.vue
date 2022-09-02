@@ -52,20 +52,38 @@
 </template>
 
 <script setup lang="ts">
-import {getUserInfo, UploadItem, UserInfo} from "components/models";
+import {getUserInfo, UploadItem} from "components/models";
+import {api} from "boot/axios";
+import {CommSeccess} from "components/common";
 
 const uploadItem = new UploadItem()
-const userInfo: UserInfo = getUserInfo()
+let userInfo = getUserInfo()
 let formData = new FormData()
+
 
 function ImgInfo(info: any) {
   console.log(JSON.parse(info.xhr.response).data.id)
-
 }
 
+let piclist = [70, 76, 69]
+
+
 function handleSumbit() {
-
-
+  var data = new FormData();
+  // data.append("piclist", '123456')
+  data.append("title", uploadItem.title.value)
+  data.append("userid", userInfo.userid)
+  data.append("description", uploadItem.description.value)
+  data.append("price", uploadItem.price.value)
+  //@ts-ignore
+  data.append("piclist", piclist)
+  api.post("/item/uploadAll", data).then(res => {
+        console.log(res)
+        if (res.code == "200") {
+          CommSeccess('操作成功')
+        }
+      }
+  )
 }
 </script>
 

@@ -30,11 +30,11 @@
           <q-card class="my-card justify-around" v-for="item in itemInfo1" :key="item.id">
             <q-img :src="item.url"/>
 
-            <q-card-section style="padding: 0.1rem 0.5rem;height: 4rem">
+            <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
               <div class="row no-wrap items-center" style="padding: 0">
                 <div class="col text-body1  text-weight-bold ellipsis-2-lines"
                      style="font-size: 1rem;padding-top: 0.5rem;">
-                  {{ item.title }}
+                  {{ item.title }}...
                 </div>
               </div>
             </q-card-section>

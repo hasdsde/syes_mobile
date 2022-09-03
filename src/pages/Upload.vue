@@ -43,6 +43,7 @@
         :form-fields="[{name:'userid',value:userInfo.userid}]"
         @uploaded="ImgInfo"
     />
+    {{ "piclist:" + piclist }}
     <div class="q-mt-md">
       <q-btn unelevated rounded style="float: right" color="primary" label="提交" @click="handleSumbit()"/>
       <q-btn unelevated rounded style="float: left" color="primary" label="暂时保存"/>
@@ -53,30 +54,29 @@
 
 <script setup lang="ts">
 import {getUserInfo, UploadItem} from "components/models";
+import {ref} from "vue";
 import {api} from "boot/axios";
 import {CommSeccess} from "components/common";
 
 const uploadItem = new UploadItem()
 let userInfo = getUserInfo()
 let formData = new FormData()
-
+let piclist: any = ref([])
 
 function ImgInfo(info: any) {
+  console.log(info)
   console.log(JSON.parse(info.xhr.response).data.id)
+  piclist.value.push(JSON.parse(info.xhr.response).data.id)
 }
-
-let piclist = [70, 76, 69]
-
 
 function handleSumbit() {
   var data = new FormData();
-  // data.append("piclist", '123456')
   data.append("title", uploadItem.title.value)
   data.append("userid", userInfo.userid)
   data.append("description", uploadItem.description.value)
   data.append("price", uploadItem.price.value)
   //@ts-ignore
-  data.append("piclist", piclist)
+  data.append("piclist", piclist.value)
   api.post("/item/uploadAll", data).then(res => {
         console.log(res)
         if (res.code == "200") {

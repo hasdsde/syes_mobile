@@ -11,9 +11,7 @@
             vertical
             class="text-primary"
         >
-          <q-tab name="mails" icon="mail" label="Mails"/>
-          <q-tab name="alarms" icon="alarm" label="Alarms"/>
-          <q-tab name="movies" icon="movie" label="Movies"/>
+          <q-tab v-for="item in pmenu" :name="item.name" :icon="item.icon" :label="item.name"/>
         </q-tabs>
       </template>
 
@@ -26,38 +24,21 @@
             transition-prev="jump-up"
             transition-next="jump-down"
         >
-          <q-tab-panel name="mails">
-            <div class="text-h4 q-mb-md">Mails</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure
-              quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam.
-              In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure
-              quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam.
-              In, libero.</p>
-          </q-tab-panel>
+          <q-tab-panel v-for="p in pmenu" :name="p.name">
+            <div class="text-h4 q-mb-md">{{ p.name }}</div>
+            <span v-for="n in nmenu">
+              <q-btn class="q-ma-xs" v-if="n.pid===p.id" outline color="primary" :label="n.name" :icon="n.icon"/>
+            </span>
 
-          <q-tab-panel name="alarms">
-            <div class="text-h4 q-mb-md">Alarms</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure
-              quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam.
-              In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure
-              quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam.
-              In, libero.</p>
           </q-tab-panel>
+          <!--          <div v-for="p in pmenu">-->
+          <!--            <q-tab-panel v-for="n in nmenu" :name="p.name">-->
+          <!--              <div class="text-h4 q-mb-md">p.name</div>-->
+          <!--              <q-btn v-if="p.id===n.pid" outline color="primary" :label="n.name" :icon="n.icon"/>-->
+          <!--            </q-tab-panel>-->
+          <!--          </div>-->
 
-          <q-tab-panel name="movies">
-            <div class="text-h4 q-mb-md">Movies</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure
-              quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam.
-              In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure
-              quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam.
-              In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure
-              quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam.
-              In, libero.</p>
-          </q-tab-panel>
+
         </q-tab-panels>
       </template>
 
@@ -68,9 +49,24 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
+import {api} from "boot/axios";
 
-const tab = ref('mails')
+let pmenu = ref()
+let nmenu = ref()
+const tab = ref('生活用品')
 const splitterModel = 20
+
+loadPage()
+
+function loadPage() {
+  api.get('/sort/p').then(res => {
+    pmenu.value = res.data
+  })
+  api.get('/sort/nAll').then(res => {
+    nmenu.value = res.data
+  })
+
+}
 </script>
 
 <style scoped>

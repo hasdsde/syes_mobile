@@ -18,9 +18,6 @@
             height="200px"
         >
           <q-carousel-slide v-for="item in rows" :name="item.id" :img-src="item.url"/>
-          <!--          <q-carousel-slide :name="2" img-src="https://img.hasdsd.cn/img/parallax2.jpg"/>-->
-          <!--          <q-carousel-slide :name="3" img-src="https://img.hasdsd.cn/img/mountains.jpg"/>-->
-          <!--          <q-carousel-slide :name="4" img-src="https://img.hasdsd.cn/img/parallax1.jpg"/>-->
         </q-carousel>
       </div>
       <!--  列出的物品  -->
@@ -101,11 +98,20 @@ let itemInfo1 = ref([])
 let itemInfo2 = ref([])
 let a = ref('aaaa')
 let rows = ref()
-
+loadImg()
 loadPage()
+
+
+//加载头图
+function loadImg() {
+  api.get("/rollimg/").then(res => {
+    rows.value = res.data
+  })
+}
 
 //加载页面，刷新
 function loadPage() {
+
   let bool = true;
   api.get("/itemHome/page?pagesize=" + pageSize.value + "&currentpage=" + currentPage.value).then(res => {
     LoadingSucceed(loading)
@@ -125,9 +131,7 @@ function loadPage() {
   }).catch(() => {
     LoadingFail(loading)
   })
-  api.get("/rollimg/").then(res => {
-    rows.value = res.data
-  })
+
 }
 
 function refresh(done: () => void) {

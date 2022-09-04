@@ -43,7 +43,6 @@
         :form-fields="[{name:'userid',value:userInfo.userid}]"
         @uploaded="ImgInfo"
     />
-    {{ "piclist:" + piclist }}
     <div class="q-mt-md">
       <q-btn unelevated rounded style="float: right" color="primary" label="提交" @click="handleSumbit()"/>
       <q-btn unelevated rounded style="float: left" color="primary" label="暂时保存"/>

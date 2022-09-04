@@ -56,6 +56,12 @@
         </q-item>
         <q-item clickable v-ripple>
           <q-item-section avatar>
+            <q-icon color="primary" name="fa-brands fa-github"/>
+          </q-item-section>
+          <q-item-section>开源/贡献者</q-item-section>
+        </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
             <q-icon color="primary" name="info"/>
           </q-item-section>
           <q-item-section>关于</q-item-section>
@@ -63,6 +69,7 @@
 
       </q-list>
     </div>
+    <!--  一些弹窗内容  -->
 
   </div>
 </template>

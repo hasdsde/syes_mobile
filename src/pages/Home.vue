@@ -24,9 +24,8 @@
       <div class="q-pa-md row items-start q-gutter-md" style="width: 100%;">
         <!--左侧列-->
         <div class="column" style="padding: 0 ;margin: auto;width: 50% ;position: absolute;">
-          <q-card class="my-card justify-around" v-for="item in itemInfo1" :key="item.id">
+          <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo1" :key="item.id">
             <q-img :src="item.url"/>
-
             <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
               <div class="row no-wrap items-center" style="padding: 0">
                 <div class="col text-body1  text-weight-bold ellipsis-2-lines"
@@ -52,7 +51,7 @@
         </div>
         <!--右侧列-->
         <div class="column" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
-          <q-card class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
+          <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
             <q-img :src="item.url"/>
 
             <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">

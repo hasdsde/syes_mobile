@@ -48,25 +48,37 @@
     <q-page-container>
       <router-view/>
     </q-page-container>
-
     <!--  底部栏  -->
-    <q-footer>
-      <q-tabs
-          class="bg-white"
-          active-color="primary"
-          style="height: 56px;align-self: auto;"
-          active-class="my-menu-link"
-      >
-        <q-route-tab v-for="item in menu" :name="item.name" :label="item.label" :icon="item.icon" class="text-dark"
-                     :active="link === item.link" @click="link = item.link" :to="item.link"/>
-      </q-tabs>
+    <q-footer class="bg-white text-black" style="height: 5.5%;align-self: auto;">
+      <div class="row q-pa-xs ">
+        <div class="col q-pt-xs">
+          <q-btn flat rounded color="grey-7" icon="thumb_up_off_alt">
+            <q-badge color="grey-1" text-color="grey-7" floating>22</q-badge>
+          </q-btn>
+        </div>
+        <div class="col col q-pt-xs">
+          <q-btn flat rounded color="grey-7  " icon="star_border">
+            <q-badge color="grey-1" text-color="grey-7" floating>22</q-badge>
+          </q-btn>
+        </div>
+        <div class="col col q-pt-xs">
+          <q-btn flat rounded color="grey-7 " icon="textsms">
+            <q-badge color="grey-1" text-color="grey-7" floating>22</q-badge>
+          </q-btn>
+        </div>
+        <div class="col-3">
+        </div>
+        <div class="col-4">
+          <q-btn unelevated rounded class="float-right q-mr-xs" color="amber" label="出价" icon="monetization_on"/>
+        </div>
+      </div>
     </q-footer>
   </q-layout>
 </template>
 
 <script setup lang="ts">
 import {ref, watch} from 'vue';
-import {Allmenus, menus} from "components/models";
+import {Allmenus} from "components/models";
 import {useRouter} from "vue-router/dist/vue-router";
 
 let $router = useRouter()
@@ -74,29 +86,36 @@ const leftDrawerOpen = ref(false)
 const tab = ref(false)
 const link = ref('')
 let positions = ref()
-let menu = ref(menus)
-let Allmenu = ref(Allmenus)
+let menu = ref(Allmenus)
 
+//侧栏开关
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 
 }
 
+//面包屑
 watch(() => $router.currentRoute.value.path, (newValue, oldValue) => {
   positions.value = findTitle()
 }, {immediate: true})
 
 function findTitle() {
-  for (let i = 0; i < Allmenu.value.length; i++) {
-    if (Allmenu.value[i].link == $router.currentRoute.value.path) {
+  for (let i = 0; i < Allmenus.length; i++) {
+    if (menu.value[i].link == $router.currentRoute.value.path) {
       return menu.value[i]
     }
   }
 }
 </script>
-<style>
+
+<style scoped>
 .my-menu-link {
   color: rgb(25, 118, 210);
   background: #F2C037
+}
+
+.bg-opacity {
+  background-color: white;
+  opacity: 0.6;
 }
 </style>

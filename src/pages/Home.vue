@@ -17,10 +17,10 @@
             @mouseleave="autoplay = true"
             height="200px"
         >
-          <q-carousel-slide :name="1" img-src="https://img.hasdsd.cn/img/quasar.jpg"/>
-          <q-carousel-slide :name="2" img-src="https://img.hasdsd.cn/img/parallax2.jpg"/>
-          <q-carousel-slide :name="3" img-src="https://img.hasdsd.cn/img/mountains.jpg"/>
-          <q-carousel-slide :name="4" img-src="https://img.hasdsd.cn/img/parallax1.jpg"/>
+          <q-carousel-slide v-for="item in rows" :name="item.id" :img-src="item.url"/>
+          <!--          <q-carousel-slide :name="2" img-src="https://img.hasdsd.cn/img/parallax2.jpg"/>-->
+          <!--          <q-carousel-slide :name="3" img-src="https://img.hasdsd.cn/img/mountains.jpg"/>-->
+          <!--          <q-carousel-slide :name="4" img-src="https://img.hasdsd.cn/img/parallax1.jpg"/>-->
         </q-carousel>
       </div>
       <!--  列出的物品  -->
@@ -58,11 +58,11 @@
           <q-card class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
             <q-img :src="item.url"/>
 
-            <q-card-section style="padding: 0.1rem 0.5rem;height: 4rem">
+            <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
               <div class="row no-wrap items-center" style="padding: 0">
                 <div class="col text-body1  text-weight-bold ellipsis-2-lines"
                      style="font-size: 1rem;padding-top: 0.5rem;">
-                  {{ item.title }}
+                  {{ item.title }}...
                 </div>
               </div>
             </q-card-section>
@@ -100,6 +100,7 @@ let itemInfo = ref([])
 let itemInfo1 = ref([])
 let itemInfo2 = ref([])
 let a = ref('aaaa')
+let rows = ref()
 
 loadPage()
 
@@ -123,6 +124,9 @@ function loadPage() {
     }
   }).catch(() => {
     LoadingFail(loading)
+  })
+  api.get("/rollimg/").then(res => {
+    rows.value = res.data
   })
 }
 

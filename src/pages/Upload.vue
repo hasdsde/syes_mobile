@@ -64,8 +64,6 @@ let formData = new FormData()
 let piclist: any = ref([])
 
 function ImgInfo(info: any) {
-  console.log(info)
-  console.log(JSON.parse(info.xhr.response).data.id)
   piclist.value.push(JSON.parse(info.xhr.response).data.id)
 }
 
@@ -78,7 +76,6 @@ function handleSumbit() {
   //@ts-ignore
   data.append("piclist", piclist.value)
   api.post("/item/uploadAll", data).then(res => {
-        console.log(res)
         if (res.code == "200") {
           CommSeccess('操作成功')
         }

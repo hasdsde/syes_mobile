@@ -66,6 +66,7 @@
       <q-card class="my-card q-pa-sm no-shadow q-mt-md q-ml-none">
         <p class="q-pt-xs q-pl-xs  no-margin text-weight-bold">评论</p>
         <q-list>
+
           <q-expansion-item expand-icon-class="hidden">
             <template v-slot:header>
               <q-item-section avatar class="vertical-top">
@@ -147,14 +148,37 @@
               </q-item-section>
               <q-item-section>
                 <div class="no-margin">
-                  <span class="text-primary">C语言大佬</span>
+                  <span class="text-primary">奥特曼大王</span>
                   <span class="text-caption text-grey-7">20 计算机</span>
                   <span class="no-margin text-caption text-grey-7 float-right">8月8日</span>
                 </div>
-                <p class="no-margin">感觉不如原神。。。。。画质</p>
-                <span class="no-margin text-caption text-grey-7" v-ripple.early>查看1500条回复</span>
+                <p class="no-margin">我是学生，50包邮给我</p>
+                <span class="no-margin text-caption text-grey-7" v-ripple.early>查看1条回复</span>
               </q-item-section>
             </template>
+            <q-card>
+              <q-card-section>
+                <q-list>
+                  <q-item clickable v-ripple class="q-pr-none" v-ripple.early>
+                    <q-item-section avatar>
+                      <q-avatar>
+                        <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label lines="1">
+                        <span class="text-primary">老板 </span>回复：
+                        <span class="text-primary">奥特曼大王</span>
+                        <span class="no-margin text-caption text-grey-7 float-right">8月8日</span>
+                      </q-item-label>
+                      <q-item-label>
+                        你是畜生也不行
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-card-section>
+            </q-card>
           </q-expansion-item>
         </q-list>
       </q-card>

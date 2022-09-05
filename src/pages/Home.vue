@@ -48,6 +48,10 @@
               </div>
             </q-card-section>
           </q-card>
+          <div style="text-align: center">
+            <div style="height:6vh">
+            </div>
+          </div>
         </div>
         <!--右侧列-->
         <div class="column" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
@@ -76,10 +80,16 @@
               </div>
             </q-card-section>
           </q-card>
+          <div style="text-align: center">
+            <div style="height:6vh">
+            </div>
+          </div>
         </div>
+        <!--   占位符   -->
       </div>
     </q-pull-to-refresh>
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -92,7 +102,7 @@ const autoplay = ref(2000)
 const loading = LoadingNotify()
 let pageSize = ref(6)
 let currentPage = ref(1)
-let itemInfo = ref([])
+// let itemInfo = ref([])
 let itemInfo1 = ref([])
 let itemInfo2 = ref([])
 let a = ref('aaaa')
@@ -110,14 +120,12 @@ function loadImg() {
 
 //加载页面，刷新
 function loadPage() {
-
   let bool = true;
   api.get("/itemHome/page?pagesize=" + pageSize.value + "&currentpage=" + currentPage.value).then(res => {
     LoadingSucceed(loading)
     for (let i = 0; i < res.data.length; i++) {
       res.data[i].createtime = res.data[i].createtime.slice(4, 10)
       //@ts-ignore
-      itemInfo.value.push(res.data[i])
       if (bool) {
         //@ts-ignore
         itemInfo1.value.push(res.data[i])
@@ -135,6 +143,9 @@ function loadPage() {
 
 function refresh(done: () => void) {
   setTimeout(() => {
+    //先清空内容
+    itemInfo1.value.splice(0, itemInfo1.value.length)
+    itemInfo2.value.splice(0, itemInfo2.value.length)
     done()
     loadPage()
     CommSeccess("刷新")

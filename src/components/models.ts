@@ -40,6 +40,12 @@ export class UploadItem {
     title = ref()
     price = ref()
     description = ref()
+
+    clear() {
+        this.title = ref('')
+        this.price = ref('')
+        this.description = ref('')
+    }
 }
 
 export function getUserInfo() {

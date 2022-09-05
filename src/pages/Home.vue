@@ -85,17 +85,13 @@
             </q-card>
             <div style="text-align: center">
               <div style="height:6vh">
-                <span class="text-caption text-grey">下拉继续加载</span>
               </div>
             </div>
           </div>
-          <!--   占位符   -->
         </div>
       </q-infinite-scroll>
     </q-pull-to-refresh>
-
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -129,7 +125,7 @@ function onLoad(index: any, done: any) {
     currentPage.value = currentPage.value + 1
     loadPage()
     done();
-  }, 1000)
+  }, 500)
 
 }
 

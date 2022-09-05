@@ -1,4 +1,4 @@
-import {Notify} from 'quasar'
+import {Notify, QSpinnerGears} from 'quasar'
 
 //一般类型操作成功
 export function CommSeccess(message: any) {
@@ -28,6 +28,15 @@ export function CommWarn(message: any) {
         message: message,
         position: 'top',
         group: false,
+    })
+}
+
+export function ButtonLoading(message: any) {
+    Notify.create({
+        spinner: QSpinnerGears,
+        color: 'positive',
+        message: message,
+        timeout: 500
     })
 }
 

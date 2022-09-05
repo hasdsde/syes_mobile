@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-input outlined v-model="uploadItem.title.value" label="标题" :rules="[
-          val => !!val || '* 标题不能为空',]">
+    <!--  信息输入框  -->
+    <q-input outlined v-model="uploadItem.title.value" label="标题" :rules="[val => !!val || '* 标题不能为空',]">
       <template v-if="uploadItem.title.value" v-slot:append>
         <q-icon name="cancel" @click.stop="uploadItem.title.value = null" class="cursor-pointer"/>
       </template>
@@ -29,7 +29,7 @@
         <q-icon name="cancel" @click.stop="uploadItem.description.value = null" class="cursor-pointer"/>
       </template>
     </q-input>
-
+    <!--图片上传-->
     <q-uploader
         url="http://localhost:8000/file/upload"
         label="图片上传"
@@ -43,9 +43,10 @@
         :form-fields="[{name:'userid',value:userInfo.userid}]"
         @uploaded="ImgInfo"
     />
+    <!--  按钮  -->
     <div class="q-mt-md">
       <q-btn unelevated rounded style="float: right" color="primary" label="提交" @click="handleSumbit()"/>
-      <q-btn unelevated rounded style="float: left" color="primary" label="暂时保存"/>
+      <q-btn unelevated rounded style="float: left" color="primary" @click="handleSave()" label="暂时保存"/>
     </div>
 
   </div>
@@ -56,16 +57,40 @@ import {getUserInfo, UploadItem} from "components/models";
 import {ref} from "vue";
 import {api} from "boot/axios";
 import {CommSeccess} from "components/common";
+import {useRouter} from "vue-router/dist/vue-router";
 
-const uploadItem = new UploadItem()
+const $router = useRouter()
+let uploadItem = new UploadItem()
+let uploadItemHC = new UploadItem()
 let userInfo = getUserInfo()
 let formData = new FormData()
 let piclist: any = ref([])
+loadItem()
 
+//加载草稿
+function loadItem() {
+  if (localStorage.getItem('uploadItem') == null || localStorage.getItem('uploadItem') == '') {
+    console.log("没有草稿")
+  } else {
+    //@ts-ignore
+    uploadItemHC = JSON.parse(localStorage.getItem('uploadItem'))
+    //@ts-ignore
+    uploadItem.title.value = uploadItemHC.title._value
+    //@ts-ignore
+    uploadItem.price.value = uploadItemHC.price._value
+    //@ts-ignore
+    uploadItem.description.value = uploadItemHC.description._value
+    console.log(uploadItem)
+  }
+}
+
+
+//获取上传图片回调，得到上传图片id
 function ImgInfo(info: any) {
   piclist.value.push(JSON.parse(info.xhr.response).data.id)
 }
 
+//上传图片
 function handleSumbit() {
   var data = new FormData();
   data.append("title", uploadItem.title.value)
@@ -76,10 +101,21 @@ function handleSumbit() {
   data.append("piclist", piclist.value)
   api.post("/item/uploadAll", data).then(res => {
         if (res.code == "200") {
-          CommSeccess('操作成功')
+          CommSeccess('上传成功')
+          uploadItem.clear();
+          localStorage.setItem('uploadItem', '')
+          setTimeout(() => {
+            $router.go(0)
+          }, 1000)
         }
       }
   )
+}
+
+//保存草稿
+function handleSave() {
+  localStorage.setItem('uploadItem', JSON.stringify(uploadItem))
+  CommSeccess("注意：图片不会保存")
 }
 </script>
 

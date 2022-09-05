@@ -1,5 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm" style="padding: 0">
+    <!--  下拉刷新  -->
     <q-pull-to-refresh @refresh="refresh">
       <!--  轮播图  -->
       <div class="q-pa-md mobile-only" style="padding:0">
@@ -20,74 +21,79 @@
           <q-carousel-slide v-for="item in rows" :name="item.id" :img-src="item.url"/>
         </q-carousel>
       </div>
-      <!--  列出的物品  -->
-      <div class="q-pa-md row items-start q-gutter-md" style="width: 100%;">
-        <!--左侧列-->
-        <div class="column" style="padding: 0 ;margin: auto;width: 50% ;position: absolute;">
-          <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo1" :key="item.id">
-            <q-img :src="item.url"/>
-            <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
-              <div class="row no-wrap items-center" style="padding: 0">
-                <div class="col text-body1  text-weight-bold ellipsis-2-lines"
-                     style="font-size: 1rem;padding-top: 0.5rem;">
-                  {{ item.title }}...
+      <!--  末尾自动加载  -->
+      <q-infinite-scroll @load="onLoad" :offset="10">
+        <!--  列出的物品  -->
+        <div class="q-pa-md row items-start q-gutter-md" style="width: 100%;">
+          <!--左侧列-->
+          <div class="column" style="padding: 0 ;margin: auto;width: 50% ;position: absolute;">
+            <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo1" :key="item.id">
+              <q-img :src="item.url"/>
+              <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
+                <div class="row no-wrap items-center" style="padding: 0">
+                  <div class="col text-body1  text-weight-bold ellipsis-2-lines"
+                       style="font-size: 1rem;padding-top: 0.5rem;">
+                    {{ item.title }}...
+                  </div>
                 </div>
-              </div>
-            </q-card-section>
-            <q-separator/>
-            <q-card-section class=" q-pt-none
+              </q-card-section>
+              <q-separator/>
+              <q-card-section class=" q-pt-none
             " style="padding-top: 10px">
-              <div class="text-subtitle1 ">
-                ￥{{ item.price }}
-                <span class="text-subtitle2 text-caption">{{ item.collectionnum }}人想要</span>
+                <div class="text-subtitle1 ">
+                  ￥{{ item.price }}
+                  <span class="text-subtitle2 text-caption">{{ item.collectionnum }}人想要</span>
+                </div>
+                <div class="text-caption text-grey">
+                  {{ item.nickname }}
+                  <br>
+                  20计算机 发布于{{ item.createtime }}
+                </div>
+              </q-card-section>
+            </q-card>
+            <div style="text-align: center">
+              <div style="height:6vh">
               </div>
-              <div class="text-caption text-grey">
-                {{ item.nickname }}
-                <br>
-                20计算机 发布于{{ item.createtime }}
-              </div>
-            </q-card-section>
-          </q-card>
-          <div style="text-align: center">
-            <div style="height:6vh">
             </div>
           </div>
-        </div>
-        <!--右侧列-->
-        <div class="column" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
-          <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
-            <q-img :src="item.url"/>
+          <!--右侧列-->
+          <div class="column" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
+            <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
+              <q-img :src="item.url"/>
 
-            <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
-              <div class="row no-wrap items-center" style="padding: 0">
-                <div class="col text-body1  text-weight-bold ellipsis-2-lines"
-                     style="font-size: 1rem;padding-top: 0.5rem;">
-                  {{ item.title }}...
+              <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
+                <div class="row no-wrap items-center" style="padding: 0">
+                  <div class="col text-body1  text-weight-bold ellipsis-2-lines"
+                       style="font-size: 1rem;padding-top: 0.5rem;">
+                    {{ item.title }}...
+                  </div>
                 </div>
-              </div>
-            </q-card-section>
-            <q-separator/>
-            <q-card-section class=" q-pt-none
+              </q-card-section>
+              <q-separator/>
+              <q-card-section class=" q-pt-none
             " style="padding-top: 10px">
-              <div class="text-subtitle1 ">
-                ￥{{ item.price }}
-                <span class="text-subtitle2 text-caption">{{ item.collectionnum }}人想要</span>
+                <div class="text-subtitle1 ">
+                  ￥{{ item.price }}
+                  <span class="text-subtitle2 text-caption">{{ item.collectionnum }}人想要</span>
+                </div>
+                <div class="text-caption text-grey">
+                  {{ item.nickname }}
+                  <br>
+                  20计算机 发布于{{ item.createtime }}
+                </div>
+              </q-card-section>
+            </q-card>
+            <div style="text-align: center">
+              <div style="height:6vh">
+                <span class="text-caption text-grey">下拉继续加载</span>
               </div>
-              <div class="text-caption text-grey">
-                {{ item.nickname }}
-                <br>
-                20计算机 发布于{{ item.createtime }}
-              </div>
-            </q-card-section>
-          </q-card>
-          <div style="text-align: center">
-            <div style="height:6vh">
             </div>
           </div>
+          <!--   占位符   -->
         </div>
-        <!--   占位符   -->
-      </div>
+      </q-infinite-scroll>
     </q-pull-to-refresh>
+
   </div>
 
 </template>
@@ -101,14 +107,13 @@ const slide = ref(1)
 const autoplay = ref(2000)
 const loading = LoadingNotify()
 let pageSize = ref(6)
-let currentPage = ref(1)
+let currentPage = ref(0)
 // let itemInfo = ref([])
 let itemInfo1 = ref([])
 let itemInfo2 = ref([])
 let a = ref('aaaa')
 let rows = ref()
 loadImg()
-loadPage()
 
 
 //加载头图
@@ -116,6 +121,16 @@ function loadImg() {
   api.get("/rollimg/").then(res => {
     rows.value = res.data
   })
+}
+
+//末尾加载
+function onLoad(index: any, done: any) {
+  setTimeout(() => {
+    currentPage.value = currentPage.value + 1
+    loadPage()
+    done();
+  }, 1000)
+
 }
 
 //加载页面，刷新
@@ -141,7 +156,9 @@ function loadPage() {
 
 }
 
+//下拉刷新
 function refresh(done: () => void) {
+  currentPage.value = 1
   setTimeout(() => {
     //先清空内容
     itemInfo1.value.splice(0, itemInfo1.value.length)

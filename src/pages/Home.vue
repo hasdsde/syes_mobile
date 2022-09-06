@@ -47,7 +47,7 @@
                 <div class="text-caption text-grey">
                   {{ item.nickname }}
                   <br>
-                  20计算机 发布于{{ item.createtime }}
+                  {{ item.grade }}计算机 发布于{{ item.createtime }}
                 </div>
               </q-card-section>
             </q-card>
@@ -60,7 +60,6 @@
           <div class="column" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
             <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
               <q-img :src="item.url"/>
-
               <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
                 <div class="row no-wrap items-center" style="padding: 0">
                   <div class="col text-body1  text-weight-bold ellipsis-2-lines"
@@ -79,7 +78,7 @@
                 <div class="text-caption text-grey">
                   {{ item.nickname }}
                   <br>
-                  20计算机 发布于{{ item.createtime }}
+                  {{ item.grade }}计算机 发布于{{ item.createtime }}
                 </div>
               </q-card-section>
             </q-card>
@@ -135,7 +134,7 @@ function loadPage() {
   api.get("/itemHome/page?pagesize=" + pageSize.value + "&currentpage=" + currentPage.value).then(res => {
     LoadingSucceed(loading)
     for (let i = 0; i < res.data.length; i++) {
-      res.data[i].createtime = res.data[i].createtime.slice(4, 10)
+      res.data[i].createtime = res.data[i].createtime.slice(5, 10)
       //@ts-ignore
       if (bool) {
         //@ts-ignore

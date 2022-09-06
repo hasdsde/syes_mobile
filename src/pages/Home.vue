@@ -26,8 +26,9 @@
         <!--  列出的物品  -->
         <div class="q-pa-md row items-start q-gutter-md" style="width: 100%;">
           <!--左侧列-->
-          <div class="column" style="padding: 0 ;margin: auto;width: 50% ;position: absolute;">
-            <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo1" :key="item.id">
+          <div class="column bg-grey-2" style="padding: 0 ;margin: auto;width: 50% ;position: absolute;">
+            <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo1" :key="item.id"
+                    @click="handleClick(item.id)">
               <q-img :src="item.url"/>
               <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
                 <div class="row no-wrap items-center" style="padding: 0">
@@ -51,13 +52,13 @@
                 </div>
               </q-card-section>
             </q-card>
-            <div style="text-align: center">
-              <div style="height:6vh">
+            <div style="text-align: center;">
+              <div style="height:10.5vh">
               </div>
             </div>
           </div>
           <!--右侧列-->
-          <div class="column" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
+          <div class="column bg-grey-2" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
             <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
               <q-img :src="item.url"/>
               <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
@@ -98,7 +99,9 @@
 import {ref} from "vue";
 import {api} from "boot/axios";
 import {CommSeccess, LoadingFail, LoadingNotify, LoadingSucceed} from "components/common";
+import {useRouter} from "vue-router/dist/vue-router";
 
+const $router = useRouter()
 const slide = ref(1)
 const autoplay = ref(2000)
 const loading = LoadingNotify()
@@ -111,6 +114,10 @@ let a = ref('aaaa')
 let rows = ref()
 loadImg()
 
+//点击物品跳转
+function handleClick(id: Number) {
+  $router.push('/item?id=' + id)
+}
 
 //加载头图
 function loadImg() {

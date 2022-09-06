@@ -1,24 +1,22 @@
 <template>
   <div id="building">
-    <!-- 第一部分 -->
-    <div>
-      <q-carousel
-          swipeable
-          animated
-          v-model="slide"
-          navigation
-          infinite
-          transition-prev="slide-right"
-          transition-next="slide-left"
-      >
-        <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg"/>
-        <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg"/>
-        <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg"/>
-        <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg"/>
-      </q-carousel>
-    </div>
+    <!--第一部分 物品图片-->
+    <q-carousel
+        swipeable
+        animated
+        v-model="slide"
+        navigation
+        infinite
+        transition-prev="slide-right"
+        transition-next="slide-left"
+    >
+      <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg"/>
+      <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg"/>
+      <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg"/>
+      <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg"/>
+    </q-carousel>
     <div class="q-pa-md q-gutter-sm">
-      <!--第二部分-->
+      <!--第二部分 物品详情-->
       <q-card class="my-card q-pa-md no-margin no-shadow" v-ripple.early>
         <span class="price text-h5">￥114.514</span>
         <span class="float-right text-grey">100人看过</span>
@@ -37,7 +35,7 @@
         </div>
         <!--    出价    -->
       </q-card>
-      <!--第二部分-->
+      <!--第三部分 出价-->
       <q-card class="my-card q-pa-sm no-shadow q-mt-md q-ml-none" v-ripple.early>
         <p class="q-pt-xs q-pl-xs  no-margin text-weight-bold">出价</p>
         <div class="q-pl-md q-pr-md q-pt-sm q-pb-sm">
@@ -62,11 +60,10 @@
           </q-chip>
         </div>
       </q-card>
-      <!--   评论   -->
+      <!--第四部分 评论 -->
       <q-card class="my-card q-pa-sm no-shadow q-mt-md q-ml-none">
         <p class="q-pt-xs q-pl-xs  no-margin text-weight-bold">评论</p>
         <q-list>
-
           <q-expansion-item expand-icon-class="hidden">
             <template v-slot:header>
               <q-item-section avatar class="vertical-top">
@@ -182,23 +179,37 @@
           </q-expansion-item>
         </q-list>
       </q-card>
+      <!--第五部分 空白站位-->
       <div style="text-align: center">
         <p class=" q-mt-lg text-caption text-grey-7">没有更多内容</p>
         <div style="height:10vh">
         </div>
       </div>
-
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, watch} from 'vue';
+import {useRouter} from "vue-router/dist/vue-router";
+import {CommFail} from "components/common";
 
+const $router = useRouter()
 const autoplay = ref(false)
 const slide = ref(1)
-</script>
+let itemid = ref()
 
+//监测网址操作，返回物品id
+watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
+  if (newValue.id === '') {
+    CommFail("信息载入失败")
+    $router.push("/")
+  }
+  itemid.value = newValue
+  console.log(itemid.value.id)
+}, {immediate: true})
+
+
+</script>
 <style scoped>
 #building {
   background-color: rgb(238, 238, 238);

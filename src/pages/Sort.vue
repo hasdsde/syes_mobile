@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-splitter
-        style="height: 100vh"
+        style="height: 87vh"
         v-model="splitterModel"
     >
 
@@ -29,16 +29,7 @@
             <span v-for="n in nmenu">
               <q-btn class="q-ma-xs" v-if="n.pid===p.id" outline color="primary" :label="n.name" :icon="n.icon"/>
             </span>
-
           </q-tab-panel>
-          <!--          <div v-for="p in pmenu">-->
-          <!--            <q-tab-panel v-for="n in nmenu" :name="p.name">-->
-          <!--              <div class="text-h4 q-mb-md">p.name</div>-->
-          <!--              <q-btn v-if="p.id===n.pid" outline color="primary" :label="n.name" :icon="n.icon"/>-->
-          <!--            </q-tab-panel>-->
-          <!--          </div>-->
-
-
         </q-tab-panels>
       </template>
 

@@ -82,7 +82,8 @@
                 </div>
               </q-card-section>
             </q-card>
-            <div style="text-align: center">
+            <q-spinner-dots style="margin-left: -5vw" color="primary" size="40px"/>
+            <div style="text-align: center;">
               <div style="height:6vh">
               </div>
             </div>

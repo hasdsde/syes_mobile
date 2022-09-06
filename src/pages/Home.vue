@@ -18,7 +18,7 @@
             @mouseleave="autoplay = true"
             height="200px"
         >
-          <q-carousel-slide v-for="item in rows" :name="item.id" :img-src="item.url"/>
+          <q-carousel-slide v-for="(item,index) in rows" :name="index" :img-src="item.url"/>
         </q-carousel>
       </div>
       <!--  末尾自动加载  -->
@@ -59,7 +59,8 @@
           </div>
           <!--右侧列-->
           <div class="column bg-grey-2" style="padding: 0 ;margin: auto;width: 50%;position: absolute;left: 50%">
-            <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo2" :key="item.id">
+            <q-card v-ripple.early class="my-card justify-around" v-for="item in itemInfo2" :key="item.id"
+                    @click="handleClick(item.id)">
               <q-img :src="item.url"/>
               <q-card-section style="padding: 0.1rem 0.5rem;max-height: 4rem">
                 <div class="row no-wrap items-center" style="padding: 0">
@@ -102,7 +103,7 @@ import {CommSeccess, LoadingFail, LoadingNotify, LoadingSucceed} from "component
 import {useRouter} from "vue-router/dist/vue-router";
 
 const $router = useRouter()
-const slide = ref(1)
+const slide = ref(0)
 const autoplay = ref(2000)
 const loading = LoadingNotify()
 let pageSize = ref(6)

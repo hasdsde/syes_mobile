@@ -1,37 +1,36 @@
 <template>
   <div id="building">
-    <!--第一部分 物品图片-->
-    <q-carousel
-        swipeable
-        animated
-        v-model="slide"
-        navigation
-        infinite
-        transition-prev="slide-right"
-        transition-next="slide-left"
-    >
-      <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg"/>
-      <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg"/>
-      <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg"/>
-      <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg"/>
-    </q-carousel>
+    <q-pull-to-refresh @refresh="refresh">
+      <!--第一部分 物品图片-->
+      <q-carousel
+          swipeable
+          animated
+          v-model="slide"
+          navigation
+          :autoplay="autoplay"
+          infinite
+          transition-prev="slide-right"
+          transition-next="slide-left"
+      >
+        <q-carousel-slide v-for="(item,index) in imgDetail" :name="index" :img-src="item.url"/>
+      </q-carousel>
+    </q-pull-to-refresh>
     <div class="q-pa-md q-gutter-sm">
       <!--第二部分 物品详情-->
       <q-card class="my-card q-pa-md no-margin no-shadow" v-ripple.early>
-        <span class="price text-h5">￥114.514</span>
+        <span class="price text-h5">￥{{ itemDetail.price }}</span>
         <span class="float-right text-grey">100人看过</span>
-        <p class="title text-h6 text-weight-bold no-margin">女生自用99新3090共十片</p>
+        <p class="title text-h6 text-weight-bold no-margin">{{ itemDetail.title }}</p>
         <q-separator/>
-        <div class="q-mt-xs">女生自用99新3090共十片女生自用99新
-          3090共十片女生自用99新3090共十片女生自用99新3090共十片
+        <div class="q-mt-xs">{{ itemDetail.description }}
         </div>
         <div clickable color="white" text-color="black" class="q-pt-sm vertical-middle">
           <q-avatar size="28px">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
-          田所浩二
-          <span class="text-caption text-grey-7">20 计算机</span>
-          <span class="text-caption float-right text-grey-7 q-mt-xs">8月8日</span>
+          {{ itemDetail.nickname }}
+          <span class="text-caption text-grey-7">{{ itemDetail.userid }} 计算机</span>
+          <span class="text-caption float-right text-grey-7 q-mt-xs">{{ itemDetail.createtime }}</span>
         </div>
         <!--    出价    -->
       </q-card>
@@ -191,12 +190,16 @@
 <script setup lang="ts">
 import {ref, watch} from 'vue';
 import {useRouter} from "vue-router/dist/vue-router";
-import {CommFail} from "components/common";
+import {CommFail, CommSeccess} from "components/common";
+import {api} from "boot/axios";
 
 const $router = useRouter()
 const autoplay = ref(false)
-const slide = ref(1)
+const slide = ref(0)
 let itemid = ref()
+let itemDetail = ref({})
+let imgDetail = ref([])
+let Auction = ref([])
 
 //监测网址操作，返回物品id
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
@@ -204,10 +207,46 @@ watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
     CommFail("信息载入失败")
     $router.push("/")
   }
-  itemid.value = newValue
-  console.log(itemid.value.id)
+  itemid.value = newValue.id
 }, {immediate: true})
+loadItemInfo()
+loadImginfo()
+loadAuction()
 
+//获取物品详细信息
+function loadItemInfo() {
+  api.get('/item/id?itemid=' + itemid.value).then(res => {
+    itemDetail.value = res.data
+    //@ts-ignore
+    itemDetail.value.createtime = itemDetail.value.createtime.slice(5, 10)
+  })
+}
+
+//获取图片
+function loadImginfo() {
+  api.get('/file/id?itemid=' + itemid.value).then(res => {
+    imgDetail.value = res.data
+
+  })
+}
+
+//获取出价
+function loadAuction() {
+  api.get('/auction/queryItem/' + itemid.value).then(res => {
+    Auction.value = res.data
+    console.log(res.data)
+  })
+}
+
+//下拉刷新
+
+function refresh(done: () => void) {
+  setTimeout(() => {
+    //先清空内容
+    CommSeccess("刷新")
+    done()
+  }, 1000)
+}
 
 </script>
 <style scoped>

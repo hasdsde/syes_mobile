@@ -123,6 +123,7 @@ let Auction = ref([])
 let FComment = ref([])
 let EComment = ref([])
 
+
 //监测网址操作，返回物品id
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
   if (newValue.id === '') {
@@ -131,11 +132,16 @@ watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
   }
   itemid.value = newValue.id
 }, {immediate: true})
-loadItemInfo()
-loadImginfo()
-loadAuction()
-loadFComment()
+loadPage()//这个一定要在获取temId之后
 
+//刷新
+function loadPage() {
+  loadItemInfo()
+  loadImginfo()
+  loadAuction()
+  loadFComment()
+  CommSeccess("全部刷新")
+}
 
 //获取物品详细信息
 function loadItemInfo() {
@@ -180,9 +186,9 @@ function handleEComment(value: any, indexX: any) {
 }
 
 //下拉刷新
-
 function refresh(done: () => void) {
   setTimeout(() => {
+    loadPage()
     //先清空内容
     CommSeccess("刷新")
     done()

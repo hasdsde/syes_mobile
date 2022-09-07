@@ -51,8 +51,8 @@
       <q-card class="my-card q-pa-sm no-shadow q-mt-md q-ml-none">
         <p class="q-pt-xs q-pl-xs  no-margin text-weight-bold">评论</p>
         <q-list>
-          <q-expansion-item expand-icon-class="hidden" v-for="item in FComment" :key="item.id"
-                            @click="handleEComment(item.id)">
+          <q-expansion-item expand-icon-class="hidden" v-for="(item,indexX) in FComment" :key="item.id"
+                            @click.once=" handleEComment(item.id,indexX)">
             <template v-slot:header>
               <q-item-section avatar class="vertical-top">
                 <q-avatar text-color="white">
@@ -68,60 +68,26 @@
                     }}</span>
                 </div>
                 <p class="no-margin">{{ item.content }}</p>
-                <span class="no-margin text-caption text-grey-7" v-ripple.early v-if="item.counts>0">点击查看回复</span>
+                <span class="no-margin text-caption text-grey-7" v-ripple.early>查看{{ item.counts }}条回复</span>
               </q-item-section>
             </template>
             <q-card>
               <q-card-section>
                 <q-list>
-                  <q-item clickable v-ripple class="q-pr-none" v-ripple.early>
+                  <q-item clickable v-ripple class="q-pr-none" v-ripple.early v-for="commit in EComment[indexX]">
                     <q-item-section avatar>
                       <q-avatar>
-                        <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+                        <img :src="commit.avatar">
                       </q-avatar>
                     </q-item-section>
                     <q-item-section>
                       <q-item-label lines="1">
-                        <span class="text-primary">瓜摊老板 </span>回复：
-                        <span class="text-primary">刘华强</span>
+                        <span class="text-primary">{{ commit.nickname }} </span>回复：
+                        <span class="text-primary">{{ commit.tousername }}</span>
                         <span class="no-margin text-caption text-grey-7 float-right">8月8日</span>
                       </q-item-label>
                       <q-item-label>
-                        我开水果摊的，能买你生瓜蛋子？
-                      </q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-ripple class="q-pr-none" v-ripple.early>
-                    <q-item-section avatar>
-                      <q-avatar>
-                        <img src="https://cdn.quasar.dev/img/avatar2.jpg">
-                      </q-avatar>
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label lines="1">
-                        <span class="text-primary">刘华强 </span>回复：
-                        <span class="text-primary">瓜摊老板</span>
-                        <span class="no-margin text-caption text-grey-7 float-right">8月8日</span>
-                      </q-item-label>
-                      <q-item-label>
-                        我问你这瓜保熟吗？
-                      </q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-item clickable v-ripple class="q-pr-none" v-ripple.early>
-                    <q-item-section avatar>
-                      <q-avatar>
-                        <img src="https://cdn.quasar.dev/img/avatar2.jpg">
-                      </q-avatar>
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label lines="1">
-                        <span class="text-primary">瓜摊老板 </span>回复：
-                        <span class="text-primary">刘华强</span>
-                        <span class="no-margin text-caption text-grey-7 float-right">8月8日</span>
-                      </q-item-label>
-                      <q-item-label>
-                        你故意找茬是不是？你要不要吧！
+                        {{ commit.content }}
                       </q-item-label>
                     </q-item-section>
                   </q-item>
@@ -155,6 +121,7 @@ let itemDetail = ref({})
 let imgDetail = ref([])
 let Auction = ref([])
 let FComment = ref([])
+let EComment = ref([])
 
 //监测网址操作，返回物品id
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
@@ -168,6 +135,7 @@ loadItemInfo()
 loadImginfo()
 loadAuction()
 loadFComment()
+
 
 //获取物品详细信息
 function loadItemInfo() {
@@ -204,8 +172,11 @@ function loadFComment() {
 }
 
 //获取子集评论
-function handleEComment(value: any) {
-  console.log(value)
+function handleEComment(value: any, indexX: any) {
+  api.get('comment/e?commentid=' + value).then(res => {
+    //@ts-ignore
+    EComment.value[indexX] = res.data
+  })
 }
 
 //下拉刷新

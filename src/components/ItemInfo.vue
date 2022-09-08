@@ -56,25 +56,29 @@
                             :key="item.id"
           >
             <template v-slot:header>
-              <q-item-section avatar class="vertical-top">
-                <q-avatar text-color="white">
-                  <img :src="item.avatar" alt="">
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <div class="no-margin">
-                  <span class="text-primary">{{ item.nickname }}</span>
-                  <span class="text-caption text-grey-7">{{ item.userid }} 计算机</span>
-                  <span class="no-margin text-caption text-grey-7 float-right">{{
-                      item.createtime
-                    }}</span>
-                </div>
-                <p class="no-margin">{{ item.content }}</p>
-                <span class="no-margin text-caption text-grey-7" @click.once=" handleEComment(item.id,indexX)"
-                      v-ripple.early v-if="item.counts>0">查看{{
-                    item.counts
-                  }}条回复</span>
-                <span>回复</span>
+              <q-item-section style="display: contents" v-ripple>
+                <q-item-section avatar class="vertical-top">
+                  <q-avatar text-color="white">
+                    <img :src="item.avatar" alt="">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <div class="no-margin">
+                    <span class="text-primary">{{ item.nickname }}</span>
+                    <span class="text-caption text-grey-7">{{ item.userid }} 计算机</span>
+                    <span class="no-margin text-caption text-grey-7 float-right">{{
+                        item.createtime
+                      }}</span>
+                  </div>
+                  <p class="no-margin">{{ item.content }}</p>
+                  <span class="no-margin text-caption text-grey-7 " @click.once=" handleEComment(item.id,indexX)"
+                        v-if="item.counts>0">查看{{
+                      item.counts
+                    }}条回复     <q-btn @click.stop="CommSeccess('回复')" color="primary float-right" size="xs"
+                                     icon="comment"/></span>
+                  <!--                  <span class="text-purple  float-right" @click.stop="CommSeccess('回复')"><q-icon-->
+                  <!--                      name="comment" size="xs"></q-icon></span>-->
+                </q-item-section>
               </q-item-section>
             </template>
             <q-card>

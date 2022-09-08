@@ -67,7 +67,7 @@
         </div>
         <!--    评论    -->
         <div class="col col q-pt-xs">
-          <q-btn flat rounded color="primary " icon="textsms">
+          <q-btn flat rounded color="primary " icon="textsms" @click="handleComment()">
             <q-badge color="grey-1" text-color="grey-7" floating>{{ FuncButton.comments }}</q-badge>
           </q-btn>
         </div>
@@ -87,7 +87,8 @@ import {ref, watch} from 'vue';
 import {Allmenus} from "components/models";
 import {useRouter} from "vue-router/dist/vue-router";
 import {api} from "boot/axios";
-import {BottomSeccess} from "components/common";
+import {BottomSeccess, CommSeccess} from "components/common";
+import {Dialog} from "quasar";
 
 let $router = useRouter()
 const leftDrawerOpen = ref(false)
@@ -96,6 +97,7 @@ const link = ref('')
 let positions = ref()
 let menu = ref(Allmenus)
 const itemid = ref()
+let $dialog = Dialog
 const FuncButton = ref({
   "collects": '',
   'comments': '',
@@ -143,6 +145,35 @@ function handleSC() {
         }
       }
   )
+}
+
+//新增评论
+function handleComment() {
+  $dialog.create({
+    title: '发布新评论',
+    prompt: {
+      model: '',
+      type: 'text' // optional
+    },
+    cancel: true,
+    persistent: false,
+    position: "bottom"
+  }).onOk(data => {
+    // console.log('>>>> OK, received', data)
+    console.log(itemid.value)
+    console.log(data)
+    api.post('/comment/', {"itemid": itemid.value, "content": data}).then(res => {
+      if (res.code == "200") {
+        CommSeccess("发送成功")
+        $router.go(0)
+      }
+    })
+  }).onCancel(() => {
+    // console.log('>>>> Cancel')
+  }).onDismiss(() => {
+    CommSeccess("不发就不发，ㄟ( ▔, ▔ )ㄏ ！")
+  })
+
 }
 
 //面包屑

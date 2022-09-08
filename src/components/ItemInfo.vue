@@ -52,8 +52,9 @@
         <p class="q-pt-xs q-pl-xs  no-margin text-weight-bold">评论</p>
         <q-list>
           <div class="text-grey-5 q-ml-md" v-if="FComment.length===0">还没有人发评论，快来抢第一</div>
-          <q-expansion-item expand-icon-class="hidden" v-for="(item,indexX) in FComment" :key="item.id"
-                            @click.once=" handleEComment(item.id,indexX)">
+          <q-expansion-item expand-icon-class="hidden" v-for="(item,indexX) in FComment"
+                            :key="item.id"
+          >
             <template v-slot:header>
               <q-item-section avatar class="vertical-top">
                 <q-avatar text-color="white">
@@ -69,7 +70,11 @@
                     }}</span>
                 </div>
                 <p class="no-margin">{{ item.content }}</p>
-                <span class="no-margin text-caption text-grey-7" v-ripple.early>查看{{ item.counts }}条回复</span>
+                <span class="no-margin text-caption text-grey-7" @click.once=" handleEComment(item.id,indexX)"
+                      v-ripple.early v-if="item.counts>0">查看{{
+                    item.counts
+                  }}条回复</span>
+                <span>回复</span>
               </q-item-section>
             </template>
             <q-card>

@@ -3,14 +3,14 @@
     <q-pull-to-refresh @refresh="refresh">
       <!--第一部分 物品图片-->
       <q-carousel
-          swipeable
-          animated
-          v-model="slide"
-          navigation
-          :autoplay="autoplay"
-          infinite
-          transition-prev="slide-right"
-          transition-next="slide-left"
+        swipeable
+        animated
+        v-model="slide"
+        navigation
+        :autoplay="autoplay"
+        infinite
+        transition-prev="slide-right"
+        transition-next="slide-left"
       >
         <q-carousel-slide v-for="(item,index) in imgDetail" :name="index" :img-src="item.url"/>
       </q-carousel>
@@ -52,10 +52,10 @@
         <p class="q-pt-xs q-pl-xs  no-margin text-weight-bold">评论</p>
         <q-list>
           <div class="text-grey-5 q-ml-md" v-if="FComment.length===0">还没有人发评论，快来抢第一</div>
-          <q-expansion-item expand-icon-class="hidden" v-for="(item,indexX) in FComment"
-                            :key="item.id"
+          <div v-for="(item,indexX) in FComment"
+               :key="item.id"
           >
-            <template v-slot:header>
+            <div>
               <q-item-section avatar class="vertical-top">
                 <q-avatar text-color="white">
                   <img :src="item.avatar" alt="">
@@ -74,33 +74,29 @@
                       v-ripple.early v-if="item.counts>0">查看{{
                     item.counts
                   }}条回复</span>
-                <span>回复</span>
+                <span @click="CommSeccess('你点击了回复')">回复</span>
               </q-item-section>
-            </template>
-            <q-card>
-              <q-card-section>
-                <q-list>
-                  <q-item clickable v-ripple class="q-pr-none" v-for="commit in EComment[indexX]">
-                    <q-item-section avatar>
-                      <q-avatar>
-                        <img :src="commit.avatar">
-                      </q-avatar>
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label lines="1">
-                        <span class="text-primary">{{ commit.nickname }} </span>回复：
-                        <span class="text-primary">{{ commit.tousername }}</span>
-                        <span class="no-margin text-caption text-grey-7 float-right">8月8日</span>
-                      </q-item-label>
-                      <q-item-label>
-                        {{ commit.content }}
-                      </q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-card-section>
-            </q-card>
-          </q-expansion-item>
+            </div>
+            <q-list>
+              <q-item clickable v-ripple class="q-pr-none" v-for="commit in EComment[indexX]">
+                <q-item-section avatar>
+                  <q-avatar>
+                    <img :src="commit.avatar">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label lines="1">
+                    <span class="text-primary">{{ commit.nickname }} </span>回复：
+                    <span class="text-primary">{{ commit.tousername }}</span>
+                    <span class="no-margin text-caption text-grey-7 float-right">8月8日</span>
+                  </q-item-label>
+                  <q-item-label>
+                    {{ commit.content }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
         </q-list>
       </q-card>
       <!--第五部分 空白站位-->

@@ -51,6 +51,7 @@
       <q-card class="my-card q-pa-sm no-shadow q-mt-md q-ml-none">
         <p class="q-pt-xs q-pl-xs  no-margin text-weight-bold">评论</p>
         <q-list>
+          <div class="text-grey-5 q-ml-md" v-if="FComment.length===0">还没有人发评论，快来抢第一</div>
           <q-expansion-item expand-icon-class="hidden" v-for="(item,indexX) in FComment" :key="item.id"
                             @click.once=" handleEComment(item.id,indexX)">
             <template v-slot:header>
@@ -95,7 +96,6 @@
               </q-card-section>
             </q-card>
           </q-expansion-item>
-
         </q-list>
       </q-card>
       <!--第五部分 空白站位-->

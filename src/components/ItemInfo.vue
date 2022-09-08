@@ -74,7 +74,7 @@
                   <span class="no-margin text-caption text-grey-7 " @click.once=" handleEComment(item.id,indexX)"
                         v-if="item.counts>0">查看{{
                       item.counts
-                    }}条回复     <q-btn @click.stop="CommSeccess('回复')" color="primary float-right" size="xs"
+                    }}条回复     <q-btn @click.stop="handleReply(item.id)" color="primary float-right" size="xs"
                                      icon="comment"/></span>
                   <!--                  <span class="text-purple  float-right" @click.stop="CommSeccess('回复')"><q-icon-->
                   <!--                      name="comment" size="xs"></q-icon></span>-->
@@ -84,7 +84,8 @@
             <q-card>
               <q-card-section>
                 <q-list>
-                  <q-item clickable v-ripple class="q-pr-none" v-for="commit in EComment[indexX]">
+                  <q-item clickable v-ripple class="q-pr-none" v-for="commit in EComment[indexX] "
+                          @click.stop="handleReply(commit.id)">
                     <q-item-section avatar>
                       <q-avatar>
                         <img :src="commit.avatar">
@@ -121,6 +122,7 @@ import {ref, watch} from 'vue';
 import {useRouter} from "vue-router/dist/vue-router";
 import {CommFail, CommSeccess} from "components/common";
 import {api} from "boot/axios";
+import {Dialog} from "quasar";
 
 const $router = useRouter()
 const autoplay = ref(false)
@@ -131,7 +133,7 @@ let imgDetail = ref([])
 let Auction = ref([])
 let FComment = ref([])
 let EComment = ref([])
-
+let $dialog = Dialog
 
 //监测网址操作，返回物品id
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
@@ -204,6 +206,33 @@ function refresh(done: () => void) {
   }, 1000)
 }
 
+//回复评论
+function handleReply(value: any) {
+  $dialog.create({
+    title: '回复评论',
+    prompt: {
+      model: '',
+      type: 'text' // optional
+    },
+    cancel: true,
+    persistent: false,
+    position: "bottom"
+  }).onOk(data => {
+    // console.log('>>>> OK, received', data)
+    console.log(itemid.value)
+    console.log(data)
+    api.post('/comment/', {"itemid": itemid.value, "content": data}).then(res => {
+      if (res.code == "200") {
+        CommSeccess("发送成功")
+        $router.go(0)
+      }
+    })
+  }).onCancel(() => {
+    // console.log('>>>> Cancel')
+  }).onDismiss(() => {
+    CommSeccess("不发就不发，ㄟ( ▔, ▔ )ㄏ ！")
+  })
+}
 </script>
 <style scoped>
 #building {

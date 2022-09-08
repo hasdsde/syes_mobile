@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {UserInfo} from "components/models";
-import {CommFail} from "components/common";
+import {CommFail, CommSeccess} from "components/common";
 import {api} from "boot/axios";
 import {useRouter} from "vue-router/dist/vue-router";
 
@@ -53,7 +53,9 @@ function handleLogin() {
       "userid": userinfo.userid.value,
       "password": userinfo.password.value
     }).then(res => {
+      CommSeccess("登录成功")
       localStorage.setItem("userinfo", JSON.stringify(res.data))
+      localStorage.setItem("token", JSON.stringify(res.data.token))
       $router.push('/Home')
     })
   } else {

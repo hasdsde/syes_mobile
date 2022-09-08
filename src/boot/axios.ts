@@ -34,7 +34,23 @@ export default boot(({app}) => {
     // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
     //       so you can easily perform requests against your app's API
 
-    //响应拦截器
+    //请求拦截器
+    api.interceptors.request.use(
+        (config) => {
+            if (localStorage.getItem("token") == null) {
+                window.location.href = "/#/login"
+            } else {
+                let token: any = localStorage.getItem('token');
+                token = token.substring(1, token.length - 1);
+                config.headers.token = token
+            }
+            return config
+        },
+        err => {
+            return Promise.reject(err)
+        }
+    )
+    //相应拦截器
     api.interceptors.response.use(
         res => {
             if (res.data.code === '200') {
@@ -43,6 +59,7 @@ export default boot(({app}) => {
                 CommFail(res.data.msg)
             }
             if (res.data.code === '499') {
+                CommFail('请重新登录')
                 window.location.href = "/#/login"
             }
         }

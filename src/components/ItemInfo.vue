@@ -75,7 +75,7 @@
             <q-card>
               <q-card-section>
                 <q-list>
-                  <q-item clickable v-ripple class="q-pr-none" v-ripple.early v-for="commit in EComment[indexX]">
+                  <q-item clickable v-ripple class="q-pr-none" v-for="commit in EComment[indexX]">
                     <q-item-section avatar>
                       <q-avatar>
                         <img :src="commit.avatar">

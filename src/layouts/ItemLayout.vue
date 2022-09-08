@@ -1,5 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lFf">
+    <!--  顶部栏  -->
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -51,19 +52,23 @@
     <!--  底部栏  -->
     <q-footer class="bg-white text-black" style="height: 5.5%;align-self: auto;">
       <div class="row q-pa-xs ">
+        <!--    点赞   -->
         <div class="col q-pt-xs">
-          <q-btn flat rounded color="grey-7" icon="thumb_up_off_alt">
-            <q-badge color="grey-1" text-color="grey-7" floating>22</q-badge>
+          <q-btn flat rounded :color="FuncButton.iflike===1? 'primary':'grey-7' " icon="thumb_up"
+                 @click="handleZAN()">
+            <q-badge color="grey-1" text-color="grey-7" floating>{{ FuncButton.likes }}</q-badge>
           </q-btn>
         </div>
+        <!--    收藏    -->
         <div class="col col q-pt-xs">
-          <q-btn flat rounded color="grey-7  " icon="star_border">
-            <q-badge color="grey-1" text-color="grey-7" floating>22</q-badge>
+          <q-btn flat rounded :color="FuncButton.ifcollect===1? 'yellow':'grey-7' " icon="star" @click="handleSC()">
+            <q-badge color="grey-1" text-color="grey-7" floating>{{ FuncButton.collects }}</q-badge>
           </q-btn>
         </div>
+        <!--    评论    -->
         <div class="col col q-pt-xs">
-          <q-btn flat rounded color="grey-7 " icon="textsms">
-            <q-badge color="grey-1" text-color="grey-7" floating>22</q-badge>
+          <q-btn flat rounded color="primary " icon="textsms">
+            <q-badge color="grey-1" text-color="grey-7" floating>{{ FuncButton.comments }}</q-badge>
           </q-btn>
         </div>
         <div class="col-3">
@@ -81,6 +86,8 @@
 import {ref, watch} from 'vue';
 import {Allmenus} from "components/models";
 import {useRouter} from "vue-router/dist/vue-router";
+import {api} from "boot/axios";
+import {BottomSeccess} from "components/common";
 
 let $router = useRouter()
 const leftDrawerOpen = ref(false)
@@ -89,18 +96,54 @@ const link = ref('')
 let positions = ref()
 let menu = ref(Allmenus)
 const itemid = ref()
+const FuncButton = ref({
+  "collects": '',
+  'comments': '',
+  'likes': '',
+  'iflike': '',
+  'ifcollect': ''
+})
 
 //监测网址操作，返回物品id
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
-  itemid.value = newValue
+  itemid.value = newValue.id
 }, {immediate: true})
 
 //侧栏开关
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
-
 }
 
+loadFunc()
+
+//加载功能按钮
+function loadFunc() {
+  api.get('/userlike/queryByItemId?itemid=' + itemid.value).then(res => {
+    FuncButton.value = res.data
+  })
+}
+
+//点赞
+function handleZAN() {
+  BottomSeccess('thumb_up', '赞')
+  api.get('/userlike/change?itemid=' + itemid.value).then(res => {
+        if (res.code == '200') {
+          loadFunc()
+        }
+      }
+  )
+}
+
+//收藏
+function handleSC() {
+  BottomSeccess('star', '收藏')
+  api.get('/usercollect/change?itemid=' + itemid.value).then(res => {
+        if (res.code == '200') {
+          loadFunc()
+        }
+      }
+  )
+}
 
 //面包屑
 watch(() => $router.currentRoute.value.path, (newValue, oldValue) => {

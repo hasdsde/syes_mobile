@@ -162,7 +162,7 @@ function handleComment() {
     // console.log('>>>> OK, received', data)
     console.log(itemid.value)
     console.log(data)
-    api.post('/comment/', {"itemid": itemid.value, "content": data}).then(res => {
+    api.post('/comment/p', {"itemid": itemid.value, "content": data}).then(res => {
       if (res.code == "200") {
         CommSeccess("发送成功")
         $router.go(0)

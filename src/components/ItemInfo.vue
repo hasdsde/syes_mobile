@@ -72,10 +72,12 @@
                   </div>
                   <p class="no-margin">{{ item.content }}</p>
                   <span class="no-margin text-caption text-grey-7 " @click.once=" handleEComment(item.id,indexX)"
-                        v-if="item.counts>0">查看{{
-                      item.counts
-                    }}条回复     <q-btn @click.stop="handleReply(item.id)" color="primary float-right" size="xs"
-                                     icon="comment"/></span>
+                  >
+                    <span v-if="item.counts>0">查看{{
+                        item.counts
+                      }}条回复</span>
+                    <q-btn rounded @click.stop="handleReply(item.id)" color="primary float-right" size="xs"
+                           icon="comment"/></span>
                   <!--                  <span class="text-purple  float-right" @click.stop="CommSeccess('回复')"><q-icon-->
                   <!--                      name="comment" size="xs"></q-icon></span>-->
                 </q-item-section>
@@ -221,7 +223,7 @@ function handleReply(value: any) {
     // console.log('>>>> OK, received', data)
     console.log(itemid.value)
     console.log(data)
-    api.post('/comment/', {"itemid": itemid.value, "content": data}).then(res => {
+    api.post('/comment/', {"id": value, "content": data}).then(res => {
       if (res.code == "200") {
         CommSeccess("发送成功")
         $router.go(0)

@@ -56,7 +56,7 @@
                             :key="item.id"
           >
             <template v-slot:header>
-              <q-item-section style="display: contents" v-ripple>
+              <q-item-section style="display: contents" v-ripple @click.once=" handleEComment(item.id,indexX)">
                 <q-item-section avatar class="vertical-top">
                   <q-avatar text-color="white">
                     <img :src="item.avatar" alt="">
@@ -71,7 +71,7 @@
                       }}</span>
                   </div>
                   <p class="no-margin">{{ item.content }}</p>
-                  <span class="no-margin text-caption text-grey-7 " @click.once=" handleEComment(item.id,indexX)"
+                  <span class="no-margin text-caption text-grey-7 "
                   >
                     <span v-if="item.counts>0">查看{{
                         item.counts

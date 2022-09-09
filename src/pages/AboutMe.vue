@@ -23,7 +23,6 @@
         <q-tab name="more" icon="more_horiz" label="更多"/>
       </q-tabs>
     </div>
-
     <!--  第二部分  -->
     <div>
       <q-banner rounded class="bg-white">
@@ -54,13 +53,13 @@
           </q-item-section>
           <q-item-section>系统设置</q-item-section>
         </q-item>
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple @click="OpenSource=true">
           <q-item-section avatar>
             <q-icon color="primary" name="fa-brands fa-github"/>
           </q-item-section>
           <q-item-section>开源/贡献者</q-item-section>
         </q-item>
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple @click="About=true">
           <q-item-section avatar>
             <q-icon color="primary" name="info"/>
           </q-item-section>
@@ -70,14 +69,52 @@
       </q-list>
     </div>
     <!--  一些弹窗内容  -->
+    <q-dialog v-model="OpenSource">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">开源/贡献者</div>
+        </q-card-section>
 
+        <q-card-section class="q-pt-none">
+          <div>后端仓库: <p> https://github.com/hasdsde/syes_springboot</p></div>
+          <div>后台仓库: <p> https://github.com/hasdsde/syes_quasra</p></div>
+          <div>前台仓库: <p> https://github.com/hasdsde/syes_mobile</p></div>
+          <span>期待各位的star奥！</span>
+          <span class="text-orange">{{ 'Ciallo～(∠·ω< )⌒★' }} </span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="关闭" color="primary" v-close-popup @click="CommWarn('Ciallo～(∠·ω< )⌒★')"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="About">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">关于</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet
+          porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro
+          labore.
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="OK" color="primary" v-close-popup/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import {ref} from "vue";
 import {getUserInfo, UserInfo} from "components/models";
+import {CommWarn} from "components/common";
 
+const About = ref(false)
+const OpenSource = ref(false)
 const userinfo: UserInfo = ref(getUserInfo())
 
 </script>

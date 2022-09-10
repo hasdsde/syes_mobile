@@ -17,6 +17,8 @@ export const Allmenus = [
     {name: 'Message', label: '消息', icon: 'chat', link: '/Message', id: 4},
     {name: 'AboutMe', label: '我的', icon: 'account_circle', link: '/AboutMe', id: 5},
     {name: 'ItemInfo', label: '物品详情', icon: 'shopping_bag', link: '/item', id: 6},
+    {name: 'MyCollection', label: '我的收藏', icon: 'star_border', link: '/MyCollection', id: 7},
+    {name: 'MyHistory', label: '浏览历史', icon: 'history', link: '/MyHistory', id: 8},
 ]
 export const menus = [
     {name: 'Home', label: '首页', icon: 'home', link: '/Home', id: 1},

@@ -16,13 +16,22 @@ const routes: RouteRecordRaw[] = [
         ],
     },
     {
-        //这是其他信息页
+        //这是物品详情页
         path: '/it',
         component: () => import('layouts/ItemLayout.vue'),
         children: [
             {path: '/item', component: () => import('components/ItemInfo.vue')},
         ],
     },
+    {
+        path: '/ab',
+        component: () => import('layouts/AboutLayout.vue'),
+        children: [
+            {path: '/MyCollection', component: () => import('components/MyCollection.vue')},
+            {path: '/MyHistory', component: () => import('components/MyHistory.vue')}
+        ]
+    }
+    ,
     {
         //登录页
         path: '/Login',

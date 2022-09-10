@@ -133,6 +133,9 @@ const FuncButton = ref({
 
 //监测网址操作，返回物品id
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
+  if (newValue.id == undefined) {
+    $router.push("/")
+  }
   itemid.value = newValue.id
 }, {immediate: true})
 

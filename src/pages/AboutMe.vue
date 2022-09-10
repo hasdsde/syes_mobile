@@ -10,7 +10,7 @@
           {{ userinfo.username }}
         </template>
         <template v-slot:default class="justify-start" style="margin-left: 0;margin-right: auto">
-          <q-btn flat color="negative" class="float-right" label="退出"/>
+          <q-btn flat color="negative" class="float-right" @click="logout()" label="退出"/>
         </template>
       </q-banner>
       <q-tabs
@@ -112,11 +112,38 @@
 import {ref} from "vue";
 import {getUserInfo, UserInfo} from "components/models";
 import {CommWarn} from "components/common";
+import {useRouter} from "vue-router/dist/vue-router";
+import {Notify} from "quasar";
 
+
+const $router = useRouter()
 const About = ref(false)
 const OpenSource = ref(false)
 const userinfo: UserInfo = ref(getUserInfo())
 
+
+//退出
+function logout() {
+  Notify.create({
+    message: '确定要退出吗？',
+    color: 'red',
+    icon: 'warning',
+    position: 'top',
+    actions: [
+      {
+        label: '确定', color: 'yellow', handler: () => { /* ... */
+          localStorage.clear()
+          $router.push('/login')
+        }
+      },
+      {
+        label: '取消', color: 'white', handler: () => { /* ... */
+        }
+      }
+    ]
+  })
+
+}
 </script>
 
 <style scoped>

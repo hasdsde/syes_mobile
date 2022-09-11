@@ -61,7 +61,7 @@
         </div>
         <!--    收藏    -->
         <div class="col col q-pt-xs">
-          <q-btn flat rounded :color="FuncButton.ifcollect===1? 'yellow':'grey-7' " icon="star" @click="handleSC()">
+          <q-btn flat rounded :color="FuncButton.ifcollect===1? 'red':'grey-7' " icon="favorite" @click="handleSC()">
             <q-badge color="grey-1" text-color="grey-7" floating>{{ FuncButton.collects }}</q-badge>
           </q-btn>
         </div>
@@ -100,7 +100,6 @@
       </q-card>
     </q-dialog>
   </q-layout>
-
 </template>
 
 <script setup lang="ts">

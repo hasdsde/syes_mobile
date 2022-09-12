@@ -22,7 +22,7 @@
         </q-carousel>
       </div>
       <!--  末尾自动加载  -->
-      <q-infinite-scroll @load="onLoad" :offset="10">
+      <q-infinite-scroll @load="onLoad" :offset="100">
         <!--  列出的物品  -->
         <div class="q-pa-md row items-start q-gutter-md" style="width: 100%;">
           <!--左侧列-->

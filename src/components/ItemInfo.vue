@@ -19,7 +19,7 @@
       <!--第二部分 物品详情-->
       <q-card class="my-card q-pa-md no-margin no-shadow" v-ripple.early>
         <span class="price text-h5">￥{{ itemDetail.price }}</span>
-        <span class="float-right text-grey">100人看过</span>
+        <span class="float-right text-grey">{{ itemDetail.visited }}人看过</span>
         <p class="title text-h6 text-weight-bold no-margin">{{ itemDetail.title }}</p>
         <q-separator/>
         <div class="q-mt-xs">{{ itemDetail.description }}
@@ -169,7 +169,6 @@ function loadItemInfo() {
 function loadImginfo() {
   api.get('/file/id?itemid=' + itemid.value).then(res => {
     imgDetail.value = res.data
-
   })
 }
 

@@ -5,7 +5,8 @@
         <q-btn color="deep-orange" class="float-right" glossy label="删除全部" @click="deleteAll()"/>
         <h5 class="q-pl-md">浏览历史</h5>
         <!--   卡片   -->
-        <q-card class="my-card row" v-ripple.early v-for="itemInfo in itemInfos" :key="itemInfo.id">
+        <q-card class="my-card row q-mt-md" v-ripple.early v-for="itemInfo in itemInfos"
+                @click="handleLink(itemInfo.id)" :key="itemInfo.id">
           <!--左侧图片-->
           <div class="col q-pa-sm ">
             <q-img class="rounded-borders" :ratio="1/1" style="max-width: 100%;max-height: 100%"
@@ -30,7 +31,7 @@
             <!--按钮-->
             <div class="col">
               <q-btn outline rounded color="red" class="float-right" icon="delete_forever"
-                     @click="handleStatus(itemInfo)" size="sm"/>
+                     @click.stop="handleStatus(itemInfo)" size="sm"/>
             </div>
           </div>
         </q-card>
@@ -120,6 +121,10 @@ function deleteAll() {
   })
 }
 
+//点击跳转
+function handleLink(value: any) {
+  $router.push("item?id=" + value)
+}
 </script>
 
 <style scoped>

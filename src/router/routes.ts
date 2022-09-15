@@ -23,12 +23,16 @@ const routes: RouteRecordRaw[] = [
             {path: '/item', component: () => import('components/ItemInfo.vue')},
         ],
     },
-    {
+    {   //关于页面
         path: '/ab',
         component: () => import('layouts/AboutLayout.vue'),
         children: [
             {path: '/MyCollection', component: () => import('components/MyCollection.vue')},
-            {path: '/MyHistory', component: () => import('components/MyHistory.vue')}
+            {path: '/MyHistory', component: () => import('components/MyHistory.vue')},
+            {path: '/Posted', component: () => import('components/Posted.vue')},
+            {path: '/Auction', component: () => import('components/Auction.vue')},
+            {path: '/Order', component: () => import('components/Order.vue')},
+            {path: '/Comments', component: () => import('components/Comments.vue')},
         ]
     }
     ,

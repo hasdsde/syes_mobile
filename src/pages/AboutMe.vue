@@ -31,10 +31,10 @@
             class="text-primary justify-between"
             indicator-color="transparent"
         >
-          <q-tab style="padding: 0 0.3rem" name="uploadItem" icon="unarchive" label="我发布的"/>
-          <q-tab style="padding: 0 0.3rem" name="soldItem" icon="paid" label="我的出价"/>
-          <q-tab style="padding: 0 0.3rem" name="getItem" icon="shopping_cart" label="我买入的"/>
-          <q-tab style="padding: 0 0.3rem" name="userChat" icon="chat" label="我的评论"/>
+          <q-route-tab style="padding: 0 0.3rem" name="uploadItem" icon="unarchive" label="我发布的" to="/Posted"/>
+          <q-route-tab style="padding: 0 0.3rem" name="soldItem" icon="paid" label="我的出价" to="/Auction"/>
+          <q-route-tab style="padding: 0 0.3rem" name="getItem" icon="shopping_cart" label="我的订单" to="/Order"/>
+          <q-route-tab style="padding: 0 0.3rem" name="userChat" icon="chat" label="我的评论" to="/Comments"/>
         </q-tabs>
       </q-banner>
     </div>

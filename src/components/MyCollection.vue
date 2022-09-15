@@ -4,7 +4,9 @@
       <q-infinite-scroll @load="onLoad" :offset="100">
         <h5 class="q-pl-md">收藏</h5>
         <!--   卡片   -->
-        <q-card class="my-card row" v-ripple.early v-for="itemInfo in itemInfos" :key="itemInfo.id">
+        <q-card class="my-card row q-mt-md" v-ripple.early v-for="itemInfo in itemInfos"
+                @click="handleLink(itemInfo.id)"
+                :key="itemInfo.id">
           <!--左侧图片-->
           <div class="col q-pa-sm ">
             <q-img class="rounded-borders" :ratio="1/1" style="max-width: 100%;max-height: 100%"
@@ -29,7 +31,7 @@
             <!--按钮-->
             <div class="col">
               <q-btn outline rounded :color="itemInfo.collect==1?'red':'grey'" class="float-right" icon="favorite"
-                     @click="handleStatus(itemInfo)" size="sm"/>
+                     @click.stop="handleStatus(itemInfo)" size="sm"/>
             </div>
           </div>
         </q-card>
@@ -50,12 +52,13 @@
 import {api} from "boot/axios";
 import {ref} from "vue";
 import {CommSeccess} from "components/common";
+import {useRouter} from "vue-router/dist/vue-router";
 
 let pageSize = ref(6)
 let currentPage = ref(0)
 let itemInfos = ref([])
 let collect = ref(1)
-
+const $router = useRouter()
 
 //加载页面
 function loadPage() {
@@ -100,6 +103,11 @@ function refresh(done: () => void) {
     CommSeccess("刷新")
     done()
   }, 1000)
+}
+
+//点击跳转
+function handleLink(value: any) {
+  $router.push("item?id=" + value)
 }
 </script>
 

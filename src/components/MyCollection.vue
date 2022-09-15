@@ -75,7 +75,7 @@ function onLoad(index: any, done: any) {
     console.log("触发")
     loadPage()
     done();
-  }, 500)
+  }, 1000)
 
 }
 

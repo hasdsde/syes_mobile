@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-sm q-pa-sm q-gutter-md">
     <q-pull-to-refresh @refresh="refresh" scroll-target=".my-card">
-      <q-infinite-scroll @load="onLoad" :offset="100">
+      <q-infinite-scroll @load="onLoad" :offset="10">
         <h5 class="q-pl-md">我的发布</h5>
         <!--   卡片   -->
         <q-card class="my-card row q-mt-md" v-ripple.early v-for="itemInfo in itemInfos"
@@ -38,7 +38,7 @@
         </q-card>
         <!--   空白站位   -->
         <div style="text-align: center">
-          <q-spinner-dots color="primary" size="40px"/>
+          <q-spinner-dots v-if="!noData" color="primary" size="40px"/>
           <p class=" q-mt-lg text-caption text-grey-7">没有更多内容</p>
           <div style="height:1vh">
           </div>
@@ -59,13 +59,19 @@ let pageSize = ref(6)
 let currentPage = ref(0)
 let itemInfos = ref([])
 let posted = ref(1)
+let noData = ref(false)
 const $router = useRouter()
 
 //加载页面
 function loadPage() {
   api.get('/about/posted?pagesize=' + pageSize.value + '&currentpage=' + currentPage.value).then(res => {
-    for (let i = 0; i < res.data.length; i++) {//@ts-ignore
-      itemInfos.value.push(res.data[i])
+    if (res.data.length == 0) {
+      CommSeccess('全部加载完成')
+      noData.value = true
+    } else {
+      for (let i = 0; i < res.data.length; i++) {//@ts-ignore
+        itemInfos.value.push(res.data[i])
+      }
     }
   })
 }
@@ -73,9 +79,10 @@ function loadPage() {
 //末尾加载
 function onLoad(index: any, done: any) {
   setTimeout(() => {
-    currentPage.value = currentPage.value + 1
-    console.log("触发")
-    loadPage()
+    if (noData.value == false) {
+      currentPage.value = currentPage.value + 1
+      loadPage()
+    }
     done();
   }, 1000)
 
@@ -101,7 +108,8 @@ function handleStatus(value: any) {
 //下拉刷新
 function refresh(done: () => void) {
   setTimeout(() => {
-    itemInfos.value.slice(0, itemInfos.value.length)
+    itemInfos.value = []
+    currentPage.value = 1
     loadPage()
     //先清空内容
     CommSeccess("刷新")

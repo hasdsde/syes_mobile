@@ -37,7 +37,7 @@
         </q-card>
         <!--   空白站位   -->
         <div style="text-align: center">
-          <q-spinner-dots color="primary" size="40px"/>
+          <q-spinner-dots v-if="!noData" color="primary" size="40px"/>
           <p class=" q-mt-lg text-caption text-grey-7">没有更多内容</p>
           <div style="height:1vh">
           </div>
@@ -61,23 +61,30 @@ let currentPage = ref(0)
 let itemInfos = ref([])
 let collect = ref(1)
 let $router = useRouter()
+let noData = ref(false)
 
 function loadPage() {
   api.get('/about/history?pagesize=' + pageSize.value + '&currentpage=' + currentPage.value).then(res => {
-    for (let i = 0; i < res.data.length; i++) {//@ts-ignore
-      itemInfos.value.push(res.data[i])
+    if (res.data.length == 0) {
+      CommSeccess('全部加载完成')
+      noData.value = true
+    } else {
+      for (let i = 0; i < res.data.length; i++) {//@ts-ignore
+        itemInfos.value.push(res.data[i])
+      }
+      //@ts-ignore
+      itemInfos.value.forEach(ItemInfo => ItemInfo.history = history)
     }
-    //@ts-ignore
-    itemInfos.value.forEach(ItemInfo => ItemInfo.history = history)
   })
 }
 
 //末尾加载
 function onLoad(index: any, done: any) {
   setTimeout(() => {
-    currentPage.value = currentPage.value + 1
-    console.log("触发")
-    loadPage()
+    if (noData.value == false) {
+      currentPage.value = currentPage.value + 1
+      loadPage()
+    }
     done();
   }, 1000)
 
@@ -92,7 +99,8 @@ function handleStatus(value: any) {
 //下拉刷新
 function refresh(done: () => void) {
   setTimeout(() => {
-    itemInfos.value.slice(0, itemInfos.value.length)
+    itemInfos.value = []
+    currentPage.value = 1
     loadPage()
     //先清空内容
     CommSeccess("刷新")

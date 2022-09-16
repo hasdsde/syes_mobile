@@ -19,7 +19,7 @@
       >
         <q-route-tab name="star" icon="star_border" to="/MyCollection" label="收藏"/>
         <q-route-tab name="alarms" icon="history" to="/MyHistory" label="历史"/>
-        <!--        <q-route-tab name="attention" icon="add_link" label="关注"/>-->
+        <q-route-tab name="attention" icon="comment" label="评论"/>
         <q-route-tab name="more" icon="more_horiz" label="更多"/>
       </q-tabs>
     </div>
@@ -33,8 +33,8 @@
         >
           <q-route-tab style="padding: 0 0.3rem" name="uploadItem" icon="unarchive" label="我发布的" to="/Posted"/>
           <q-route-tab style="padding: 0 0.3rem" name="soldItem" icon="paid" label="我的出价" to="/Auction"/>
-          <q-route-tab style="padding: 0 0.3rem" name="getItem" icon="shopping_cart" label="我的订单" to="/Order"/>
-          <q-route-tab style="padding: 0 0.3rem" name="userChat" icon="chat" label="我的评论" to="/Comments"/>
+          <q-route-tab style="padding: 0 0.3rem" name="getItem" icon="shopping_cart" label="我买入的" to="/BuyOrder"/>
+          <q-route-tab style="padding: 0 0.3rem" name="userChat" icon="shopping_basket" label="我卖出的" to="/Comments"/>
         </q-tabs>
       </q-banner>
     </div>

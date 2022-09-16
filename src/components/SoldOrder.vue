@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-banner class="bg-primary text-white">
-      这个是评论页面
+      这个是卖出页面
       <template v-slot:action>
         <q-btn flat color="white" label="Dismiss"/>
         <q-btn flat color="white" label="Update Credit Card"/>

@@ -59,7 +59,7 @@ export default boot(({app}) => {
                 CommFail('请重新登录')
                 window.location.href = "/#/login"
             } else {
-                CommFail(res.data.msg)
+                CommFail(res.data.msg + "   错误码：" + res.data.code)
             }
         }
     )

@@ -31,8 +31,8 @@ const routes: RouteRecordRaw[] = [
             {path: '/MyHistory', component: () => import('components/MyHistory.vue')},
             {path: '/Posted', component: () => import('components/Posted.vue')},
             {path: '/Auction', component: () => import('components/Auction.vue')},
-            {path: '/Order', component: () => import('components/Order.vue')},
-            {path: '/Comments', component: () => import('components/Comments.vue')},
+            {path: '/BuyOrder', component: () => import('components/BuyOrder.vue')},
+            {path: '/SoldOrder', component: () => import('components/SoldOrder.vue')},
         ]
     }
     ,

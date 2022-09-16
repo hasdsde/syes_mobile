@@ -26,7 +26,7 @@
         </div>
         <div clickable color="white" text-color="black" class="q-pt-sm vertical-middle">
           <q-avatar size="28px">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            <img :src="itemDetail.avatar">
           </q-avatar>
           {{ itemDetail.nickname }}
           <span class="text-caption text-grey-7">{{ itemDetail.userid }} 计算机</span>
@@ -44,6 +44,10 @@
               <img :src="item.avatar">
             </q-avatar>
             {{ item.username }} 出价：<span class="text-orange">￥{{ item.price }}</span>
+            <q-btn v-if="isOwn & !Auction.apply" style="background: goldenrod; color: white" size="sm" class="q-ml-md"
+                   label="接受价格"
+                   @click="handleOrder()"/>
+            <span v-if="Auction.apply" class="text-red"><q-icon name="done"></q-icon> 已接受</span>
           </q-chip>
         </div>
       </q-card>
@@ -129,6 +133,7 @@ import {Dialog} from "quasar";
 const $router = useRouter()
 const autoplay = ref(false)
 const slide = ref(0)
+const isOwn = ref()
 let itemid = ref()
 let itemDetail = ref({})
 let imgDetail = ref([])
@@ -156,10 +161,16 @@ function loadPage() {
   CommSeccess("全部刷新")
 }
 
+//接受价格
+function handleOrder() {
+  CommSeccess("你点击了接受价格")
+}
+
 //获取物品详细信息
 function loadItemInfo() {
   api.get('/item/id?itemid=' + itemid.value).then(res => {
-    itemDetail.value = res.data
+    itemDetail.value = res.data.data
+    isOwn.value = res.data.own
     //@ts-ignore
     itemDetail.value.createtime = itemDetail.value.createtime.slice(5, 10)
   })

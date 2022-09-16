@@ -44,10 +44,10 @@
               <img :src="item.avatar">
             </q-avatar>
             {{ item.username }} 出价：<span class="text-orange">￥{{ item.price }}</span>
-            <q-btn v-if="isOwn & !Auction.apply" style="background: goldenrod; color: white" size="sm" class="q-ml-md"
+            <q-btn v-if="isOwn & !item.apply" style="background: goldenrod; color: white" size="sm" class="q-ml-md"
                    label="接受价格"
-                   @click="handleOrder()"/>
-            <span v-if="Auction.apply" class="text-red"><q-icon name="done"></q-icon> 已接受</span>
+                   @click="conformOrder=true;conformId=item.id"/>
+            <span v-if="item.apply" class="text-red"><q-icon name="done"></q-icon> 已接受</span>
           </q-chip>
         </div>
       </q-card>
@@ -120,6 +120,23 @@
         <div style="height:10vh">
         </div>
       </div>
+      <!--第六部分，对话框-->
+      <q-dialog v-model="conformOrder" persistent>
+        <q-card>
+          <q-card-section>
+            <q-icon name="error_outline" size="sm" color="primary" class="vertical-middle"></q-icon>
+            <span class="text-h6 no-margin no-padding text-primary text-weight-bold vertical-middle">接受定价</span>
+          </q-card-section>
+          <q-card-section class="row items-center">
+            <span class="q-ml-sm">你确定要接受这个价格吗？</span>
+            <span class="q-ml-sm">将创建一个订单并通知对方准备进行线下交易。</span>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat label="确定" color="primary" @click="handleOrder" v-close-popup/>
+            <q-btn flat label="取消" color="red" v-close-popup/>
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -141,6 +158,8 @@ let Auction = ref([])
 let FComment = ref([])
 let EComment = ref([])
 let $dialog = Dialog
+let conformOrder = ref(false)
+let conformId = ref()
 
 //监测网址操作，返回物品id
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
@@ -163,7 +182,14 @@ function loadPage() {
 
 //接受价格
 function handleOrder() {
-  CommSeccess("你点击了接受价格")
+  console.log(itemid.value)
+  console.log(conformId.value)
+  api.get('/order/u?itemid=' + itemid.value + "&auction=" + conformId.value,).then(res => {
+    if (res.code === '200') {
+      CommSeccess('创建订单完成')
+      loadPage()
+    }
+  })
 }
 
 //获取物品详细信息

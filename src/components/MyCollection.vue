@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-sm q-pa-sm q-gutter-md">
     <q-pull-to-refresh @refresh="refresh" scroll-target=".my-card">
-      <q-infinite-scroll @load="onLoad" :offset="100">
-        <h5 class="q-pl-md">收藏</h5>
+      <q-infinite-scroll @load="onLoad" :offset="100" id="building">
+        <h5 class="q-pl-md" id="building">我发布的</h5>
         <!--   卡片   -->
         <q-card class="my-card row q-mt-md" v-ripple.early v-for="itemInfo in itemInfos"
                 @click="handleLink(itemInfo.id)"
@@ -30,7 +30,8 @@
             </div>
             <!--按钮-->
             <div class="col">
-              <q-btn outline rounded :color="itemInfo.collect==1?'red':'grey'" class="float-right" icon="favorite"
+              <q-btn rounded :color="itemInfo.collect==1?'red':'grey'" class="float-right"
+                     icon="favorite"
                      @click.stop="handleStatus(itemInfo)" size="sm"/>
             </div>
           </div>
@@ -109,15 +110,16 @@ function refresh(done: () => void) {
 function handleLink(value: any) {
   $router.push("item?id=" + value)
 }
+
 </script>
 
 <style scoped>
 #building {
-  background-image: linear-gradient(to bottom, rgb(244, 254, 255), rgb(238, 238, 238));
-  width: 104%;
-  height: 96%;
-  position: fixed;
-  background-size: cover;
-  overflow: auto;
+  /*background-image: linear-gradient(to bottom, rgb(245, 245, 245), rgb(245, 245, 245));*/
+  /*width: 104%;*/
+  /*height: 96%;*/
+  /*position: fixed;*/
+  /*background-size: cover;*/
+  /*overflow: auto;*/
 }
 </style>

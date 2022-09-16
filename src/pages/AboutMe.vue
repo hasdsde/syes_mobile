@@ -34,7 +34,7 @@
           <q-route-tab style="padding: 0 0.3rem" name="uploadItem" icon="unarchive" label="我发布的" to="/Posted"/>
           <q-route-tab style="padding: 0 0.3rem" name="soldItem" icon="paid" label="我的出价" to="/Auction"/>
           <q-route-tab style="padding: 0 0.3rem" name="getItem" icon="shopping_cart" label="我买入的" to="/BuyOrder"/>
-          <q-route-tab style="padding: 0 0.3rem" name="userChat" icon="shopping_basket" label="我卖出的" to="/Comments"/>
+          <q-route-tab style="padding: 0 0.3rem" name="userChat" icon="shopping_basket" label="我卖出的" to="/SoldOrder"/>
         </q-tabs>
       </q-banner>
     </div>

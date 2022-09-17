@@ -19,7 +19,7 @@
       >
         <q-route-tab name="star" icon="star_border" to="/MyCollection" label="收藏"/>
         <q-route-tab name="alarms" icon="history" to="/MyHistory" label="历史"/>
-        <q-route-tab name="attention" icon="comment" label="评论"/>
+        <q-route-tab name="attention" icon="comment" to="/MyComment" label="评论"/>
         <q-route-tab name="more" icon="more_horiz" label="更多"/>
       </q-tabs>
     </div>

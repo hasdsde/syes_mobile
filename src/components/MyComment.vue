@@ -18,10 +18,9 @@
                   <q-img :ratio="1/1" :src="item.url"/>
                 </q-avatar>
               </q-item-section>
-              <q-item-section class="q-pa-sm">
+              <q-item-section class="q-pa-sm" @click="handleLink(item.id)">
                 <div>
                   <div>{{ item.title }}</div>
-                  <span class="text-orange text-weight-bold">￥{{ item.price }} </span>
                   <span class="text-primary">{{ item.nickname }} </span>
                   <span class="text-caption text-grey">{{ item.createtime }}</span>
                 </div>
@@ -29,58 +28,26 @@
             </template>
             <q-card bordered class="rounded-borders">
               <q-card-section class="no-padding no-margin no-shadow">
-                <!--步进器-->
-                <q-stepper
-                    v-model="item.status"
-                    ref="stepper"
-                    color="primary"
-                    animated
-                    class="no-margin no-padding no-shadow"
-                >
-                  <q-step
-                      :name="1"
-                      title="确认"
-                      icon="settings"
-                      :done="item.status > 1"
-                  >
-                    点击确认后进行线下交易
-                  </q-step>
-
-                  <q-step
-                      :name="2"
-                      title="线下交易"
-                      icon="create_new_folder"
-                      :done="item.status > 2"
-                  >
-                    交易完成后，点击按钮结束交易
-                  </q-step>
-
-                  <q-step
-                      :name="3"
-                      title="完成"
-                      icon="add_comment"
-                  >
-                    <q-icon name="emoji_emotions" size="md" class="absolute-center" color="primary"></q-icon>
-                  </q-step>
-
-                  <template v-slot:navigation>
-                    <q-stepper-navigation v-if="item.status!==3">
-                      <q-btn @click="checkStatus(item.id)" color="primary" v-if="item.status===2"
-                             label="确认交易"/>
-                    </q-stepper-navigation>
-                  </template>
-                  <template v-slot:message>
-                    <q-banner v-if="item.status === 1" class="bg-primary text-white q-px-lg">
-                      卖家正在等待你的确认...
-                    </q-banner>
-                    <q-banner v-else-if="item.status === 2" class="bg-primary text-white q-px-lg">
-                      双方正在线下交易...
-                    </q-banner>
-                    <q-banner v-else-if="item.status === 3" class="bg-green-8 text-white q-px-lg">
-                      交易完成
-                    </q-banner>
-                  </template>
-                </q-stepper>
+                <q-list v-for="commit in CommentList">
+                  <q-item clickable v-ripple v-if="commit.id===item.id" @click="handleDelete(commit.cid)">
+                    <span v-if="commit.id===item.id"></span>
+                    <q-item-section avatar>
+                      <q-avatar>
+                        <img :src="commit.avatar">
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label lines="1">
+                        <span class="text-primary">{{ commit.nickname }} </span>回复：
+                        <span class="text-primary">{{ commit.tousername }}</span>
+                        <span class="no-margin text-caption text-grey-7 float-right">8月8日</span>
+                      </q-item-label>
+                      <q-item-label>
+                        {{ commit.content }}
+                      </q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
               </q-card-section>
             </q-card>
           </q-expansion-item>
@@ -88,6 +55,7 @@
         <!--   空白站位   -->
         <div style="text-align: center">
           <q-spinner-dots v-if="!noData" color="primary" size="40px"/>
+          <div class="text-caption text-grey text-center q-mt-md">点击评论以删除</div>
           <p class=" q-mt-lg text-caption text-grey-7">没有更多内容</p>
           <div style="height:1vh">
           </div>
@@ -110,10 +78,12 @@ let itemInfos = ref([])
 let collect = ref(1)
 let $router = useRouter()
 let noData = ref(false)
+let itemList = ref([])
+let CommentList = ref([])
 
 //加载页面
 function loadPage() {
-  api.get('/about/SoldOrder?pagesize=' + pageSize.value + '&currentpage=' + currentPage.value).then(res => {
+  api.get('/about/comment?pagesize=' + pageSize.value + '&currentpage=' + currentPage.value).then(res => {
     res.data.forEach((item: { createtime: string; }) => {
       //@ts-ignore
       item.createtime = item.createtime.slice(5, 16).replace('T', ' ')
@@ -122,8 +92,15 @@ function loadPage() {
       CommSeccess('全部加载完成')
       noData.value = true
     } else {
-      for (let i = 0; i < res.data.length; i++) {//@ts-ignore
-        itemInfos.value.push(res.data[i])
+      for (let i = 0; i < res.data.length; i++) {
+        //@ts-ignore
+        if (itemList.value.indexOf(res.data[i].id) == -1) {//@ts-ignore
+          itemList.value.push(res.data[i].id)
+          //@ts-ignore
+          itemInfos.value.push(res.data[i])
+        }
+        //@ts-ignore
+        CommentList.value.push(res.data[i])
       }
     }
   })
@@ -138,32 +115,31 @@ function onLoad(index: any, done: any) {
     }
     done();
   }, 1000)
-
 }
 
 //下拉刷新
 function refresh(done: () => void) {
   setTimeout(() => {
-    itemInfos.value = []
-    currentPage.value = 1
-    loadPage()
+    $router.go(0)
     //先清空内容
     CommSeccess("刷新")
     done()
   }, 1000)
 }
 
-//切换状态
-function checkStatus(value1: any) {
+//删除评论
+function handleDelete(value: any) {
   Notify.create({
-    message: '确定吗',
-    type: 'positive',
+    message: '确定要删除这条评论吗',
+    type: 'negative',
     position: 'top',
     actions: [
       {
         label: '确定', color: 'yellow', handler: () => {
-          api.get('/order/status2?id=' + value1).then(res => {
+          console.log(value)
+          api.delete('/comment/u/' + value).then(res => {
             $router.go(0)
+            loadPage()
           })
         }
       },
@@ -173,8 +149,8 @@ function checkStatus(value1: any) {
       }
     ]
   })
-
 }
+
 
 //点击跳转
 function handleLink(value: any) {

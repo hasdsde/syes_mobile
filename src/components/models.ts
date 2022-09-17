@@ -19,6 +19,7 @@ export const Allmenus = [
     {name: 'ItemInfo', label: '物品详情', icon: 'shopping_bag', link: '/item', id: 6},
     {name: 'MyCollection', label: '我的收藏', icon: 'star_border', link: '/MyCollection', id: 7},
     {name: 'MyHistory', label: '浏览历史', icon: 'history', link: '/MyHistory', id: 8},
+    {name: 'MyComment', label: '我的评论', icon: 'comment', link: '/MyComment', id: 13},
     {name: 'Posted', label: '我发布的', icon: 'unarchive', link: '/Posted', id: 9},
     {name: 'Auction', label: '我的出价', icon: 'paid', link: '/Auction', id: 10},
     {name: 'BuyOrder', label: '买入订单', icon: 'shopping_cart', link: '/BuyOrder', id: 11},

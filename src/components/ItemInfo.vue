@@ -82,8 +82,6 @@
                       }}条回复</span>
                     <q-btn rounded @click.stop="handleReply(item.id)" color="primary float-right" size="xs"
                            icon="comment"/></span>
-                  <!--                  <span class="text-purple  float-right" @click.stop="CommSeccess('回复')"><q-icon-->
-                  <!--                      name="comment" size="xs"></q-icon></span>-->
                 </q-item-section>
               </q-item-section>
             </template>

@@ -29,6 +29,7 @@ const routes: RouteRecordRaw[] = [
         children: [
             {path: '/MyCollection', component: () => import('components/MyCollection.vue')},
             {path: '/MyHistory', component: () => import('components/MyHistory.vue')},
+            {path: '/MyComment', component: () => import('components/MyComment.vue')},
             {path: '/Posted', component: () => import('components/Posted.vue')},
             {path: '/Auction', component: () => import('components/Auction.vue')},
             {path: '/BuyOrder', component: () => import('components/BuyOrder.vue')},

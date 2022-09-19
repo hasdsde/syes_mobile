@@ -18,7 +18,8 @@
           val => val>0 && val<9999 || '价格范围0~9999',
           ]"
     />
-    <q-select outlined @update:model-value="handleNname" v-model="uploadItem.sort.value" :options="PSort" label="分类"/>
+    <q-select outlined @update:model-value="handleNname" v-model="Pnow" :options="PSort" label="分类"/>
+    <q-select outlined v-model="Nnow" :options="NSort" label="分类"/>
     <q-input
         v-model="uploadItem.description.value"
         outlined
@@ -67,6 +68,9 @@ let userInfo = getUserInfo()
 let formData = new FormData()
 let piclist: any = ref([])
 let PSort = ref([])
+let NSort = ref([])
+let Pnow = ref('请选择')
+let Nnow = ref('请选择')
 loadItem()
 
 //加载草稿
@@ -135,8 +139,14 @@ function handleSave() {
 
 //获取子集分类
 function handleNname(value: any) {
-  console.log(value)
-  console.log(uploadItem.sort.value)
+  api.get('/sort/pn?name=' + value).then(res => {
+    NSort = ref([])
+    res.data.forEach((item: any) => {
+      //@ts-ignore
+      NSort.value.push(item.name);
+      console.log(NSort.value)
+    })
+  })
 }
 </script>
 

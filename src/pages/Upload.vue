@@ -18,7 +18,7 @@
           val => val>0 && val<9999 || '价格范围0~9999',
           ]"
     />
-    <q-select outlined @input-value="handleNname(value)" v-model="uploadItem.sort.value" :options="PSort" label="分类"/>
+    <q-select outlined @update:model-value="handleNname" v-model="uploadItem.sort.value" :options="PSort" label="分类"/>
     <q-input
         v-model="uploadItem.description.value"
         outlined

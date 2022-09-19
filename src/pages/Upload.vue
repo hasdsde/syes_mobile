@@ -18,6 +18,7 @@
           val => val>0 && val<9999 || '价格范围0~9999',
           ]"
     />
+    <q-select outlined @input-value="handleNname(value)" v-model="uploadItem.sort.value" :options="PSort" label="分类"/>
     <q-input
         v-model="uploadItem.description.value"
         outlined
@@ -65,6 +66,7 @@ let uploadItemHC = new UploadItem()
 let userInfo = getUserInfo()
 let formData = new FormData()
 let piclist: any = ref([])
+let PSort = ref([])
 loadItem()
 
 //加载草稿
@@ -97,6 +99,7 @@ function handleSumbit() {
   data.append("userid", userInfo.userid)
   data.append("description", uploadItem.description.value)
   data.append("price", uploadItem.price.value)
+  data.append("sort", uploadItem.sort.value)
   //@ts-ignore
   data.append("piclist", piclist.value)
   api.post("/item/uploadAll", data).then(res => {
@@ -112,10 +115,28 @@ function handleSumbit() {
   )
 }
 
+getPsort()
+
+//获取父级分类
+function getPsort() {
+  api.get('/sort/p').then(res => {
+    res.data.forEach((item: any) => {
+      //@ts-ignore
+      PSort.value.push(item.name);
+    })
+  })
+}
+
 //保存草稿
 function handleSave() {
   localStorage.setItem('uploadItem', JSON.stringify(uploadItem))
   CommSeccess("注意：图片不会保存")
+}
+
+//获取子集分类
+function handleNname(value: any) {
+  console.log(value)
+  console.log(uploadItem.sort.value)
 }
 </script>
 

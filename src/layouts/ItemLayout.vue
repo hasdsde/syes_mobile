@@ -61,7 +61,7 @@
         </div>
         <!--    收藏    -->
         <div class="col col q-pt-xs">
-          <q-btn flat rounded :color="FuncButton.ifcollect===1? 'yellow':'grey-7' " icon="star" @click="handleSC()">
+          <q-btn flat rounded :color="FuncButton.ifcollect===1? 'red':'grey-7' " icon="favorite" @click="handleSC()">
             <q-badge color="grey-1" text-color="grey-7" floating>{{ FuncButton.collects }}</q-badge>
           </q-btn>
         </div>
@@ -74,12 +74,32 @@
         <div class="col-3">
         </div>
         <div class="col-4">
-          <q-btn unelevated rounded class="float-right q-mr-xs" color="amber" label="出价" icon="monetization_on"/>
+          <q-btn unelevated rounded class="float-right q-mr-xs" color="amber"
+                 :label="yourPrice>0?'出价:'+yourPrice:'出价'" @click="prompt=!prompt"
+                 icon="monetization_on"/>
         </div>
       </div>
     </q-footer>
+    <!--  其他对话框  -->
+    <q-dialog v-model="prompt" position="bottom">
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">出价</div>
+        </q-card-section>
+        <q-card-section class="q-pt-none">
+          <q-input dense v-model="yourPrice" v-if="yourPrice>0 || yourPrice===''" autofocus
+                   @keyup.enter="prompt = false"/>
+          <q-input dense v-model="newPrice" v-if="yourPrice<0" autofocus @keyup.enter="prompt = false"/>
+        </q-card-section>
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat v-if="yourPrice>0" label="删除出价" class="text-red float-left" @click="DeletePrice()" v-close-popup/>
+          <q-btn flat label="取消" v-close-popup/>
+          <q-btn flat v-if="yourPrice>0 || yourPrice===''" label="修改" @click="UpdateAuction" v-close-popup/>
+          <q-btn flat v-if="yourPrice<0" label="确定" @click="newAuction" v-close-popup/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-layout>
-
 </template>
 
 <script setup lang="ts">
@@ -88,8 +108,9 @@ import {Allmenus} from "components/models";
 import {useRouter} from "vue-router/dist/vue-router";
 import {api} from "boot/axios";
 import {BottomSeccess, CommSeccess} from "components/common";
-import {Dialog} from "quasar";
+import {Dialog, Notify} from "quasar";
 
+let $q = Notify
 let $router = useRouter()
 const leftDrawerOpen = ref(false)
 const tab = ref(false)
@@ -98,6 +119,9 @@ let positions = ref()
 let menu = ref(Allmenus)
 const itemid = ref()
 let $dialog = Dialog
+let yourPrice = ref()
+let newPrice = ref()
+let prompt = ref(false)
 const FuncButton = ref({
   "collects": '',
   'comments': '',
@@ -108,6 +132,9 @@ const FuncButton = ref({
 
 //监测网址操作，返回物品id
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
+  if (newValue.id == undefined) {
+    $router.push("/")
+  }
   itemid.value = newValue.id
 }, {immediate: true})
 
@@ -117,6 +144,7 @@ function toggleLeftDrawer() {
 }
 
 loadFunc()
+CheckPrice()
 
 //加载功能按钮
 function loadFunc() {
@@ -162,7 +190,7 @@ function handleComment() {
     // console.log('>>>> OK, received', data)
     console.log(itemid.value)
     console.log(data)
-    api.post('/comment/', {"itemid": itemid.value, "content": data}).then(res => {
+    api.post('/comment/p', {"itemid": itemid.value, "content": data}).then(res => {
       if (res.code == "200") {
         CommSeccess("发送成功")
         $router.go(0)
@@ -174,6 +202,14 @@ function handleComment() {
     CommSeccess("不发就不发，ㄟ( ▔, ▔ )ㄏ ！")
   })
 
+}
+
+
+//检测用户出价
+function CheckPrice() {
+  api.get('/auction/?itemid=' + itemid.value).then(res => {
+    yourPrice.value = res.data
+  })
 }
 
 //面包屑
@@ -189,7 +225,55 @@ function findTitle() {
   }
 }
 
+//修改出价
+function UpdateAuction() {
+  api.put("/auction/", {
+    'itemid': itemid.value,
+    'price': yourPrice.value
+  }).then(res => {
+    if (res.code == '200') {
+      CommSeccess("提交成功")
+      $router.go(0)
+    }
+  })
+}
 
+//发起出价
+function newAuction() {
+  api.post("/auction/", {
+    "itemid": itemid.value,
+    "price": newPrice.value
+  }).then(res => {
+    if (res.code == '200') {
+      CommSeccess('新增成功')
+      $router.go(0)
+    }
+  })
+}
+
+//删除确认
+function DeletePrice() {
+  $q.create({
+    message: '确定要删除出价吗',
+    color: 'red',
+    actions: [
+      {
+        label: '确定', color: 'yellow', handler: () => {
+          api.delete('/auction/?itemid=' + itemid.value).then(res => {
+            if (res.code == '200') {
+              CommSeccess('操作成功')
+              $router.go(0)
+            }
+          })
+        }
+      },
+      {
+        label: '取消', color: 'white', handler: () => { /* ... */
+        }
+      }
+    ]
+  })
+}
 </script>
 
 <style scoped>

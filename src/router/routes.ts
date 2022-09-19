@@ -16,13 +16,27 @@ const routes: RouteRecordRaw[] = [
         ],
     },
     {
-        //这是其他信息页
+        //这是物品详情页
         path: '/it',
         component: () => import('layouts/ItemLayout.vue'),
         children: [
             {path: '/item', component: () => import('components/ItemInfo.vue')},
         ],
     },
+    {   //关于页面
+        path: '/ab',
+        component: () => import('layouts/AboutLayout.vue'),
+        children: [
+            {path: '/MyCollection', component: () => import('components/MyCollection.vue')},
+            {path: '/MyHistory', component: () => import('components/MyHistory.vue')},
+            {path: '/MyComment', component: () => import('components/MyComment.vue')},
+            {path: '/Posted', component: () => import('components/Posted.vue')},
+            {path: '/Auction', component: () => import('components/Auction.vue')},
+            {path: '/BuyOrder', component: () => import('components/BuyOrder.vue')},
+            {path: '/SoldOrder', component: () => import('components/SoldOrder.vue')},
+        ]
+    }
+    ,
     {
         //登录页
         path: '/Login',

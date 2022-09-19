@@ -21,7 +21,7 @@ declare module "axios" {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({baseURL: 'http://192.168.0.106:8000'});
+const api = axios.create({baseURL: 'http://192.168.0.20:8000'});
 
 export default boot(({app}) => {
     // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -55,12 +55,11 @@ export default boot(({app}) => {
         res => {
             if (res.data.code === '200') {
                 return res.data
-            } else {
-                CommFail(res.data.msg)
-            }
-            if (res.data.code === '499') {
+            } else if (res.data.code === '499') {
                 CommFail('请重新登录')
                 window.location.href = "/#/login"
+            } else {
+                CommFail(res.data.msg + "   错误码：" + res.data.code)
             }
         }
     )

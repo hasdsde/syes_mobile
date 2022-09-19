@@ -22,7 +22,7 @@
         </q-carousel>
       </div>
       <!--  末尾自动加载  -->
-      <q-infinite-scroll @load="onLoad" :offset="10">
+      <q-infinite-scroll @load="onLoad" :offset="100">
         <!--  列出的物品  -->
         <div class="q-pa-md row items-start q-gutter-md" style="width: 100%;">
           <!--左侧列-->
@@ -99,7 +99,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {api} from "boot/axios";
-import {CommSeccess, LoadingFail, LoadingNotify, LoadingSucceed} from "components/common";
+import {LoadingFail, LoadingNotify, LoadingSucceed} from "components/common";
 import {useRouter} from "vue-router/dist/vue-router";
 
 const $router = useRouter()
@@ -164,12 +164,13 @@ function loadPage() {
 function refresh(done: () => void) {
   currentPage.value = 1
   setTimeout(() => {
+    $router.go(0)
     //先清空内容
-    itemInfo1.value.splice(0, itemInfo1.value.length)
-    itemInfo2.value.splice(0, itemInfo2.value.length)
+    // itemInfo1.value.splice(0, itemInfo1.value.length)
+    // itemInfo2.value.splice(0, itemInfo2.value.length)
     done()
-    loadPage()
-    CommSeccess("刷新")
+    // loadPage()
+    // CommSeccess("刷新")
   }, 1000)
 }
 </script>

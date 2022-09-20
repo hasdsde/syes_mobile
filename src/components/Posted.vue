@@ -33,6 +33,9 @@
               <q-btn rounded :color="itemInfo.onsale==1?'primary':'grey'" class="float-right"
                      :label="itemInfo.onsale==1?'已上架':'已下架'"
                      @click.stop="handleStatus(itemInfo)" size="sm"/>
+              <q-btn rounded color="primary" label="编辑" class="float-right q-mr-sm"
+                     @click.stop="edit=true;itemEdit=itemInfo;" @click.once="getOptions()"
+                     size="sm"/>
             </div>
           </div>
         </q-card>
@@ -44,6 +47,25 @@
           </div>
         </div>
         <!--加载动画-->
+        <!-- 修改信息-->
+        <q-dialog v-model="edit" position="bottom">
+          <q-card>
+            <q-card-section>
+              <div class="text-h6">修改物品</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              <q-input v-model="itemEdit.title" label="标题"/>
+              <q-input v-model="itemEdit.price" label="价格"/>
+              <q-select v-model="itemEdit.sort" label="分类" :options="sortInfo"/>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="取消" color="red" v-close-popup/>
+              <q-btn flat label="修改" color="primary" @click="handleEdit()" v-close-popup/>
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </q-infinite-scroll>
     </q-pull-to-refresh>
   </div>
@@ -61,6 +83,9 @@ let itemInfos = ref([])
 let posted = ref(1)
 let noData = ref(false)
 const $router = useRouter()
+const edit = ref(false)
+let itemEdit = ref({})
+let sortInfo = ref([])
 
 //加载页面
 function loadPage() {
@@ -105,6 +130,21 @@ function handleStatus(value: any) {
 
 }
 
+function handleEdit() {
+
+  api.put('/item/', {//@ts-ignore
+    'id': itemEdit.value.id,//@ts-ignore
+    'title': itemEdit.value.title,//@ts-ignore
+    'price': itemEdit.value.price,//@ts-ignore
+    'sort': itemEdit.value.sort
+  }).then(res => {
+    if (res.code == '200') {
+      CommSeccess('操作成功')
+      loadPage()
+    }
+  })
+}
+
 //下拉刷新
 function refresh(done: () => void) {
   setTimeout(() => {
@@ -120,6 +160,17 @@ function refresh(done: () => void) {
 //点击跳转
 function handleLink(value: any) {
   $router.push("item?id=" + value)
+}
+
+//获取分类选项
+function getOptions() {
+  api.get('/sort/nAll').then(res => {
+    res.data.forEach((item: any) => {
+      //@ts-ignore
+      sortInfo.value.push(item.name)
+    })
+    console.log(sortInfo)
+  })
 }
 </script>
 

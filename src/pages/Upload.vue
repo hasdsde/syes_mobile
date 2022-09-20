@@ -19,7 +19,7 @@
           ]"
     />
     <q-select outlined @update:model-value="handleNname" v-model="Pnow" :options="PSort" label="分类"/>
-    <q-select outlined v-model="Nnow" :options="NSort" label="分类"/>
+    <q-select outlined ref="Ns" v-model="Nnow" :options="NSort" label="分类"/>
     <q-input
         v-model="uploadItem.description.value"
         outlined
@@ -70,7 +70,9 @@ let piclist: any = ref([])
 let PSort = ref([])
 let NSort = ref([])
 let Pnow = ref('请选择')
-let Nnow = ref('请选择')
+let Nnow = ref()
+const Ns = ref()//input的方法
+
 loadItem()
 
 //加载草稿
@@ -140,11 +142,9 @@ function handleSave() {
 //获取子集分类
 function handleNname(value: any) {
   api.get('/sort/pn?name=' + value).then(res => {
-    NSort = ref([])
-    res.data.forEach((item: any) => {
-      //@ts-ignore
-      NSort.value.push(item.name);
-      console.log(NSort.value)
+    NSort.value.slice(0, NSort.value.length)
+    res.data.forEach((item: any) => {//@ts-ignore
+      NSort.value.push(item.name)
     })
   })
 }

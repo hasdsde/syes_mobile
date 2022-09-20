@@ -24,6 +24,7 @@ export const Allmenus = [
     {name: 'Auction', label: '我的出价', icon: 'paid', link: '/Auction', id: 10},
     {name: 'BuyOrder', label: '买入订单', icon: 'shopping_cart', link: '/BuyOrder', id: 11},
     {name: 'SoldOrder', label: '卖出订单', icon: 'shopping_basket', link: '/SoldOrder', id: 12},
+    {name: 'sortList', label: '分类', icon: 'category', link: '/sortList', id: 14},
 ]
 export const menus = [
     {name: 'Home', label: '首页', icon: 'home', link: '/Home', id: 1},

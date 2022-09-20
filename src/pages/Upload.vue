@@ -18,8 +18,15 @@
           val => val>0 && val<9999 || '价格范围0~9999',
           ]"
     />
-    <q-select outlined @update:model-value="handleNname" v-model="Pnow" :options="PSort" label="分类"/>
-    <q-select outlined ref="Ns" v-model="Nnow" :options="NSort" label="分类"/>
+    <div class="row q-mb-md">
+      <div class="col">
+        <q-select outlined @update:model-value="handleNname" v-model="Pnow" :options="PSort" label="分类"
+                  class="q-mr-sm"/>
+      </div>
+      <div class="col">
+        <q-select outlined v-model="Nnow" :options="NSort" class="q-ml-sm" label="分类"/>
+      </div>
+    </div>
     <q-input
         v-model="uploadItem.description.value"
         outlined
@@ -71,9 +78,9 @@ let PSort = ref([])
 let NSort = ref([])
 let Pnow = ref('请选择')
 let Nnow = ref()
-const Ns = ref()//input的方法
 
 loadItem()
+getPsort()
 
 //加载草稿
 function loadItem() {
@@ -105,7 +112,7 @@ function handleSumbit() {
   data.append("userid", userInfo.userid)
   data.append("description", uploadItem.description.value)
   data.append("price", uploadItem.price.value)
-  data.append("sort", uploadItem.sort.value)
+  data.append("sort", Nnow.value)
   //@ts-ignore
   data.append("piclist", piclist.value)
   api.post("/item/uploadAll", data).then(res => {
@@ -121,7 +128,6 @@ function handleSumbit() {
   )
 }
 
-getPsort()
 
 //获取父级分类
 function getPsort() {
@@ -141,11 +147,13 @@ function handleSave() {
 
 //获取子集分类
 function handleNname(value: any) {
+  NSort.value.splice(0, NSort.value.length)
+  console.log(NSort.value)
   api.get('/sort/pn?name=' + value).then(res => {
-    NSort.value.slice(0, NSort.value.length)
     res.data.forEach((item: any) => {//@ts-ignore
       NSort.value.push(item.name)
     })
+    console.log(NSort.value)
   })
 }
 </script>

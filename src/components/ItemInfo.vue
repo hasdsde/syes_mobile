@@ -180,8 +180,6 @@ function loadPage() {
 
 //接受价格
 function handleOrder() {
-  console.log(itemid.value)
-  console.log(conformId.value)
   api.get('/order/u?itemid=' + itemid.value + "&auction=" + conformId.value,).then(res => {
     if (res.code === '200') {
       CommSeccess('创建订单完成')

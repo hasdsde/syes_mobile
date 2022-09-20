@@ -27,7 +27,8 @@
           <q-tab-panel v-for="p in pmenu" :name="p.name">
             <div class="text-h4 q-mb-md">{{ p.name }}</div>
             <span v-for="n in nmenu">
-              <q-btn class="q-ma-xs" v-if="n.pid===p.id" outline color="primary" :label="n.name" :icon="n.icon"/>
+              <q-btn class="q-ma-xs" v-if="n.pid===p.id" outline color="primary" :label="n.name" :icon="n.icon"
+                     @click="handleLink(n.name)"/>
             </span>
           </q-tab-panel>
         </q-tab-panels>
@@ -41,11 +42,13 @@
 
 import {ref} from "vue";
 import {api} from "boot/axios";
+import {useRouter} from "vue-router/dist/vue-router";
 
 let pmenu = ref()
 let nmenu = ref()
 const tab = ref('生活用品')
 const splitterModel = 20
+const $router = useRouter()
 
 loadPage()
 
@@ -57,6 +60,10 @@ function loadPage() {
     nmenu.value = res.data
   })
 
+}
+
+function handleLink(value: any) {
+  $router.push("/sortList?sort=" + value)
 }
 </script>
 

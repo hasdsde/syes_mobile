@@ -110,8 +110,8 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {getUserInfo, UserInfo} from "components/models";
-import {CommWarn} from "components/common";
+import {getUserInfo, UserInfo} from "src/common/models";
+import {CommWarn} from "src/common/common";
 import {useRouter} from "vue-router/dist/vue-router";
 import {Notify} from "quasar";
 

@@ -1,5 +1,5 @@
 import {ref} from "vue";
-import {CommFail} from "components/common";
+import {CommFail} from "src/common/common";
 
 export interface Todo {
     id: number;
@@ -25,6 +25,7 @@ export const Allmenus = [
     {name: 'BuyOrder', label: '买入订单', icon: 'shopping_cart', link: '/BuyOrder', id: 11},
     {name: 'SoldOrder', label: '卖出订单', icon: 'shopping_basket', link: '/SoldOrder', id: 12},
     {name: 'sortList', label: '分类', icon: 'category', link: '/sortList', id: 14},
+    {name: 'chat', label: '聊天', icon: 'forum', link: '/chat', id: 15},
 ]
 export const menus = [
     {name: 'Home', label: '首页', icon: 'home', link: '/Home', id: 1},

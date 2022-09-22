@@ -99,7 +99,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {api} from "boot/axios";
-import {LoadingFail, LoadingNotify, LoadingSucceed} from "components/common";
+import {LoadingFail, LoadingNotify, LoadingSucceed} from "src/common/common";
 import {useRouter} from "vue-router/dist/vue-router";
 
 const $router = useRouter()

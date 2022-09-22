@@ -15,7 +15,7 @@
         <q-toolbar-title>
           <!--     面包屑     -->
           <q-breadcrumbs active-color="white" style="font-size: 16px">
-            <q-breadcrumbs-el :label="positions.label" :icon="positions.icon"/>
+            <q-breadcrumbs-el :label="positions" :icon="positions.icon"/>
           </q-breadcrumbs>
         </q-toolbar-title>
         <q-icon name="search" size="sm"></q-icon>
@@ -49,6 +49,20 @@
     <q-page-container>
       <router-view/>
     </q-page-container>
+    <!--  底部栏  -->
+    <q-footer class="bg-white text-black" style="height: 3rem;align-self: auto;">
+      <div class="row  ">
+        <div class="col-2" style="width: 13%">
+          <q-btn icon="add" class="float-right q-mr-sm" round color="primary" size="md"></q-btn>
+        </div>
+        <div class="col-8">
+          <q-input filled v-model="text" dense/>
+        </div>
+        <div class="col-2" style="width: 19%">
+          <q-btn color="primary" class="float-right vertical-bottom" label="发送"/>
+        </div>
+      </div>
+    </q-footer>
   </q-layout>
 </template>
 
@@ -62,6 +76,7 @@ let $router = useRouter()
 const leftDrawerOpen = ref(false)
 let positions = ref()
 let menu = ref(Allmenus)
+let username = ref('雾雨魔理沙')
 
 //侧栏开关
 function toggleLeftDrawer() {
@@ -70,16 +85,9 @@ function toggleLeftDrawer() {
 
 //面包屑
 watch(() => $router.currentRoute.value.path, (newValue, oldValue) => {
-  positions.value = findTitle()
+  positions.value = '魔理沙'
 }, {immediate: true})
 
-function findTitle() {
-  for (let i = 0; i < Allmenus.length; i++) {
-    if (menu.value[i].link == $router.currentRoute.value.path) {
-      return menu.value[i]
-    }
-  }
-}
 </script>
 
 <style scoped>

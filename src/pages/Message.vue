@@ -11,7 +11,7 @@
     <!--  未读消息  -->
     <q-list bordered>
       <q-item-label header>未读消息</q-item-label>
-      <q-item v-for="contact in offline" :key="contact.id" class="q-mb-sm" clickable v-ripple>
+      <q-item v-for="contact in offline" :key="contact.id" class="q-mb-sm" clickable v-ripple @click="handleLink">
         <q-item-section avatar>
           <q-avatar>
             <img :src="`https://cdn.quasar.dev/img/${contact.avatar}`">
@@ -49,7 +49,9 @@
 </template>
 
 <script setup lang="ts">
+import {useRouter} from "vue-router/dist/vue-router";
 
+const $router = useRouter()
 const offline = [{
   id: 5,
   name: 'Brunhilde Panswick',
@@ -61,7 +63,12 @@ const offline = [{
   email: 'wstapforth5@pcworld.com',
   avatar: 'avatar6.jpg'
 }]
+
+function handleLink() {
+  $router.push("/chat?id=2")
+}
 </script>
+
 
 <style scoped>
 

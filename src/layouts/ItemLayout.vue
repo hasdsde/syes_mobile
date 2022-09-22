@@ -104,10 +104,10 @@
 
 <script setup lang="ts">
 import {ref, watch} from 'vue';
-import {Allmenus} from "components/models";
+import {Allmenus} from "src/common/models";
 import {useRouter} from "vue-router/dist/vue-router";
 import {api} from "boot/axios";
-import {BottomSeccess, CommSeccess} from "components/common";
+import {BottomSeccess, CommSeccess} from "src/common/common";
 import {Dialog, Notify} from "quasar";
 
 let $q = Notify

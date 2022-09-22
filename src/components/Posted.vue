@@ -74,7 +74,7 @@
 <script setup lang="ts">
 import {api} from "boot/axios";
 import {ref} from "vue";
-import {CommSeccess} from "components/common";
+import {CommSeccess} from "src/common/common";
 import {useRouter} from "vue-router/dist/vue-router";
 
 let pageSize = ref(6)

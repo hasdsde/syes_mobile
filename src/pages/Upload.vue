@@ -62,10 +62,10 @@
 </template>
 
 <script setup lang="ts">
-import {getUserInfo, UploadItem} from "components/models";
+import {getUserInfo, UploadItem} from "src/common/models";
 import {ref} from "vue";
 import {api} from "boot/axios";
-import {CommSeccess} from "components/common";
+import {CommSeccess} from "src/common/common";
 import {useRouter} from "vue-router/dist/vue-router";
 
 const $router = useRouter()

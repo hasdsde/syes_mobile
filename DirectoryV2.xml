@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trees>
+    <tree path="/src/components/Auction.vue" title="关于 我的出价" extension="vue"/>
+    <tree path="/src/components/BuyOrder.vue" title="关于 我买入的" extension="vue"/>
+    <tree path="/src/components/ItemInfo.vue" title="物品详情页" extension="vue"/>
+    <tree path="/src/components/MyCollection.vue" title="关于 我的收藏" extension="vue"/>
+    <tree path="/src/components/models.ts" title="菜单数据" extension="ts"/>
+    <tree path="/src/components/common.ts" title="通用方法" extension="ts"/>
+    <tree path="/src/components/MyComment.vue" title="关于 我的评论" extension="vue"/>
+    <tree path="/src/components/MyHistory.vue" title="我的浏览历史" extension="vue"/>
+    <tree path="/src/components/Posted.vue" title="关于 我发布的" extension="vue"/>
+    <tree path="/src/components/SoldOrder.vue" title="关于 我卖出的" extension="vue"/>
+    <tree path="/src/components/SortItem.vue" title="分类筛选" extension="vue"/>
+    <tree path="/src/layouts" title="顶级页面"/>
+    <tree path="/src/pages" title="五大主页"/>
+    <tree path="/src/router" title="路由"/>
+    <tree path="/src/store" title="VueX"/>
+    <tree path="/src/components" title="详情页面"/>
+    <tree path="/src/components/Chat.vue" title="聊天详情页" extension="vue"/>
+</trees>

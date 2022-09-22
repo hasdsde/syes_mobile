@@ -46,7 +46,7 @@
 import {useRouter} from "vue-router/dist/vue-router";
 import {ref, watch} from "vue";
 import {api} from "boot/axios";
-import {CommSeccess} from "components/common";
+import {CommSeccess} from "src/common/common";
 
 let noData = ref(false)
 let itemInfos = ref([])

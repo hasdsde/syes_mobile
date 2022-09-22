@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import {ref, watch} from 'vue';
-import {Allmenus, menus} from "components/models";
+import {Allmenus, menus} from "src/common/models";
 import {useRouter} from "vue-router/dist/vue-router";
 
 let $router = useRouter()

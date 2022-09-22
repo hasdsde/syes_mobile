@@ -141,7 +141,7 @@
 <script setup lang="ts">
 import {ref, watch} from 'vue';
 import {useRouter} from "vue-router/dist/vue-router";
-import {CommFail, CommSeccess} from "components/common";
+import {CommFail, CommSeccess} from "src/common/common";
 import {api} from "boot/axios";
 import {Dialog} from "quasar";
 

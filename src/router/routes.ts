@@ -36,6 +36,10 @@ const routes: RouteRecordRaw[] = [
             {path: '/SoldOrder', component: () => import('components/SoldOrder.vue')},
             {path: '/sortList', component: () => import('components/SortItem.vue')},
         ]
+    }, {//聊天框
+        path: '/ca',
+        component: () => import('layouts/ChatLayout.vue'),
+        children: [{path: '/chat', component: () => import('components/Chat.vue')}]
     }
     ,
     {

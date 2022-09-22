@@ -101,7 +101,7 @@
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 import {api} from "boot/axios";
-import {CommSeccess} from "components/common";
+import {CommSeccess} from "src/common/common";
 import {Notify} from "quasar";
 
 let pageSize = ref(6)

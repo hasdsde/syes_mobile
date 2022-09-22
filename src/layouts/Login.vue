@@ -32,8 +32,8 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {UserInfo} from "components/models";
-import {CommFail, CommSeccess} from "components/common";
+import {UserInfo} from "src/common/models";
+import {CommFail, CommSeccess} from "src/common/common";
 import {api} from "boot/axios";
 import {useRouter} from "vue-router/dist/vue-router";
 

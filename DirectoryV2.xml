@@ -17,4 +17,9 @@
     <tree path="/src/store" title="VueX"/>
     <tree path="/src/components" title="详情页面"/>
     <tree path="/src/components/Chat.vue" title="聊天详情页" extension="vue"/>
+    <tree path="/src/layouts/AboutLayout.vue" title="关于页面" extension="vue"/>
+    <tree path="/src/layouts/ChatLayout.vue" title="聊天页面" extension="vue"/>
+    <tree path="/src/layouts/ItemLayout.vue" title="物品详情页" extension="vue"/>
+    <tree path="/src/layouts/Login.vue" title="登录页" extension="vue"/>
+    <tree path="/src/layouts/MainLayout.vue" title="主页" extension="vue"/>
 </trees>

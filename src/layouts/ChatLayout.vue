@@ -56,7 +56,7 @@
           <q-btn icon="add" class="float-right q-mr-sm" round color="primary" size="md"></q-btn>
         </div>
         <div class="col-8">
-          <q-input filled v-model="text" dense/>
+          <q-input filled v-model="input" dense/>
         </div>
         <div class="col-2" style="width: 19%">
           <q-btn color="primary" class="float-right vertical-bottom" label="发送"/>
@@ -77,6 +77,7 @@ const leftDrawerOpen = ref(false)
 let positions = ref()
 let menu = ref(Allmenus)
 let username = ref('雾雨魔理沙')
+const input = ref()
 
 //侧栏开关
 function toggleLeftDrawer() {

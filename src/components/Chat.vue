@@ -1,12 +1,27 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-banner class="bg-primary text-white">
-      这个是聊天页面
-      <template v-slot:action>
-        <q-btn flat color="white" label="Dismiss"/>
-        <q-btn flat color="white" label="Update Credit Card"/>
-      </template>
-    </q-banner>
+  <div class="q-pa-md row justify-center">
+    <div style="width: 100%; max-width: 400px">
+      <q-chat-message
+          name="Jane"
+          avatar="https://cdn.quasar.dev/img/avatar1.jpg"
+          :text="['hey, how are you? ']"
+          stamp="7 minutes ago"
+          sent
+          text-sanitize
+          name-sanitize
+          bg-color="amber-7"
+      />
+      <q-chat-message
+          name="Jane"
+          avatar="https://cdn.quasar.dev/img/avatar5.jpg"
+          :text="['doing fine, how r you?']"
+          stamp="4 minutes ago"
+          text-color="white"
+          bg-color="primary"
+          text-sanitize
+          name-sanitize
+      />
+    </div>
   </div>
 </template>
 

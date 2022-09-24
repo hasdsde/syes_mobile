@@ -26,6 +26,24 @@
 </template>
 
 <script setup lang="ts">
+import {UserChatInfo} from "src/common/models";
+import {CommFail} from "src/common/common";
+import {useRouter} from "vue-router/dist/vue-router";
+
+const $router = useRouter()
+let userinfo = new UserChatInfo()
+getUserinfo()
+
+function getUserinfo() {
+  if (localStorage.getItem("userinfo")) {
+    userinfo = JSON.parse(localStorage.getItem("userinfo"))
+    console.log(userinfo)
+  } else {
+    CommFail('用户信息获取失败')
+    $router.push("/login")
+  }
+}
+
 </script>
 
 <style scoped>

@@ -54,8 +54,9 @@ function handleLogin() {
       "password": userinfo.password.value
     }).then(res => {
       CommSeccess("登录成功")
-      localStorage.setItem("userinfo", JSON.stringify(res.data))
       localStorage.setItem("token", JSON.stringify(res.data.token))
+      delete res.data.token
+      localStorage.setItem("userinfo", JSON.stringify(res.data))
       $router.push('/Home')
     })
   } else {

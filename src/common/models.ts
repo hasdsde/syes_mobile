@@ -45,6 +45,13 @@ export class UserInfo {
     token = ref('')
 }
 
+export class UserChatInfo {
+    username = ref('')
+    infoid = ref('')
+    avatar = ref('')
+}
+
+
 export class UploadItem {
     title = ref()
     price = ref()

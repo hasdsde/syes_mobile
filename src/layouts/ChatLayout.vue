@@ -93,7 +93,7 @@
 
 <script setup lang="ts">
 import {onUnmounted, ref, watch} from "vue";
-import {Allmenus, getUserInfo, UserChatInfo, UserInfo} from "src/common/models";
+import {Allmenus, getUserInfo, UserChatInfo} from "src/common/models";
 import {useRouter} from "vue-router";
 import {CommFail} from "src/common/common";
 import {api} from "boot/axios";
@@ -104,9 +104,11 @@ const leftDrawerOpen = ref(false)
 let positions = ref()
 let menu = ref(Allmenus)
 const input = ref()
+let pageSize = ref(6)
+let currentPage = ref(1)
 let webSock: WebSocket
 let Url = ''
-const userinfo: UserInfo = ref(getUserInfo())
+const userinfo: UserChatInfo = getUserInfo()
 let chatUser = new UserChatInfo()
 getChatUserinfo()
 
@@ -131,7 +133,20 @@ function getChatUserinfo() {
   })
 }
 
+getHisChat()
+
 //获取历史消息
+function getHisChat() {
+  api.post('/chat/his', {
+    "userid": userinfo.infoid,
+    "touserid": chatUser.infoid.value,
+    "PageSize": pageSize.value,
+    "CurrentPage": currentPage.value,
+  }).then(res => {
+    console.log(res)
+  })
+}
+
 
 //下面是websocket
 function initWebSocket(this: any) {
@@ -139,7 +154,7 @@ function initWebSocket(this: any) {
     CommFail('你的浏览器不支持Websocket,不能使用该功能')
     return
   } else {
-    Url = "ws://localhost:8000/chatServer/" + userinfo.userid.value;
+    Url = "ws://localhost:8000/chatServer/" + userinfo.infoid.value;
     webSock = new WebSocket(Url);
   }
 }

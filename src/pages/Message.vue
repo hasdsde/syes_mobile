@@ -65,7 +65,7 @@ const offline = [{
 }]
 
 function handleLink() {
-  $router.push("/chat?id=2")
+  $router.push("/chat?id=11")
 }
 </script>
 

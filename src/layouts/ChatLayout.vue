@@ -47,7 +47,32 @@
     </q-drawer>
     <!--中间内容-->
     <q-page-container>
-      <router-view/>
+      <div class="q-pa-md row justify-center">
+        <div style="width: 100%; max-width: 400px">
+          <!--   这是右边   -->
+          <q-chat-message
+              :name="userinfo.username"
+              :avatar="userinfo.avatar"
+              :text="['hey, how are you? ']"
+              stamp="7 minutes ago"
+              sent
+              text-sanitize
+              name-sanitize
+              bg-color="amber-7"
+          />
+          <!--   这是左边   -->
+          <q-chat-message
+              :name="chatUser.username.value"
+              :avatar="chatUser.avatar.value"
+              :text="['doing fine, how r you?']"
+              stamp="4 minutes ago"
+              text-color="white"
+              bg-color="primary"
+              text-sanitize
+              name-sanitize
+          />
+        </div>
+      </div>
     </q-page-container>
     <!--  底部栏  -->
     <q-footer class="bg-white text-black" style="height: 3rem;align-self: auto;">
@@ -67,17 +92,23 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from "vue";
-import {Allmenus} from "src/common/models";
+import {onUnmounted, ref, watch} from "vue";
+import {Allmenus, getUserInfo, UserChatInfo, UserInfo} from "src/common/models";
 import {useRouter} from "vue-router";
+import {CommFail} from "src/common/common";
+import {api} from "boot/axios";
 
 const link = ref('')
 let $router = useRouter()
 const leftDrawerOpen = ref(false)
 let positions = ref()
 let menu = ref(Allmenus)
-let username = ref('雾雨魔理沙')
 const input = ref()
+let webSock: WebSocket
+let Url = ''
+const userinfo: UserInfo = ref(getUserInfo())
+let chatUser = new UserChatInfo()
+getChatUserinfo()
 
 //侧栏开关
 function toggleLeftDrawer() {
@@ -89,6 +120,34 @@ watch(() => $router.currentRoute.value.path, (newValue, oldValue) => {
   positions.value = '魔理沙'
 }, {immediate: true})
 
+
+//获取聊天用户信息
+function getChatUserinfo() {
+  //@ts-ignore
+  chatUser.infoid.value = $router.currentRoute.value.query.id
+  api.get("/user/getinfo/" + chatUser.infoid.value).then(res => {
+    chatUser.username.value = res.data.nickname
+    chatUser.avatar.value = res.data.avatar
+  })
+}
+
+//获取历史消息
+
+//下面是websocket
+function initWebSocket(this: any) {
+  if (typeof WebSocket === 'undefined') {
+    CommFail('你的浏览器不支持Websocket,不能使用该功能')
+    return
+  } else {
+    Url = "ws://localhost:8000/chatServer/" + userinfo.userid.value;
+    webSock = new WebSocket(Url);
+  }
+}
+
+//路由关闭时关闭连接
+onUnmounted(() => {
+  // webSock.close()
+})
 </script>
 
 <style scoped>

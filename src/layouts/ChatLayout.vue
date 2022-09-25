@@ -49,27 +49,16 @@
     <q-page-container>
       <div class="q-pa-md row justify-center">
         <div style="width: 100%; max-width: 400px">
-          <!--   这是右边   -->
-          <q-chat-message
-              :name="userinfo.username"
-              :avatar="userinfo.avatar"
-              :text="['hey, how are you? ']"
-              stamp="7 minutes ago"
-              sent
-              text-sanitize
-              name-sanitize
-              bg-color="amber-7"
-          />
-          <!--   这是左边   -->
-          <q-chat-message
-              :name="chatUser.username.value"
-              :avatar="chatUser.avatar.value"
-              :text="['doing fine, how r you?']"
-              stamp="4 minutes ago"
-              text-color="white"
-              bg-color="primary"
-              text-sanitize
-              name-sanitize
+          <!--   详细信息   -->
+          <q-chat-message v-for="item in chatInfo"
+                          :name="item.userid===userinfo.infoid?userinfo.username:chatUser.username.value"
+                          :avatar="item.userid===userinfo.infoid?userinfo.avatar:chatUser.avatar.value"
+                          :text="[item.content]"
+                          :stamp="item.createtime"
+                          :sent="item.userid==userinfo.infoid"
+                          text-sanitize
+                          name-sanitize
+                          :bg-color="item.userid==userinfo.infoid?'primary':'secondary'"
           />
         </div>
       </div>
@@ -81,10 +70,10 @@
           <q-btn icon="add" class="float-right q-mr-sm" round color="primary" size="md"></q-btn>
         </div>
         <div class="col-8">
-          <q-input filled v-model="input" dense/>
+          <q-input filled v-model="context" dense @keydown.enter="handleSend"/>
         </div>
         <div class="col-2" style="width: 19%">
-          <q-btn color="primary" class="float-right vertical-bottom" label="发送"/>
+          <q-btn color="primary" class="float-right vertical-bottom" label="发送" @click="handleSend"/>
         </div>
       </div>
     </q-footer>
@@ -92,10 +81,10 @@
 </template>
 
 <script setup lang="ts">
-import {onUnmounted, ref, watch} from "vue";
+import {ref, watch} from "vue";
 import {Allmenus, getUserInfo, UserChatInfo} from "src/common/models";
 import {useRouter} from "vue-router";
-import {CommFail} from "src/common/common";
+import {CommFail, CommSeccess} from "src/common/common";
 import {api} from "boot/axios";
 
 const link = ref('')
@@ -103,13 +92,14 @@ let $router = useRouter()
 const leftDrawerOpen = ref(false)
 let positions = ref()
 let menu = ref(Allmenus)
-const input = ref()
+const context = ref()
 let pageSize = ref(6)
 let currentPage = ref(1)
 let webSock: WebSocket
 let Url = ''
 const userinfo: UserChatInfo = getUserInfo()
 let chatUser = new UserChatInfo()
+let chatInfo = ref([])
 getChatUserinfo()
 
 //侧栏开关
@@ -140,13 +130,17 @@ function getHisChat() {
   api.post('/chat/his', {
     "userid": userinfo.infoid,
     "touserid": chatUser.infoid.value,
-    "PageSize": pageSize.value,
-    "CurrentPage": currentPage.value,
+    "pageSize": pageSize.value,
+    "currentPage": currentPage.value,
   }).then(res => {
-    console.log(res)
+    res.data.forEach((item: any) => {
+      item.createtime = item.createtime.replace('T', ' ').slice(5.10)
+    })
+    chatInfo.value = res.data.reverse()
   })
 }
 
+initWebSocket()
 
 //下面是websocket
 function initWebSocket(this: any) {
@@ -154,15 +148,36 @@ function initWebSocket(this: any) {
     CommFail('你的浏览器不支持Websocket,不能使用该功能')
     return
   } else {
-    Url = "ws://localhost:8000/chatServer/" + userinfo.infoid.value;
+    Url = "ws://localhost:8000/chatServer/" + userinfo.infoid;
+    console.log(Url)
     webSock = new WebSocket(Url);
+    webSock.onopen = function () {
+      CommSeccess("WebSocket已连接")
+    }
+
   }
 }
 
-//路由关闭时关闭连接
-onUnmounted(() => {
-  // webSock.close()
-})
+webSock.onmessage = function (msg) {
+  console.log(msg)
+}
+
+//发送
+function handleSend() {
+  if (context.value == '') {
+    CommFail('消息不能为空')
+  } else {
+    webSock.send(JSON.stringify({
+      "toUserId": chatUser.infoid.value,
+      "context": context.value
+    }))
+
+    context.value = ''
+  }
+
+}
+
+
 </script>
 
 <style scoped>

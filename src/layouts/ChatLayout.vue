@@ -100,6 +100,7 @@ let Url = ''
 const userinfo: UserChatInfo = getUserInfo()
 let chatUser = new UserChatInfo()
 let chatInfo = ref([])
+let nowMessage = ref({})
 getChatUserinfo()
 
 //侧栏开关
@@ -158,8 +159,10 @@ function initWebSocket(this: any) {
   }
 }
 
+//@ts-ignore
 webSock.onmessage = function (msg) {
-  console.log(msg)
+
+  console.log(JSON.parse(msg.data))
 }
 
 //发送
@@ -171,7 +174,6 @@ function handleSend() {
       "toUserId": chatUser.infoid.value,
       "context": context.value
     }))
-
     context.value = ''
   }
 

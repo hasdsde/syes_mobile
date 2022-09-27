@@ -99,8 +99,8 @@ let webSock: WebSocket
 let Url = ''
 const userinfo: UserChatInfo = getUserInfo()
 let chatUser = new UserChatInfo()
-let chatInfo = ref([])
-let nowMessage = ref({})
+let chatInfo = ref([]) //所有的聊天消息
+let nowMessage: any = {} //临时消息
 getChatUserinfo()
 
 //侧栏开关
@@ -143,7 +143,7 @@ function getHisChat() {
 
 initWebSocket()
 
-//下面是websocket
+//websocket初始化
 function initWebSocket(this: any) {
   if (typeof WebSocket === 'undefined') {
     CommFail('你的浏览器不支持Websocket,不能使用该功能')
@@ -159,10 +159,12 @@ function initWebSocket(this: any) {
   }
 }
 
-//@ts-ignore
+//@ts-ignore  接收消息
 webSock.onmessage = function (msg) {
-
-  console.log(JSON.parse(msg.data))
+  nowMessage = JSON.parse(msg.data)
+  nowMessage.createtime = nowMessage.createtime.replace('T', ' ')
+  nowMessage.createtime = nowMessage.createtime.slice(5, 20)//@ts-ignore
+  chatInfo.value.push(nowMessage)
 }
 
 //发送

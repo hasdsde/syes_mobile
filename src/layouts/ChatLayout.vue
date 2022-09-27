@@ -51,8 +51,8 @@
         <div style="width: 100%; max-width: 400px">
           <!--   详细信息   -->
           <q-chat-message v-for="item in chatInfo"
-                          :name="item.userid===userinfo.infoid?userinfo.username:chatUser.username.value"
-                          :avatar="item.userid===userinfo.infoid?userinfo.avatar:chatUser.avatar.value"
+                          :name="item.userid==userinfo.infoid?userinfo.username:chatUser.username.value"
+                          :avatar="item.userid==userinfo.infoid?userinfo.avatar:chatUser.avatar.value"
                           :text="[item.content]"
                           :stamp="item.createtime"
                           :sent="item.userid==userinfo.infoid"
@@ -149,7 +149,7 @@ function initWebSocket(this: any) {
     CommFail('你的浏览器不支持Websocket,不能使用该功能')
     return
   } else {
-    Url = "ws://localhost:8000/chatServer/" + userinfo.infoid;
+    Url = "ws://192.168.0.105:8000/chatServer/" + userinfo.infoid;
     console.log(Url)
     webSock = new WebSocket(Url);
     webSock.onopen = function () {
@@ -179,6 +179,14 @@ function handleSend() {
     context.value = ''
   }
 
+}
+
+//@ts-ignore  接收消息
+webSock.onclose = function (msg) {
+  CommFail("连接已关闭" + msg)
+}//@ts-ignore  接收消息
+webSock.onerror = function (msg) {
+  CommFail("出现错误" + msg)
 }
 
 

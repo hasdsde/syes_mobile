@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {UserInfo} from "src/common/models";
-import {CommFail, CommSeccess} from "src/common/common";
+import {CommFail} from "src/common/common";
 import {api} from "boot/axios";
 import {useRouter} from "vue-router/dist/vue-router";
 
@@ -53,7 +53,6 @@ function handleLogin() {
       "userid": userinfo.userid.value,
       "password": userinfo.password.value
     }).then(res => {
-      CommSeccess("登录成功")
       localStorage.setItem("token", JSON.stringify(res.data.token))
       delete res.data.token
       localStorage.setItem("userinfo", JSON.stringify(res.data))

@@ -86,7 +86,7 @@ function onLoad(index: any, done: any) {
       loadPage()
     }
     done();
-  }, 1000)
+  }, 2000)
 
 }
 

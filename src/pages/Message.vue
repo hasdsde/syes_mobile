@@ -11,18 +11,18 @@
     <!--  未读消息  -->
     <q-list bordered>
       <q-item-label header>未读消息</q-item-label>
-      <q-item v-for="contact in offline" :key="contact.id" class="q-mb-sm" clickable v-ripple @click="handleLink">
+      <q-item v-for="item in unReadMessage" class="q-mb-sm" clickable v-ripple @click="handleLink">
         <q-item-section avatar>
           <q-avatar>
-            <img :src="`https://cdn.quasar.dev/img/${contact.avatar}`">
+            <img :src="item.avatar">
           </q-avatar>
         </q-item-section>
         <q-item-section>
-          <q-item-label>{{ contact.name }}</q-item-label>
-          <q-item-label caption lines="1">{{ contact.email }}</q-item-label>
+          <q-item-label>{{ item.nickname }}</q-item-label>
+          <q-item-label caption lines="1">{{ item.cont }}</q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-badge rounded color="red" label="1"/>
+          <q-badge rounded color="red" :label="item.count"/>
         </q-item-section>
       </q-item>
       <!--   历史消息   -->
@@ -52,7 +52,9 @@
 import {useRouter} from "vue-router/dist/vue-router";
 import {getUserInfo, UserChatInfo} from "src/common/models";
 import {api} from "boot/axios";
+import {ref} from "vue";
 
+const unReadMessage = ref(new UserChatInfo())
 const $router = useRouter()
 const offline = [{
   id: 5,
@@ -79,7 +81,7 @@ getNews()
 
 function getNews() {
   api.get('/chat/new').then(res => {
-    console.log(res)
+    unReadMessage.value = res.data
   })
 }
 </script>

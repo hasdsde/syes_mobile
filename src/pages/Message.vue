@@ -50,6 +50,8 @@
 
 <script setup lang="ts">
 import {useRouter} from "vue-router/dist/vue-router";
+import {getUserInfo, UserChatInfo} from "src/common/models";
+import {api} from "boot/axios";
 
 const $router = useRouter()
 const offline = [{
@@ -66,6 +68,19 @@ const offline = [{
 
 function handleLink() {
   $router.push("/chat?id=11")
+}
+
+//获取当前用户信息
+let userInfo = new UserChatInfo()
+userInfo = getUserInfo()
+
+//获取未读信息
+getNews()
+
+function getNews() {
+  api.get('/chat/new').then(res => {
+    console.log(res)
+  })
 }
 </script>
 

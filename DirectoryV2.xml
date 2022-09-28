@@ -22,4 +22,10 @@
     <tree path="/src/layouts/ItemLayout.vue" title="物品详情页" extension="vue"/>
     <tree path="/src/layouts/Login.vue" title="登录页" extension="vue"/>
     <tree path="/src/layouts/MainLayout.vue" title="主页" extension="vue"/>
+    <tree path="/src/pages/AboutMe.vue" title="关于" extension="vue"/>
+    <tree path="/src/pages/ErrorNotFound.vue" title="404" extension="vue"/>
+    <tree path="/src/pages/Home.vue" title="主页" extension="vue"/>
+    <tree path="/src/pages/Message.vue" title="消息" extension="vue"/>
+    <tree path="/src/pages/Sort.vue" title="分类" extension="vue"/>
+    <tree path="/src/pages/Upload.vue" title="上传" extension="vue"/>
 </trees>

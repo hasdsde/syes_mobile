@@ -40,17 +40,19 @@
     </q-input>
     <!--图片上传-->
     <q-uploader
-        url="http://localhost:8000/file/upload"
+        url="http://192.168.31.100:8000/file/upload"
         label="图片上传"
         multiple
         color="primary"
         style="width: 98%"
-        max-file-size="1048576"
+        max-file-size="10485760"
         max-files="10"
         auto-upload
         field-name="file"
         :form-fields="[{name:'userid',value:userInfo.userid}]"
         @uploaded="ImgInfo"
+        @failed="UploadFail"
+        @rejected="upReject"
     />
     <!--  按钮  -->
     <div class="q-mt-md">
@@ -65,7 +67,7 @@
 import {getUserInfo, UploadItem} from "src/common/models";
 import {ref} from "vue";
 import {api} from "boot/axios";
-import {CommSeccess} from "src/common/common";
+import {CommFail, CommSeccess} from "src/common/common";
 import {useRouter} from "vue-router/dist/vue-router";
 
 const $router = useRouter()
@@ -102,7 +104,18 @@ function loadItem() {
 
 //获取上传图片回调，得到上传图片id
 function ImgInfo(info: any) {
+  CommSeccess('上传成功')
   piclist.value.push(JSON.parse(info.xhr.response).data.id)
+}
+
+function UploadFail(info: any) {
+  CommFail('图片上传失败:' + info)
+  console.log(info)
+}
+
+function upReject(rejectedEntries: any) {
+  CommFail('拒绝上传:' + rejectedEntries)
+  console.log(rejectedEntries)
 }
 
 //上传图片

@@ -72,6 +72,8 @@
           </q-btn>
         </div>
         <div class="col-3">
+          <q-btn unelevated rounded class="float-right q-mr-xs" color="secondary"
+                 label="私信" @click="handleLink"/>
         </div>
         <div class="col-4">
           <q-btn unelevated rounded class="float-right q-mr-xs" color="amber"
@@ -122,6 +124,7 @@ let $dialog = Dialog
 let yourPrice = ref()
 let newPrice = ref()
 let prompt = ref(false)
+let infoId = ref()//用户聊天用id
 const FuncButton = ref({
   "collects": '',
   'comments': '',
@@ -130,12 +133,15 @@ const FuncButton = ref({
   'ifcollect': ''
 })
 
-//监测网址操作，返回物品id
+//监测网址操作，返回物品id,根据物品id获取聊天id
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
   if (newValue.id == undefined) {
     $router.push("/")
   }
   itemid.value = newValue.id
+  api.get('/chat/item?itemid=' + itemid.value).then(res => {
+    infoId.value = res.data
+  })
 }, {immediate: true})
 
 //侧栏开关
@@ -204,6 +210,10 @@ function handleComment() {
 
 }
 
+//跳转到聊天
+function handleLink() {
+  $router.push('/chat?id=' + infoId.value)
+}
 
 //检测用户出价
 function CheckPrice() {

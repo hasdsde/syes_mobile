@@ -122,7 +122,7 @@ function toggleLeftDrawer() {
 
 //面包屑
 watch(() => $router.currentRoute.value.path, (newValue, oldValue) => {
-  positions.value = '魔理沙'
+  positions.value = '聊天消息'
 }, {immediate: true})
 
 
@@ -133,6 +133,7 @@ function getChatUserinfo() {
   api.get("/user/getinfo/" + chatUser.infoid.value).then(res => {
     chatUser.username.value = res.data.nickname
     chatUser.avatar.value = res.data.avatar
+    positions.value = res.data.nickname
   })
 }
 

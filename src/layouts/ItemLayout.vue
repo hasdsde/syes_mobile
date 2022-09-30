@@ -137,11 +137,12 @@ const FuncButton = ref({
 watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
   if (newValue.id == undefined) {
     $router.push("/")
+  } else {
+    itemid.value = newValue.id
+    api.get('/chat/item?itemid=' + itemid.value).then(res => {
+      infoId.value = res.data
+    })
   }
-  itemid.value = newValue.id
-  api.get('/chat/item?itemid=' + itemid.value).then(res => {
-    infoId.value = res.data
-  })
 }, {immediate: true})
 
 //侧栏开关

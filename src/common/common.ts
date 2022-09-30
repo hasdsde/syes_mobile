@@ -36,6 +36,17 @@ export function CommSeccess(message: any) {
     })
 }
 
+export function CommInfo(message: any) {
+    Notify.create({
+        icon: 'done',
+        color: 'info',
+        message: message,
+        position: 'top',
+        group: false,
+        timeout: 2000,
+    })
+}
+
 export function CommFail(message: any) {
     Notify.create({
         icon: 'error',

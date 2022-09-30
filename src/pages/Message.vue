@@ -4,7 +4,7 @@
       <q-infinite-scroll @load="onLoad" :offset="250" :disable="noData" debounce="1000">
         <!--  未读消息  -->
         <q-list bordered>
-          <q-item-label header v-if="unReadMessage==null">未读消息</q-item-label>
+          <q-item-label header>未读消息</q-item-label>
           <q-item v-for="item in unReadMessage" class="q-mb-sm" clickable v-ripple @click="handleLink(item.infoid)">
             <q-item-section avatar>
               <q-avatar>

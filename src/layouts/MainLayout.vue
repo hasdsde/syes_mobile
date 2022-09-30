@@ -58,7 +58,10 @@
           active-class="my-menu-link"
       >
         <q-route-tab v-for="item in menu" :name="item.name" :label="item.label" :icon="item.icon" class="text-dark"
-                     :active="link === item.link" @click="link = item.link" :to="item.link"/>
+                     :active="link === item.link" @click="link = item.link" :to="item.link">
+          <q-badge v-if="item.name === 'Message' &&mCount.value>0" color="red" floating>{{ mCount }}</q-badge>
+          <q-badge v-if="item.name === 'AboutMe' &&oCount.value>0" color="red" floating>{{ oCount }}</q-badge>
+        </q-route-tab>
       </q-tabs>
     </q-footer>
   </q-layout>
@@ -68,6 +71,8 @@
 import {ref, watch} from 'vue';
 import {Allmenus, menus} from "src/common/models";
 import {useRouter} from "vue-router/dist/vue-router";
+import {api} from "boot/axios";
+import {CommInfo} from "src/common/common";
 
 let $router = useRouter()
 const leftDrawerOpen = ref(false)
@@ -76,12 +81,15 @@ const link = ref('')
 let positions = ref()
 let menu = ref(menus)
 let Allmenu = ref(Allmenus)
+const mCount = ref(0)
+const oCount = ref(0)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 
 }
 
+//面包屑监控
 watch(() => $router.currentRoute.value.path, (newValue, oldValue) => {
   positions.value = findTitle()
 }, {immediate: true})
@@ -92,6 +100,22 @@ function findTitle() {
       return menu.value[i]
     }
   }
+}
+
+getMessageAndOrder()
+
+//获取未读信息和交易物品
+function getMessageAndOrder() {
+  api.get('/itemHome/Message').then(res => {
+    mCount.value = res.data.mCount
+    oCount.value = res.data.oCount
+    if (res.data.mCount > 0) {
+      CommInfo('你有' + res.data.mCount + '条未读消息')
+    }
+    if (res.data.oCount > 0) {
+      CommInfo('你有' + res.data.oCount + '件进行中的订单')
+    }
+  })
 }
 </script>
 <style>

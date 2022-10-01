@@ -59,8 +59,8 @@
       >
         <q-route-tab v-for="item in menu" :name="item.name" :label="item.label" :icon="item.icon" class="text-dark"
                      :active="link === item.link" @click="link = item.link" :to="item.link">
-          <q-badge v-if="item.name === 'Message' &&mCount.value>0" color="red" floating>{{ mCount }}</q-badge>
-          <q-badge v-if="item.name === 'AboutMe' &&oCount.value>0" color="red" floating>{{ oCount }}</q-badge>
+          <q-badge v-if="item.name === 'Message' &&mCount>0" color="red" floating>{{ mCount }}</q-badge>
+          <q-badge v-if="item.name === 'AboutMe' &&oCount>0" color="red" floating>{{ oCount }}</q-badge>
         </q-route-tab>
       </q-tabs>
     </q-footer>
@@ -81,8 +81,8 @@ const link = ref('')
 let positions = ref()
 let menu = ref(menus)
 let Allmenu = ref(Allmenus)
-const mCount = ref(0)
-const oCount = ref(0)
+const mCount = ref(1)
+const oCount = ref(1)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value

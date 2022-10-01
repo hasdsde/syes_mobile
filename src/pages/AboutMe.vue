@@ -17,10 +17,22 @@
           class="text-grey-9"
           indicator-color="transparent"
       >
-        <q-route-tab name="star" icon="star_border" to="/MyCollection" label="收藏"/>
-        <q-route-tab name="alarms" icon="history" to="/MyHistory" label="历史"/>
-        <q-route-tab name="attention" icon="comment" to="/MyComment" label="评论"/>
-        <q-route-tab name="more" icon="more_horiz" label="更多"/>
+        <div class="row" style="width: 100%">
+          <div class="col">
+            <q-route-tab name="star" icon="star_border" to="/MyCollection" :label="'收藏   '+aboutCount.collect"/>
+          </div>
+          <div class="col">
+            <q-route-tab name="alarms" icon="history" to="/MyHistory" :label="'历史 '+aboutCount.history"/>
+          </div>
+          <div class="col">
+            <q-route-tab name="attention" icon="comment" to="/MyComment" :label="'评论 '+aboutCount.comment"/>
+          </div>
+          <div class="col">
+            <q-route-tab name="more" icon="more_horiz" label="更多"/>
+          </div>
+        </div>
+
+
       </q-tabs>
     </div>
     <!--  第二部分  -->
@@ -31,10 +43,20 @@
             class="text-primary justify-between"
             indicator-color="transparent"
         >
-          <q-route-tab style="padding: 0 0.3rem" name="uploadItem" icon="unarchive" label="我发布的" to="/Posted"/>
-          <q-route-tab style="padding: 0 0.3rem" name="soldItem" icon="paid" label="我的出价" to="/Auction"/>
-          <q-route-tab style="padding: 0 0.3rem" name="getItem" icon="shopping_cart" label="我买入的" to="/BuyOrder"/>
-          <q-route-tab style="padding: 0 0.3rem" name="userChat" icon="shopping_basket" label="我卖出的" to="/SoldOrder"/>
+          <q-route-tab style="padding: 0 0.3rem" name="uploadItem" icon="unarchive" label="我发布的" to="/Posted">
+            <q-badge rounded text-color="primary" color="white" floating>{{ aboutCount.post }}</q-badge>
+          </q-route-tab>
+          <q-route-tab style="padding: 0 0.3rem" name="soldItem" icon="paid" label="我的出价" to="/Auction">
+            <q-badge text-color="primary" color="white" floating>{{ aboutCount.auction }}</q-badge>
+          </q-route-tab>
+          <q-route-tab style="padding: 0 0.3rem" name="getItem" icon="shopping_cart" label="我买入的"
+                       to="/BuyOrder">
+            <q-badge color="primary" floating>{{ aboutCount.orders }}</q-badge>
+          </q-route-tab>
+          <q-route-tab style="padding: 0 0.3rem" name="userChat" icon="shopping_basket" label="我卖出的"
+                       to="/SoldOrder">
+            <q-badge color="primary" floating>{{ aboutCount.sold }}</q-badge>
+          </q-route-tab>
         </q-tabs>
       </q-banner>
     </div>
@@ -114,6 +136,7 @@ import {getUserInfo, UserInfo} from "src/common/models";
 import {CommWarn} from "src/common/common";
 import {useRouter} from "vue-router/dist/vue-router";
 import {Notify} from "quasar";
+import {api} from "boot/axios";
 
 
 const $router = useRouter()
@@ -121,8 +144,38 @@ const About = ref(false)
 const OpenSource = ref(false)
 const userinfo: UserInfo = ref(getUserInfo())
 
+class AboutCount {
+  collect = 0
+  history = 0
+  comment = 0
+  post = 0
+  auction = 0
+  orders = 0
+  sold = 0
+}
+
+let aboutCount = ref(AboutCount)
+//我对此表示无语
+//@ts-ignore
+aboutCount.value.collect = 0//@ts-ignore
+aboutCount.value.history = 0//@ts-ignore
+aboutCount.value.comment = 0//@ts-ignore
+aboutCount.value.post = 0//@ts-ignore
+aboutCount.value.auction = 0//@ts-ignore
+aboutCount.value.orders = 0//@ts-ignore
+aboutCount.value.sold = 0//@ts-ignore
+getAboutCount()
+
+//获取图标信息
+function getAboutCount() {
+  api.get('/itemHome/About').then(res => {
+    aboutCount.value = res.data
+    console.log(aboutCount.value)
+  })
+}
 
 //退出
+
 function logout() {
   Notify.create({
     message: '确定要退出吗？',

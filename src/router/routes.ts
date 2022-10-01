@@ -35,11 +35,15 @@ const routes: RouteRecordRaw[] = [
             {path: '/BuyOrder', component: () => import('components/BuyOrder.vue')},
             {path: '/SoldOrder', component: () => import('components/SoldOrder.vue')},
             {path: '/sortList', component: () => import('components/SortItem.vue')},
-            {path: '/search', component: () => import('components/Search.vue')},
         ]
-    }, {//聊天框
+    },
+    {//聊天框
         path: '/chat',
         component: () => import('layouts/ChatLayout.vue'),
+    },
+    {//聊天框
+        path: '/search',
+        component: () => import('components/Search.vue'),
     }
     ,
     {

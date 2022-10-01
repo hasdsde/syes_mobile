@@ -28,4 +28,7 @@
     <tree path="/src/pages/Message.vue" title="消息" extension="vue"/>
     <tree path="/src/pages/Sort.vue" title="分类" extension="vue"/>
     <tree path="/src/pages/Upload.vue" title="上传" extension="vue"/>
+    <tree path="/src/common/models.ts" title="菜单数据、类" extension="ts"/>
+    <tree path="/src/common/common.ts" title="弹窗函数" extension="ts"/>
+    <tree path="/src/components/Search.vue" title="物品 搜索" extension="vue"/>
 </trees>

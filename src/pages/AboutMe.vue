@@ -170,7 +170,6 @@ getAboutCount()
 function getAboutCount() {
   api.get('/itemHome/About').then(res => {
     aboutCount.value = res.data
-    console.log(aboutCount.value)
   })
 }
 

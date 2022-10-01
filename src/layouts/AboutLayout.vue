@@ -18,7 +18,6 @@
             <q-breadcrumbs-el :label="positions.label" :icon="positions.icon"/>
           </q-breadcrumbs>
         </q-toolbar-title>
-        <q-icon name="search" size="sm"></q-icon>
       </q-toolbar>
     </q-header>
     <!--  侧栏  -->

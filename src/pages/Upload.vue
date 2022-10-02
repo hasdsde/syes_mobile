@@ -87,7 +87,6 @@ getPsort()
 //加载草稿
 function loadItem() {
   if (localStorage.getItem('uploadItem') == null || localStorage.getItem('uploadItem') == '') {
-    console.log("没有草稿")
   } else {
     //@ts-ignore
     uploadItemHC = JSON.parse(localStorage.getItem('uploadItem'))
@@ -97,7 +96,6 @@ function loadItem() {
     uploadItem.price.value = uploadItemHC.price._value
     //@ts-ignore
     uploadItem.description.value = uploadItemHC.description._value
-    console.log(uploadItem)
   }
 }
 
@@ -161,12 +159,10 @@ function handleSave() {
 //获取子集分类
 function handleNname(value: any) {
   NSort.value.splice(0, NSort.value.length)
-  console.log(NSort.value)
   api.get('/sort/pn?name=' + value).then(res => {
     res.data.forEach((item: any) => {//@ts-ignore
       NSort.value.push(item.name)
     })
-    console.log(NSort.value)
   })
 }
 </script>

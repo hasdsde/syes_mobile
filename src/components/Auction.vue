@@ -122,9 +122,7 @@ function onLoad(index: any, done: any) {
 //传递价格
 function getPrice(value1: any, value2: any) {
   yourPrice.value = value1
-  console.log(yourPrice.value)
   itemid.value = value2
-  console.log(itemid.value)
 }
 
 //下拉刷新
@@ -139,6 +137,10 @@ function refresh(done: () => void) {
   }, 1000)
 }
 
+//点击跳转
+function handleLink(value: any) {
+  $router.push("item?id=" + value)
+}
 
 //发起出价
 function newAuction() {

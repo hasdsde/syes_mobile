@@ -253,8 +253,6 @@ function handleReply(value: any) {
     position: "bottom"
   }).onOk(data => {
     // console.log('>>>> OK, received', data)
-    console.log(itemid.value)
-    console.log(data)
     api.post('/comment/', {"id": value, "content": data}).then(res => {
       if (res.code == "200") {
         CommSeccess("发送成功")

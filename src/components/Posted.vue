@@ -169,7 +169,6 @@ function getOptions() {
       //@ts-ignore
       sortInfo.value.push(item.name)
     })
-    console.log(sortInfo)
   })
 }
 </script>

@@ -165,7 +165,6 @@ function getHisChat() {
 function onLoad(index: any, done: any) {
   setTimeout(() => {
     if (!noData.value) {
-      console.log("触发刷新")
       currentPage.value = currentPage.value + 1
       setVerticalScrollPosition(window, 60, 100)
       getHisChat()
@@ -185,7 +184,6 @@ function initWebSocket(this: any) {
     return
   } else {
     Url = "ws://192.168.31.100:8000/chatServer/" + userinfo.infoid;
-    console.log(Url)
     webSock = new WebSocket(Url);
     webSock.onopen = function () {
       CommSeccess("WebSocket已连接")
@@ -226,7 +224,6 @@ webSock.onerror = function (msg) {
 
 //点击输入框后跳转到窗口底部
 function handleButtom() {
-  console.log("触发了")
   setVerticalScrollPosition(window, 9999, 1)
 }
 </script>

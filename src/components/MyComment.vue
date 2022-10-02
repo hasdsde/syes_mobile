@@ -136,7 +136,6 @@ function handleDelete(value: any) {
     actions: [
       {
         label: '确定', color: 'yellow', handler: () => {
-          console.log(value)
           api.delete('/comment/u/' + value).then(res => {
             $router.go(0)
             loadPage()

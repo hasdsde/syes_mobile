@@ -63,7 +63,6 @@ watch(() => $router.currentRoute.value.query, (newValue, oldValue) => {
 //加载页面
 function loadPage() {
   api.get('/about/sort?sort=' + sortName.value + '&pagesize=' + pageSize.value + '&currentpage=' + currentPage.value).then(res => {
-    console.log(res.data)
     if (res.data.length == 0) {
       CommSeccess('全部加载完成')
       noData.value = true

@@ -50,7 +50,7 @@
     </q-page-container>
 
     <!--  底部栏  -->
-    <q-footer>
+    <q-footer class="mobile-only">
       <q-tabs
           class="bg-white"
           active-color="primary"

@@ -59,7 +59,11 @@
       <q-btn unelevated rounded style="float: right" color="primary" label="提交" @click="handleSumbit()"/>
       <q-btn unelevated rounded style="float: left" color="primary" @click="handleSave()" label="暂时保存"/>
     </div>
-
+  </div>
+  <!-- 空白站位 -->
+  <div style="text-align: center">
+    <div style="height:8vh">
+    </div>
   </div>
 </template>
 

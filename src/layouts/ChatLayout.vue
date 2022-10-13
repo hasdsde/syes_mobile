@@ -183,7 +183,7 @@ function initWebSocket(this: any) {
     CommFail('你的浏览器不支持Websocket,不能使用该功能')
     return
   } else {
-    Url = "ws://192.168.31.100:8000/chatServer/" + userinfo.infoid;
+    Url = "ws://192.168.199.100:8000/chatServer/" + userinfo.infoid;
     webSock = new WebSocket(Url);
     webSock.onopen = function () {
       CommSeccess("WebSocket已连接")

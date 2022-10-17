@@ -24,30 +24,31 @@
 
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import {api} from "boot/axios";
 
 
 const optionNow = ref('全部')
 const options = ['全部', '一层', '二层', '三层']
-const lineNum = 36
+let lineNum = 0
 let roll: any;
 let bgFragment: any;
 let random = ref(0)
 let allData = ref([])
 let number = ref(0)
+let MenuName = ref()
 onMounted(() => {
   //设置虚线
   roll = document.getElementById('rollCircle')
   bgFragment = document.createDocumentFragment();
-  api.get('/roll/enable').then(res => {
-    allData.value = res.data
-    generateShape()
-  })
+  // api.get('/roll/enable').then(res => {
+  //   allData.value = res.data
+  generateShape()
+  // })
 })
 
 
 //生成图形
 function generateShape() {
+  lineNum = 16
   for (let i = 0; i < lineNum; i++) {
     let bgItem = document.createElement('li');
     bgItem.style.backgroundColor = 'rgb(158, 158, 158)'
@@ -70,7 +71,7 @@ function generateShape() {
   for (let i = 0; i < lineNum; i++) {
     let bgItem = document.createElement('li');
     bgItem.style.backgroundColor = 'rgb(158, 158, 158)'
-    let deg = (360 / lineNum) * (i + 0.75)
+    let deg = (360 / lineNum) * (i)
     bgItem.style.transform = `rotate(${deg}deg)`;
     bgItem.style.transformOrigin = 'center'
     bgItem.style.position = 'absolute'
@@ -81,22 +82,30 @@ function generateShape() {
     bgItem.style.top = '50%'
     bgItem.style.left = '50%'
     bgItem.style.float = 'right'
-    bgItem.textContent = '一一一 一二三四伍' + (i + 1)
+    //@ts-ignore
+    bgItem.textContent = '一一一一一' + (i)
     bgFragment.appendChild(bgItem);
   }
   //@ts-ignore
   roll.appendChild(bgFragment)
 }
 
+
 function MyRoll() {
   random = ref(Math.round(Math.random() * 2000 + 2000))
   //就算是个整数，也会有向上取整，大可放心
-  roll.style.transition = '10s';
+  roll.style.transition = '1s';
   roll.style.transform = `rotate(${random.value}deg)`;
-  number.value = Math.ceil((360 - random.value % 360) / 10)
+  number.value = Math.ceil((360 - random.value % 360) / (360 / lineNum))
+  number.value == lineNum ? number.value = 0 : ''
+  console.log(number.value)
+  // setTimeout(() => {
+  //   //@ts-ignore
+  //   // MenuName.value = allData.value[number.value].name
+  //   console.log(number)
+  // }, 1000)
 }
 
-console.log(number)//在触发事件后输出
 
 </script>
 
@@ -111,10 +120,10 @@ console.log(number)//在触发事件后输出
 }
 
 .pointer {
-  width: 12vw;
+  width: 11vw;
   position: fixed;
-  top: 56%;
-  left: 44%;
+  top: 58%;
+  left: 45%;
 }
 </style>
 

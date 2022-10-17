@@ -31,4 +31,5 @@
     <tree path="/src/common/models.ts" title="菜单数据、类" extension="ts"/>
     <tree path="/src/common/common.ts" title="弹窗函数" extension="ts"/>
     <tree path="/src/components/Search.vue" title="物品 搜索" extension="vue"/>
+    <tree path="/src/components/RollingMenu.vue" title="关于 抽卡吃饭" extension="vue"/>
 </trees>

@@ -63,25 +63,31 @@
     <!--  第三部分  -->
     <div class="bg-white q-mt-md" style="border-radius: 2%">
       <q-list>
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple.early @click="goRolling()">
+          <q-item-section avatar>
+            <q-icon color="primary" name="motion_photos_on"/>
+          </q-item-section>
+          <q-item-section>[测试]抽卡吃饭</q-item-section>
+        </q-item>
+        <q-item clickable v-ripple.early>
           <q-item-section avatar>
             <q-icon color="primary" name="account_circle"/>
           </q-item-section>
           <q-item-section>用户信息设置</q-item-section>
         </q-item>
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple.early>
           <q-item-section avatar>
             <q-icon color="primary" name="settings"/>
           </q-item-section>
           <q-item-section>系统设置</q-item-section>
         </q-item>
-        <q-item clickable v-ripple @click="OpenSource=true">
+        <q-item clickable v-ripple.early @click="OpenSource=true">
           <q-item-section avatar>
             <q-icon color="primary" name="fa-brands fa-github"/>
           </q-item-section>
           <q-item-section>开源/贡献者</q-item-section>
         </q-item>
-        <q-item clickable v-ripple @click="About=true">
+        <q-item clickable v-ripple.early @click="About=true">
           <q-item-section avatar>
             <q-icon color="primary" name="info"/>
           </q-item-section>
@@ -195,6 +201,11 @@ function logout() {
     ]
   })
 
+}
+
+function goRolling() {
+  console.log('触发啊')
+  $router.push('/rolling')
 }
 </script>
 

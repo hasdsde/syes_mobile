@@ -35,6 +35,7 @@ const routes: RouteRecordRaw[] = [
             {path: '/BuyOrder', component: () => import('components/BuyOrder.vue')},
             {path: '/SoldOrder', component: () => import('components/SoldOrder.vue')},
             {path: '/sortList', component: () => import('components/SortItem.vue')},
+            {path: '/rolling', component: () => import('components/RollingMenu.vue')},
         ]
     },
     {//聊天框

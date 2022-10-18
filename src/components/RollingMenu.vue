@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <div class="row">
-      <q-select outlined v-model="optionNow" :options="options" @getEmittingOptionValue="handleChange"
+      <q-select outlined v-model="optionNow" :options="options" @update:model-value="handleChange"
                 style="width: 30vw"
                 dense
                 behavior="menu">
@@ -30,7 +30,7 @@ import {onMounted, ref} from "vue";
 import {api} from "boot/axios";
 
 
-const optionNow = ref('全部')
+const optionNow = ref('选择')
 const options = ['全部', '一层', '二层', '三层']
 let lineNum = 0
 let roll: any;
@@ -40,25 +40,41 @@ let allData = ref([])
 let number = ref(0)
 let MenuName = ref()
 let MenuColor = ref()
+let selectedData = ref([])
 onMounted(() => {
   //设置虚线
   roll = document.getElementById('rollCircle')
   bgFragment = document.createDocumentFragment();
   api.get('/roll/enable').then(res => {
     allData.value = res.data
-    generateShape()
   })
 })
 
+
 function handleChange(value: any) {
-  console.log('触发事件')
   console.log(value)
+  allData.value.forEach(data => {
+    //@ts-ignore
+    if (value == '一层' && data.level == 1) {
+      selectedData.value.push(data)
+    }
+    //@ts-ignore
+    if (value == '二层' && data.level == 2) {
+      selectedData.value.push(data)
+    }
+    //@ts-ignore
+    if (value == '三层' && data.level == 3) {
+      selectedData.value.push(data)
+    }
+  })
+  roll.innerHTML = ''
+  generateShape()
 }
 
 //生成图形
 function generateShape() {
   //数量过少会出bug
-  lineNum = allData.value.length
+  lineNum = selectedData.value.length
   for (let i = 0; i < lineNum; i++) {
     let bgItem = document.createElement('li');
     bgItem.style.backgroundColor = 'rgb(158, 158, 158)'
@@ -93,23 +109,23 @@ function generateShape() {
     bgItem.style.left = '50%'
     bgItem.style.float = 'right'
     //@ts-ignore
-    if (allData.value[i].ranks == 4) {
+    if (selectedData.value[i].ranks == 4) {
       bgItem.style.color = 'purple'
     }
     //@ts-ignore
-    if (allData.value[i].ranks == 3) {
+    if (selectedData.value[i].ranks == 3) {
       bgItem.style.color = 'blue'
     }
     //@ts-ignore
-    if (allData.value[i].ranks == 2) {
+    if (selectedData.value[i].ranks == 2) {
       bgItem.style.color = 'green'
     }
     //@ts-ignore
-    if (allData.value[i].ranks == 5) {
+    if (selectedData.value[i].ranks == 5) {
       bgItem.style.color = 'gold'
     }
     //@ts-ignore
-    bgItem.textContent = '一一一' + (allData.value[i].name)
+    bgItem.textContent = '一一一' + (selectedData.value[i].name)
     bgFragment.appendChild(bgItem);
   }
   //@ts-ignore
@@ -128,8 +144,8 @@ function MyRoll() {
   setTimeout(() => {
     if (number.value === 0) {
       // @ts-ignore
-      MenuName.value = allData.value[lineNum - 1].name
-      allData.value.forEach(item => {
+      MenuName.value = selectedData.value[lineNum - 1].name
+      selectedData.value.forEach(item => {
         //@ts-ignore
         if (item.name == MenuName.value) {
           //@ts-ignore
@@ -156,8 +172,8 @@ function MyRoll() {
       })
     } else {
       // @ts-ignore
-      MenuName.value = allData.value[number.value - 1].name
-      allData.value.forEach(item => {
+      MenuName.value = selectedData.value[number.value - 1].name
+      selectedData.value.forEach(item => {
         //@ts-ignore
         if (item.name == MenuName.value) {
           //@ts-ignore
@@ -197,6 +213,7 @@ function MyRoll() {
   height: 90vw;
   border-radius: 50%;
   border: 3px rgb(25, 118, 210) solid;
+  background-color: rgb(227, 242, 253);
 }
 
 .pointer {

@@ -1,7 +1,10 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <div class="row">
-      <q-select outlined v-model="optionNow" :options="options" style="width: 30vw" dense behavior="menu">
+      <q-select outlined v-model="optionNow" :options="options" @getEmittingOptionValue="handleChange"
+                style="width: 30vw"
+                dense
+                behavior="menu">
         <template v-slot:prepend>
           <q-icon name="event"/>
         </template>
@@ -14,7 +17,7 @@
         <!--    这是那个圆盘    -->
       </div>
       <div>
-        <div>当前数据 {{ MenuName }}</div>
+        <div style="font-size: 2rem;font-weight: bold;" :style="{ 'color': MenuColor }"> {{ MenuName }}</div>
         <img class="pointer" src="src/css/pointer.png">
       </div>
       <q-btn color="primary" label="我的回合！" @click="MyRoll" class="q-ml-md"/>
@@ -36,6 +39,7 @@ let random = ref(0)
 let allData = ref([])
 let number = ref(0)
 let MenuName = ref()
+let MenuColor = ref()
 onMounted(() => {
   //设置虚线
   roll = document.getElementById('rollCircle')
@@ -46,6 +50,10 @@ onMounted(() => {
   })
 })
 
+function handleChange(value: any) {
+  console.log('触发事件')
+  console.log(value)
+}
 
 //生成图形
 function generateShape() {
@@ -85,7 +93,23 @@ function generateShape() {
     bgItem.style.left = '50%'
     bgItem.style.float = 'right'
     //@ts-ignore
-    bgItem.textContent = '一一一一一' + (allData.value[i].name)
+    if (allData.value[i].ranks == 4) {
+      bgItem.style.color = 'purple'
+    }
+    //@ts-ignore
+    if (allData.value[i].ranks == 3) {
+      bgItem.style.color = 'blue'
+    }
+    //@ts-ignore
+    if (allData.value[i].ranks == 2) {
+      bgItem.style.color = 'green'
+    }
+    //@ts-ignore
+    if (allData.value[i].ranks == 5) {
+      bgItem.style.color = 'gold'
+    }
+    //@ts-ignore
+    bgItem.textContent = '一一一' + (allData.value[i].name)
     bgFragment.appendChild(bgItem);
   }
   //@ts-ignore
@@ -103,16 +127,63 @@ function MyRoll() {
   console.log(number.value)
   setTimeout(() => {
     if (number.value === 0) {
-      console.log('出发了吗')
-      console.log(lineNum)
       // @ts-ignore
       MenuName.value = allData.value[lineNum - 1].name
+      allData.value.forEach(item => {
+        //@ts-ignore
+        if (item.name == MenuName.value) {
+          //@ts-ignore
+          if (item.ranks == 1) {
+            MenuColor.value = 'black'
+          }
+          //@ts-ignore
+          if (item.ranks == 2) {
+            MenuColor.value = 'green'
+          }
+          //@ts-ignore
+          if (item.ranks == 3) {
+            MenuColor.value = 'blue'
+          }
+          //@ts-ignore
+          if (item.ranks == 4) {
+            MenuColor.value = 'purple'
+          }
+          //@ts-ignore
+          if (item.ranks == 5) {
+            MenuColor.value = 'gold'
+          }
+        }
+      })
     } else {
       // @ts-ignore
       MenuName.value = allData.value[number.value - 1].name
-      console.log(number)
+      allData.value.forEach(item => {
+        //@ts-ignore
+        if (item.name == MenuName.value) {
+          //@ts-ignore
+          if (item.ranks == 1) {
+            MenuColor.value = 'black'
+          }
+          //@ts-ignore
+          if (item.ranks == 2) {
+            MenuColor.value = 'green'
+          }
+          //@ts-ignore
+          if (item.ranks == 3) {
+            MenuColor.value = 'blue'
+          }
+          //@ts-ignore
+          if (item.ranks == 4) {
+            MenuColor.value = 'purple'
+          }
+          //@ts-ignore
+          if (item.ranks == 5) {
+            MenuColor.value = 'gold'
+          }
+        }
+      })
     }
-  }, 1000)
+  }, 5000)
 }
 
 

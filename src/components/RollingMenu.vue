@@ -14,7 +14,7 @@
         <!--    这是那个圆盘    -->
       </div>
       <div>
-        <div>当前数据 {{ number }}</div>
+        <div>当前数据 {{ MenuName }}</div>
         <img class="pointer" src="src/css/pointer.png">
       </div>
       <q-btn color="primary" label="我的回合！" @click="MyRoll" class="q-ml-md"/>
@@ -24,6 +24,7 @@
 
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
+import {api} from "boot/axios";
 
 
 const optionNow = ref('全部')
@@ -39,16 +40,17 @@ onMounted(() => {
   //设置虚线
   roll = document.getElementById('rollCircle')
   bgFragment = document.createDocumentFragment();
-  // api.get('/roll/enable').then(res => {
-  //   allData.value = res.data
-  generateShape()
-  // })
+  api.get('/roll/enable').then(res => {
+    allData.value = res.data
+    generateShape()
+  })
 })
 
 
 //生成图形
 function generateShape() {
-  lineNum = 16
+  //数量过少会出bug
+  lineNum = allData.value.length
   for (let i = 0; i < lineNum; i++) {
     let bgItem = document.createElement('li');
     bgItem.style.backgroundColor = 'rgb(158, 158, 158)'
@@ -71,7 +73,7 @@ function generateShape() {
   for (let i = 0; i < lineNum; i++) {
     let bgItem = document.createElement('li');
     bgItem.style.backgroundColor = 'rgb(158, 158, 158)'
-    let deg = (360 / lineNum) * (i)
+    let deg = (360 / lineNum) * (i + 0.25)
     bgItem.style.transform = `rotate(${deg}deg)`;
     bgItem.style.transformOrigin = 'center'
     bgItem.style.position = 'absolute'
@@ -83,7 +85,7 @@ function generateShape() {
     bgItem.style.left = '50%'
     bgItem.style.float = 'right'
     //@ts-ignore
-    bgItem.textContent = '一一一一一' + (i)
+    bgItem.textContent = '一一一一一' + (allData.value[i].name)
     bgFragment.appendChild(bgItem);
   }
   //@ts-ignore
@@ -92,18 +94,25 @@ function generateShape() {
 
 
 function MyRoll() {
-  random = ref(Math.round(Math.random() * 2000 + 2000))
+  random = ref(Math.round(Math.random() * 4000 + 1000))
   //就算是个整数，也会有向上取整，大可放心
-  roll.style.transition = '1s';
+  roll.style.transition = '5s';
   roll.style.transform = `rotate(${random.value}deg)`;
   number.value = Math.ceil((360 - random.value % 360) / (360 / lineNum))
   number.value == lineNum ? number.value = 0 : ''
   console.log(number.value)
-  // setTimeout(() => {
-  //   //@ts-ignore
-  //   // MenuName.value = allData.value[number.value].name
-  //   console.log(number)
-  // }, 1000)
+  setTimeout(() => {
+    if (number.value === 0) {
+      console.log('出发了吗')
+      console.log(lineNum)
+      // @ts-ignore
+      MenuName.value = allData.value[lineNum - 1].name
+    } else {
+      // @ts-ignore
+      MenuName.value = allData.value[number.value - 1].name
+      console.log(number)
+    }
+  }, 1000)
 }
 
 
@@ -123,7 +132,7 @@ function MyRoll() {
   width: 11vw;
   position: fixed;
   top: 58%;
-  left: 45%;
+  left: 46%;
 }
 </style>
 
